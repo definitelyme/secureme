@@ -35,7 +35,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: "$GITHUB_WORKSPACE/flutter"
-          key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_CHANNEL }}
+          key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_REF }}
 
       - name: Checkout Flutter repository with stable channel.
         uses: actions/checkout@v2

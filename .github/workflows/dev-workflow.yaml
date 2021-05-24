@@ -67,10 +67,9 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
 
-      - run: |
-          pwd
-          echo 'Root directory above'
-          echo $HOME
+      - name: Strip unnecessary files & folders
+        run: |
+          rm -rf /home/runner/work/secureme/secureme/.git/
           
       - name: Archive Build Artifact
         uses: actions/upload-artifact@master

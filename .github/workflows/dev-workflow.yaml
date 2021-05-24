@@ -80,7 +80,7 @@ jobs:
           key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_CHANNEL }}-${{ env.FLUTTER_VERSION }}
 
       - name: Test cache hit
-        if: cache_flutter.outputs.cache-hit == 'true'
+        if: steps.cache_flutter.outputs.cache-hit == 'true'
         run: |
           flutter doctor -v
 

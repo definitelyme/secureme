@@ -46,10 +46,16 @@ jobs:
         if: startsWith(matrix.os, 'windows')
         run: echo "${env:GITHUB_WORKSPACE}\flutter\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       
-          # echo $GITHUB_WORKSPACE
       - name: Run Flutter doctor.
         run: |
           flutter doctor -v
+          
+      - name: Cache Flutter
+        id: cache-flutter-install-dir
+        uses: actions/cache@v2
+        with:
+          path: "$GITHUB_WORKSPACE/flutter"
+          key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_CHANNEL }}-${{ env.FLUTTER_VERSION }}
 
 
   setup:
@@ -66,9 +72,18 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     steps:
-      - run: |
+      - name: Fetch Flutter Cache
+        id: cache-flutter-install-dir
+        uses: actions/cache@v2
+        with:
+          path: "$GITHUB_WORKSPACE/flutter"
+          key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_CHANNEL }}-${{ env.FLUTTER_VERSION }}
+
+      - name: Test cache hit
+        if: cache-flutter-install-dir.outputs.cache-hit == 'true'
+        run: |
           flutter doctor -v
-          
+
       - name: Fetch Repo HEAD
         uses: actions/checkout@v2
         with:
@@ -101,7 +116,7 @@ jobs:
       #   uses: actions/cache@v2
       #   with:
       #     path: /opt/hostedtoolcache/flutter
-      #     key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_CHANNEL }}-${{ env.FLUTTER_VERSION }}
+      #     key: ${{ runner.OS }}-flutter-deps-cache-${{ env.FLUTTER_CHANNEL }}-${{ env.FLUTTER_VERSION }}
 
       # - name: Set up Flutter Environment
       #   uses: subosito/flutter-action@v1

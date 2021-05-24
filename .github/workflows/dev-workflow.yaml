@@ -34,7 +34,7 @@ jobs:
         id: cache_flutter_install_dir
         uses: actions/cache@v2
         with:
-          path: "$GITHUB_WORKSPACE/flutter"
+          path: "$GITHUB_WORKSPACE/flutter/"
           key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_REF }}
 
       - name: Checkout Flutter repository with stable channel.
@@ -77,7 +77,7 @@ jobs:
         id: cache_flutter
         uses: actions/cache@v2
         with:
-          path: "$GITHUB_WORKSPACE/flutter"
+          path: "$GITHUB_WORKSPACE/flutter/"
           key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_CHANNEL }}
 
       - name: Test cache hit

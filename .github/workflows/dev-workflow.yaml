@@ -20,7 +20,7 @@ on:
 
 jobs:
   start:
-    name: Install Dependencies
+    name: Setup Flutter
     runs-on: ${{ matrix.os }}
     env:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
@@ -29,7 +29,7 @@ jobs:
       fail-fast: false
       matrix:
         include:                                 
-          - os: ubuntu-latest                                   
+          - os: [ubuntu-latest]
           flutter_path: /opt/hostedtoolcache/flutter
           # - os: windows-latest                                   
           # flutter_path: [path-for-windows]
@@ -78,7 +78,7 @@ jobs:
       fail-fast: false
       matrix:
         include:                                 
-          - os: ubuntu-latest                                   
+          - os: [ubuntu-latest]
           flutter_path: /opt/hostedtoolcache/flutter
           # - os: windows-latest                                   
           # flutter_path: [path-for-windows]

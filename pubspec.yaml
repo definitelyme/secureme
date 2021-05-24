@@ -1,0 +1,137 @@
+name: secureme
+description: A new Flutter project.
+
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # Contains utility classes in the style of
+  # dart:async to work with asynchronous computations.
+  async: any
+  # A simple widget to add in the widget tree when you want to 
+  # show nothing, with minimal impact on performance.
+  nil: ^1.1.1
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+  # Draw SVG files on a Flutter Widget.
+  flutter_svg: any
+  ###
+  ### Firebase Packages ###
+  ###
+  firebase_core: ^1.2.0
+  # FlutterFire Firebase authentication
+  firebase_auth: ^1.2.0
+  # A Flutter plugin to use the Google Analytics for Firebase API.
+  firebase_analytics: ^8.1.0
+  # Crashlytics helps you to collect analytics and 
+  # details about crashes and errors that occur in your app.
+  firebase_crashlytics: "^2.0.4"
+  # Google services & Authentication
+  google_sign_in: ^5.0.3
+  # Customize App font
+  google_fonts: ^2.1.0
+  # This plugin allows Flutter apps to discover network connectivity
+  # and configure themselves accordingly.
+  connectivity: ^3.0.4
+  # Check Internet connectivity
+  internet_connection_checker: ^0.0.1+1
+  # Service locator
+  get_it: ^7.1.3
+  # Can be considered as a rewrite of provider
+  # to make improvements that would be otherwise impossible.
+  # flutter_riverpod: ^0.12.4
+  # Flutter BloC for state management
+  flutter_bloc: ^7.0.0
+  # Automatically persists and restores bloc states
+  hydrated_bloc: ^7.0.0
+  # A lightweight and blazing fast key-value database written in pure Dart.
+  hive: ^2.0.4
+  hive_flutter: ^1.0.0
+  # Provides:
+  # - Immutable value types
+  # - EnumClass, classes that behave like enums
+  # - JSON serialization
+  built_value: ^8.0.6
+  # Provides: Immutable collections
+  built_collection: ^5.0.0
+  # Functional Programming
+  dartz: ^0.10.0-nullsafety.2
+  # For regular Unions
+  freezed_annotation: ^0.14.2
+  # For generating unique UUIDs
+  uuid: ^3.0.4
+  # Flutter widget that automatically resizes text to fit perfectly within its bounds
+  auto_size_text: ^3.0.0-nullsafety.0
+  # simplifies dependency injection
+  injectable: ^1.4.0
+  # provides internationalization
+  # and localization facilities
+  intl: ^0.17.0
+  # A declarative routing solution
+  auto_route: ^2.2.0
+  # Helpful package for manipulating "overlays":
+  flutter_portal: ^0.4.0
+  # A collection of loading indicators animated with flutter.
+  flutter_spinkit: ^5.0.0
+  # Shimmer Skeleton Library.
+  shimmer: ^2.0.0
+  # A port of Kotlin's Kotlin Standard library for Dart/Flutter projects.
+  kt_dart: ^0.9.0
+  # A port of the Rails/ActiveSupport inflector library to Dart.
+  inflection3: ^0.5.3+2
+  # Customizable animated page indicator with a set of built-in effects.
+  smooth_page_indicator: ^0.3.0-nullsafety.0
+  # Defines the annotations used by json_serializable
+  # to create code for JSON serialization and deserialization.
+  json_annotation: ^4.0.1
+  # A flutter package which will help you to
+  # generate pin code fields with beautiful design and animations.
+  pin_code_fields: ^7.1.0
+  # Use this package if you need more customization when notifying your user.
+  another_flushbar: ^1.10.22
+  # A simple API to format dates.
+  date_format: ^1.0.4
+  # A flutter library to show images from the internet
+  # and keep them in the cache directory.
+  # cached_network_image: ^3.0.0
+  # This Flutter package provides a Avatar Glow Widget with cool background glowing animation.
+  avatar_glow: ^2.0.1
+  # Capture in-app user feedback, wishes, ratings and much more.
+  wiredash: ^0.6.2
+
+dependency_overrides:
+  build: ">=2.0.0 <2.1.0"
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  bloc_test: ^8.0.0
+  logger: ^1.0.0
+  flutter_launcher_icons: ^0.9.0
+  # Pedantic lints your whole project strictly
+  # Pedantic does a great job keeping the project with similar code styles
+  pedantic: ^1.11.0
+  # Code Generators
+  build_runner: ^2.0.1
+  freezed: ^0.14.2
+  hive_generator: ^1.1.0
+  injectable_generator: ^1.4.0
+  built_value_generator: ^8.0.6
+  auto_route_generator: ^2.1.0
+  retrofit_generator: ^2.0.0
+  json_serializable: ^4.1.2
+  json_serializable_generator: ^1.0.0-rc2
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/
+    - assets/images/

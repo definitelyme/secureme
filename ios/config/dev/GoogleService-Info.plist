@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>598582145433-eiok0v569meo9d8esi0r7731f4vvn82o.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.598582145433-eiok0v569meo9d8esi0r7731f4vvn82o</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD9cLvFwEX9-SObfbEcb5qRCMg9mFzOhrA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>598582145433</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.app.secureme.dev</string>
+	<key>PROJECT_ID</key>
+	<string>securing-me</string>
+	<key>STORAGE_BUCKET</key>
+	<string>securing-me.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:598582145433:ios:91d58e8bf537f347eee308</string>
+</dict>
+</plist>

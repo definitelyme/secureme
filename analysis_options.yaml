@@ -1,0 +1,17 @@
+include: package:pedantic/analysis_options.yaml
+
+analyzer:
+  language:
+    strict-raw-types: true
+  strong-mode:
+    implicit-casts: false
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+  errors:
+    # import_of_legacy_library_into_null_safe: ignore
+    curly_braces_in_flow_control_structures: ignore
+
+linter:
+  rules:
+    await_only_futures: true

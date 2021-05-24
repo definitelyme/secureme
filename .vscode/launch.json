@@ -1,0 +1,34 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "debug",
+      "request": "launch",
+      "program": "lib/main_dev.dart",
+      "type": "dart",
+      "flutterMode": "debug",
+      "args": [
+        "--flavor",
+        "dev"
+      ],
+      "internalConsoleOptions": "openOnFirstSessionStart",
+      "showMemoryUsage": true
+    },
+    {
+      "name": "prod",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "type": "dart",
+      "flutterMode": "debug",
+      "args": [
+        "--flavor",
+        "prod"
+      ],
+      "internalConsoleOptions": "openOnFirstSessionStart",
+      "showMemoryUsage": true
+    }
+  ]
+}

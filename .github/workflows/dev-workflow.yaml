@@ -49,9 +49,9 @@ jobs:
       - name: Run Flutter doctor.
         run: |
           flutter doctor -v
-          
+
       - name: Cache Flutter
-        id: cache-flutter-install-dir
+        id: cache_flutter_install_dir
         uses: actions/cache@v2
         with:
           path: "$GITHUB_WORKSPACE/flutter"
@@ -73,14 +73,14 @@ jobs:
         os: [ubuntu-latest]
     steps:
       - name: Fetch Flutter Cache
-        id: cache-flutter-install-dir
+        id: cache_flutter
         uses: actions/cache@v2
         with:
           path: "$GITHUB_WORKSPACE/flutter"
           key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_CHANNEL }}-${{ env.FLUTTER_VERSION }}
 
       - name: Test cache hit
-        if: cache-flutter-install-dir.outputs.cache-hit == 'true'
+        if: cache_flutter.outputs.cache-hit == 'true'
         run: |
           flutter doctor -v
 

@@ -66,6 +66,11 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
+
+      - run: |
+          pwd
+          echo 'Root directory above'
+          echo $HOME
           
       - name: Archive Build Artifact
         uses: actions/upload-artifact@master

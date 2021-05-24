@@ -54,7 +54,14 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: ${{ runner.OS }}-flutter-install-artifact
-          path: "$GITHUB_WORKSPACE/flutter"
+          path: "/home/runner/work/secureme/flutter/"
+          if-no-files-found: error
+          retention-days: 1
+      - name: Archive Build Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ runner.OS }}-flutter-install-artifact
+          path: "/home/runner/work/secureme/secureme/flutter/"
           if-no-files-found: error
           retention-days: 1
 

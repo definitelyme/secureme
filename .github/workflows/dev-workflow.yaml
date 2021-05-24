@@ -28,23 +28,29 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        include:                                 
+          - os: ubuntu-latest                                   
+          flutter_path: /opt/hostedtoolcache/flutter
+          # - os: windows-latest                                   
+          # flutter_path: [path-for-windows]
+          # - os: macos-latest                                   
+          # flutter_path: [path-for-macos]
     steps:
       - name: Checkout Flutter repository with stable channel.
         uses: actions/checkout@v2
         with:
           repository: 'flutter/flutter'
           ref: ${{ env.FLUTTER_REF }}
-          path: 'flutter'
+          path: ${{ matrix.flutter_path }}
           fetch-depth: 0
 
       - name: Add Flutter to the PATH for Unix
         if: startsWith(matrix.os, 'macOS') || startsWith(matrix.os, 'ubuntu')
-        run: echo "$GITHUB_WORKSPACE/flutter/bin" >> $GITHUB_PATH
+        run: echo "${{ matrix.flutter_path }}" >> $GITHUB_PATH
       
       - name: Add Flutter to the PATH for Windows
         if: startsWith(matrix.os, 'windows')
-        run: echo "${env:GITHUB_WORKSPACE}\flutter\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        run: echo "${{ matrix.flutter_path }}\flutter\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       
       - name: Run Flutter doctor.
         run: |
@@ -53,8 +59,8 @@ jobs:
       - name: Archive Build Artifact
         uses: actions/upload-artifact@master
         with:
-          name: ${{ runner.OS }}-flutter-install-artifact
-          path: "/home/runner/work/secureme/secureme/flutter/"
+          name: ${{ runner.os }}-flutter-install-artifact
+          path: ${{ matrix.flutter_path }}
           if-no-files-found: error
           retention-days: 1
 
@@ -71,7 +77,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        include:                                 
+          - os: ubuntu-latest                                   
+          flutter_path: /opt/hostedtoolcache/flutter
+          # - os: windows-latest                                   
+          # flutter_path: [path-for-windows]
+          # - os: macos-latest                                   
+          # flutter_path: [path-for-macos]
     steps:
       - name: Fetch Repo HEAD
         uses: actions/checkout@v2
@@ -82,14 +94,14 @@ jobs:
       - name: Download Build Artifact
         uses: actions/download-artifact@master
         with:
-          name: ${{ runner.OS }}-flutter-install-artifact
-          path: "/home/runner/work/secureme/secureme/flutter/"
+          name: ${{ runner.os }}-flutter-install-artifact
+          path: ${{ matrix.flutter_path }}
           if-no-files-found: error
 
       - run: |
-          pwd
           ls $GITHUB_WORKSPACE
-          ls "$GITHUB_WORKSPACE/flutter"
+          echo "Flutter repository next ======================+++>>"
+          ls ${{ matrix.flutter_path }}
           flutter doctor -v
 
       - name: Set up Java Environment

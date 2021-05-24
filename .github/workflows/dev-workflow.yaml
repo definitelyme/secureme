@@ -30,13 +30,6 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     steps:
-      - name: Setup Flutter Cache
-        id: cache_flutter_install_dir
-        uses: actions/cache@v2
-        with:
-          path: "$GITHUB_WORKSPACE/flutter/"
-          key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_REF }}
-
       - name: Checkout Flutter repository with stable channel.
         uses: actions/checkout@v2
         with:
@@ -56,7 +49,14 @@ jobs:
       - name: Run Flutter doctor.
         run: |
           flutter doctor -v
-          ls "$GITHUB_WORKSPACE/flutter"
+
+      - name: Archive Build Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ runner.OS }}-flutter-install-artifact
+          path: "$GITHUB_WORKSPACE/flutter"
+          if-no-files-found: error
+          retention-days: 1
 
 
   setup:
@@ -73,23 +73,24 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     steps:
-      - name: Fetch Flutter Cache
-        id: cache_flutter
-        uses: actions/cache@v2
-        with:
-          path: "$GITHUB_WORKSPACE/flutter/"
-          key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_CHANNEL }}
-
-      - name: Test cache hit
-        if: steps.cache_flutter.outputs.cache-hit == 'true'
-        run: |
-          flutter doctor -v
-
       - name: Fetch Repo HEAD
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
           # path: 'code'
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: ${{ runner.OS }}-flutter-install-artifact
+          path: "$GITHUB_WORKSPACE/flutter"
+          if-no-files-found: error
+
+      - run: |
+          pwd
+          ls $GITHUB_WORKSPACE
+          ls "$GITHUB_WORKSPACE/flutter"
+          flutter doctor -v
 
       - name: Set up Java Environment
         uses: actions/setup-java@v1

@@ -56,6 +56,7 @@ jobs:
       - name: Run Flutter doctor.
         run: |
           flutter doctor -v
+          ls "$GITHUB_WORKSPACE/flutter"
 
 
   setup:

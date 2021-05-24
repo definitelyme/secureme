@@ -76,7 +76,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: ${{ env.APP_NAME }}-artifact
-          path: '/home/runner/secureme/'
+          path: /home/runner/work/secureme/secureme
           if-no-files-found: error
           retention-days: 2
 
@@ -96,7 +96,7 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: ${{ env.APP_NAME }}-artifact
-          path: '/home/runner/secureme/'
+          path: /home/runner/work/secureme/secureme
           if-no-files-found: error
 
       - name: Run Pre-build scipts
@@ -108,7 +108,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: ${{ env.APP_NAME }}-apk-artifact
-          path: '/home/runner/secureme/'
+          path: /home/runner/work/secureme/secureme
           if-no-files-found: error
           retention-days: 2
 
@@ -129,7 +129,7 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: ${{ env.APP_NAME }}-apk-artifact
-          path: '/home/runner/secureme/'
+          path: /home/runner/work/secureme/secureme
           if-no-files-found: error
 
       # - name: Bump version and push tag

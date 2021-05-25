@@ -40,11 +40,13 @@ jobs:
             app_path: "$GITHUB_WORKSPACE/app"
             ndk_path: "/usr/local/lib/android/sdk/ndk"
     steps:
-      - name: Prepare NDK dir for caching
+      - name: Prepare directories for caching
         run: |
           sudo mkdir -p /usr/local/lib/android/sdk/ndk
           sudo chmod -R 777 /usr/local/lib/android/sdk/ndk
           sudo chown -R $USER:$USER /usr/local/lib/android/sdk/ndk
+          sudo chmod -R 777 ${{ matrix.flutter_path }}
+          sudo chown -R $USER:$USER ${{ matrix.flutter_path }}
 
       - name: Cache / Restore Flutter Installation
         id: flutter-cache
@@ -80,12 +82,12 @@ jobs:
             ndk
 
       - name: Checkout Flutter repository with stable channel.
-        if: steps.flutter-cache.outputs.cache-hit != 'true'
+        # if: steps.flutter-cache.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           repository: 'flutter/flutter'
           ref: ${{ env.FLUTTER_CHANNEL }}
-          path: 'flutter'
+          path: ${{ matrix.flutter_path }}
           fetch-depth: 0
       
       - name: Checkout to ${{ env.APP_NAME }} Repository
@@ -115,6 +117,10 @@ jobs:
       
       - name: Run Flutter doctor.
         run: |
+          ls
+          echo "====================>>>>>>>>>>>>>>>><<<<<<<<<<<*&&&)*)&))&)**)(*)>>>>>>>>>>>>>>>>>"
+          ls ${{ matrix.flutter_path }}
+          echo "====================>>>>>>>>>>>>>>>><<<<<<<<<<<*&&&)*)&))&)**)(*)>>>>>>>>>>>>>>>>>"
           flutter doctor -v
 
   

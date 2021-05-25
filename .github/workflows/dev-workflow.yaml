@@ -62,7 +62,7 @@ jobs:
           key: ${{ env.NDK_RESTORE_KEY }}
           restore-keys: ${{ env.NDK_RESTORE_KEY }}
 
-      - name: Checkout Flutter repository with stable channel.
+      - name: Install Flutter Channel ${{ env.FLUTTER_CHANNEL }}-${{ env.FLUTTER_VERSION }}
         if: steps.flutter-cache.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
@@ -144,28 +144,32 @@ jobs:
       
       - name: Run Pre-build scipts
         run: |
-          ls $GITHUB_WORKSPACE
-          echo "Flutter repository next ======================+++>>>>>>>"
-          ls ${{ matrix.flutter_path }}
-          echo "Flutter repository next ======================+++>>>>>>>"
+          flutter doctor -v
           flutter pub get
           # flutter test
-          flutter doctor -v
         working-directory: app
 
+      - name: Build Android APK
+        run: |
+          flutter build apk -t lib/main.dart --release --target-platform android-arm,android-arm64 --split-per-abi  --flavor=prod --obfuscate --split-debug-info=./build/app/outputs/apk/obfuscation --dart-define=BUILD_NUMBER=$BUILD_NUMBER --dart-define=BUILD_VERSION=$BUILD_VERSION --dart-define=BUILD_COMMIT=$FCI_COMMIT
 
-      # - name: Cache Flutter dependencies
-      #   uses: actions/cache@v2
+      - name: Show output path
+        run: |
+          ls ${{ env.GITHUB_WORKSPACE }}/build
+          echo "===============>>>>>>>>>>><<<?????????????????/////////////#######################"
+          ls ${{ env.GITHUB_WORKSPACE }}/build/app/outputs
+          echo "===============>>>>>>>>>>><<<?????????????????/////////////#######################"
+          ls ${{ env.GITHUB_WORKSPACE }}/build/app/outputs/apk
+          echo "===============>>>>>>>>>>><<<?????????????????/////////////#######################"
+          ls ${{ env.GITHUB_WORKSPACE }}/build/app/outputs/apk/release
+
+      # - name: Archive Build Artifact
+      #   uses: actions/upload-artifact@master
       #   with:
-      #     path: /opt/hostedtoolcache/flutter
-      #     key: ${{ runner.OS }}-flutter-deps-cache-${{ env.FLUTTER_CHANNEL }}-${{ env.FLUTTER_VERSION }}
-
-      # - name: Set up Flutter Environment
-      #   uses: subosito/flutter-action@v1
-      #   with:
-      #     flutter-version: ${{ env.FLUTTER_VERSION }}
-      #     channel: ${{ env.FLUTTER_CHANNEL }}
-
+      #     name: Android APK (app-armeabi-v7a arch)
+      #     path: /home/runner/work/secureme/secureme/
+      #     if-no-files-found: error
+      #     retention-days: 2
 
 
   # bump-version:

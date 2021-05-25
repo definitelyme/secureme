@@ -147,6 +147,7 @@ jobs:
       - name: Run Pre-build scipts
         run: |
           flutter doctor -v
+          flutter precache
           flutter pub get
           # flutter test
         # working-directory: app

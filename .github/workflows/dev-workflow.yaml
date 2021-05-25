@@ -50,7 +50,7 @@ jobs:
         env:
           cache-name: cache-flutter-installation
         with:
-          path: '../flutter'
+          path: 'flutter'
           key: ${{ env.FLUTTER_RESTORE_KEY }}
           restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
 
@@ -68,7 +68,7 @@ jobs:
         with:
           repository: 'flutter/flutter'
           ref: ${{ env.FLUTTER_CHANNEL }}
-          path: '../flutter'
+          path: 'flutter'
           fetch-depth: 0
 
       - name: Set up Java Environment
@@ -102,11 +102,19 @@ jobs:
             app_path: "$GITHUB_WORKSPACE/app"
             ndk_path: "/usr/local/lib/android/sdk/ndk"
     steps:
+      - name: Checkout to ${{ env.APP_NAME }} Repository
+        uses: actions/checkout@v2
+        with:
+          # path: 'app'
+          fetch-depth: 0
+
       - name: Prepare ndk dir for restoring
         run: |
           sudo mkdir -p /usr/local/lib/android/sdk/ndk
           sudo chmod -R 777 /usr/local/lib/android/sdk/ndk
           sudo chown -R $USER:$USER /usr/local/lib/android/sdk/ndk
+          sudo chmod -R 777 ${{ env.GITHUB_WORKSPACE }}
+          sudo chown -R $USER:$USER ${{ env.GITHUB_WORKSPACE }}
 
       - name: Restore Flutter Cache
         id: flutter-cache
@@ -114,7 +122,7 @@ jobs:
         env:
           cache-name: cache-flutter-installation
         with:
-          path: '../flutter'
+          path: 'flutter'
           key: ${{ env.FLUTTER_RESTORE_KEY }}
           restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
 
@@ -135,12 +143,6 @@ jobs:
       - name: Add Flutter to the PATH for Windows
         if: startsWith(matrix.os, 'windows')
         run: echo "${env:GITHUB_WORKSPACE}\flutter\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-
-      - name: Checkout to ${{ env.APP_NAME }} Repository
-        uses: actions/checkout@v2
-        with:
-          # path: 'app'
-          fetch-depth: 0
       
       - name: Run Pre-build scipts
         run: |

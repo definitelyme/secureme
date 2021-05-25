@@ -42,8 +42,14 @@ jobs:
         with:
           repository: 'flutter/flutter'
           ref: ${{ env.FLUTTER_REF }}
-          path: ${{ matrix.flutter_path }}
+          path: 'flutter'
           fetch-depth: 0
+
+      - name: Move Flutter to Root
+        run: |
+          mv "$GITHUB_WORKSPACE/flutter/" /opt/hostedtoolcache/
+          ls /opt/hostedtoolcache/
+          ls "${{ matrix.flutter_path }}"
 
       - name: Add Flutter to the PATH for Unix
         if: startsWith(matrix.os, 'macOS') || startsWith(matrix.os, 'ubuntu')

@@ -47,7 +47,7 @@ jobs:
           sudo chown -R $USER:$USER /usr/local/lib/android/sdk/ndk
 
       - name: Cache / Restore Flutter Installation
-        id: ${{ env.FLUTTER_RESTORE_KEY }}
+        id: flutter-cache
         uses: actions/cache@v2
         env:
           cache-name: cache-flutter-installation
@@ -70,7 +70,7 @@ jobs:
             code
 
       - name: Cache / Restore Android NDK
-        id: ${{ env.NDK_RESTORE_KEY }}
+        id: ndk-cache
         uses: actions/cache@v2
         with:
           path: ${{ matrix.ndk_path }}
@@ -80,7 +80,7 @@ jobs:
             ndk
 
       - name: Checkout Flutter repository with stable channel.
-        if: steps.${{ env.FLUTTER_RESTORE_KEY }}.outputs.cache-hit != 'true'
+        if: steps.flutter-cache.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           repository: 'flutter/flutter'
@@ -100,7 +100,7 @@ jobs:
           java-version: 1.8
 
       - name: Install NDK
-        if: steps.${{ env.NDK_RESTORE_KEY }}.outputs.cache-hit != 'true'
+        if: steps.ndk-cache.outputs.cache-hit != 'true'
         run: echo "y" | sudo ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --install "ndk;21.0.6113669"
 
       - name: Add Flutter to the PATH for Unix
@@ -140,7 +140,7 @@ jobs:
             ndk_path: "/usr/local/lib/android/sdk/ndk"
     steps:
       - name: Cache / Restore Flutter Installation
-        id: ${{ env.FLUTTER_RESTORE_KEY }}
+        id: flutter-cache
         uses: actions/cache@v2
         env:
           cache-name: cache-flutter-installation
@@ -163,7 +163,7 @@ jobs:
             code
 
       - name: Cache / Restore Android NDK
-        id: ${{ env.NDK_RESTORE_KEY }}
+        id: ndk-cache
         uses: actions/cache@v2
         with:
           path: ${{ matrix.ndk_path }}

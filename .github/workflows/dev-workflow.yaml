@@ -121,6 +121,7 @@ jobs:
   build:
     name: Build APK
     runs-on: ${{ matrix.os }}
+    needs: setup
     env:
       APP_NAME: "Secureme"
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}

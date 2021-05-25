@@ -28,8 +28,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest]
         include:
-          os: [ubuntu-latest]
           flutter_path: /opt/hostedtoolcache/flutter
           # os: windows-latest                                   
           # flutter_path: [path-for-windows]

@@ -27,8 +27,8 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
-      APP_RESTORE_KEY: ${{ runner.os }}-${{ env.APP_NAME }}-code
-      FLUTTER_RESTORE_KEY: ${{ runner.os }}-flutter-install-cache
+      APP_RESTORE_KEY: ${{ matrix.os }}-${{ env.APP_NAME }}-code
+      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache
     strategy:
       fail-fast: false
       matrix:

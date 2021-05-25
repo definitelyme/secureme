@@ -28,7 +28,7 @@ jobs:
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
       APP_RESTORE_KEY: ${{ matrix.os }}-Secureme-code
-      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache
+      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-01
       NDK_RESTORE_KEY: ${{ matrix.os }}-android-ndk-21.0.6113669-v2
     strategy:
       fail-fast: false

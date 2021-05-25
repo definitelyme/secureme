@@ -55,7 +55,7 @@ jobs:
         env:
           cache-name: cache-flutter-installation
         with:
-          path: ${{ matrix.flutter_path }}
+          path: 'flutter'
           key: ${{ env.FLUTTER_RESTORE_KEY }}
           restore-keys: |
             ${{ env.FLUTTER_RESTORE_KEY }}
@@ -88,7 +88,7 @@ jobs:
         with:
           repository: 'flutter/flutter'
           ref: ${{ env.FLUTTER_CHANNEL }}
-          path: flutter
+          path: 'flutter'
           fetch-depth: 0
       
       - name: Checkout to ${{ env.APP_NAME }} Repository

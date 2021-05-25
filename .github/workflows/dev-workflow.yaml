@@ -57,9 +57,7 @@ jobs:
         with:
           path: 'flutter'
           key: ${{ env.FLUTTER_RESTORE_KEY }}
-          restore-keys: |
-            ${{ env.FLUTTER_RESTORE_KEY }}
-            flutter-install-cache
+          restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
 
       - name: Cache / Restore Application Code
         uses: actions/cache@v2
@@ -68,9 +66,7 @@ jobs:
         with:
           path: ${{ matrix.app_path }}
           key: ${{ env.APP_RESTORE_KEY }}
-          restore-keys: |
-            ${{ env.APP_RESTORE_KEY }}
-            code
+          restore-keys: ${{ env.APP_RESTORE_KEY }}
 
       - name: Cache / Restore Android NDK
         id: ndk-cache
@@ -78,9 +74,7 @@ jobs:
         with:
           path: ${{ matrix.ndk_path }}
           key: ${{ env.NDK_RESTORE_KEY }}
-          restore-keys: |
-            ${{ env.NDK_RESTORE_KEY }}
-            ndk
+          restore-keys: ${{ env.NDK_RESTORE_KEY }}
 
       - name: Checkout Flutter repository with stable channel.
         # if: steps.flutter-cache.outputs.cache-hit != 'true'
@@ -135,7 +129,7 @@ jobs:
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
       APP_RESTORE_KEY: ${{ matrix.os }}-Secureme-code
-      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache
+      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-01
       NDK_RESTORE_KEY: ${{ matrix.os }}-android-ndk-21.0.6113669-v2
     strategy:
       fail-fast: false
@@ -153,11 +147,9 @@ jobs:
         env:
           cache-name: cache-flutter-installation
         with:
-          path: ${{ matrix.flutter_path }}
+          path: 'flutter'
           key: ${{ env.FLUTTER_RESTORE_KEY }}
-          restore-keys: |
-            ${{ env.FLUTTER_RESTORE_KEY }}
-            flutter-install-cache
+          restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
 
       - name: Cache / Restore Application Code
         uses: actions/cache@v2
@@ -166,9 +158,7 @@ jobs:
         with:
           path: ${{ matrix.app_path }}
           key: ${{ env.APP_RESTORE_KEY }}
-          restore-keys: |
-            ${{ env.APP_RESTORE_KEY }}
-            code
+          restore-keys: ${{ env.APP_RESTORE_KEY }}
 
       - name: Cache / Restore Android NDK
         id: ndk-cache
@@ -176,9 +166,7 @@ jobs:
         with:
           path: ${{ matrix.ndk_path }}
           key: ${{ env.NDK_RESTORE_KEY }}
-          restore-keys: |
-            ${{ env.NDK_RESTORE_KEY }}
-            ndk
+          restore-keys: ${{ env.NDK_RESTORE_KEY }}
 
       - run: |
           ls $GITHUB_WORKSPACE

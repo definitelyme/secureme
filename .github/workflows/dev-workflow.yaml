@@ -20,7 +20,7 @@ on:
 
 jobs:
   start:
-    name: Setup Flutter
+    name: Install Dependencies
     runs-on: ${{ matrix.os }}
     env:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
@@ -28,12 +28,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:                                 
-          - os: [ubuntu-latest]
+        include:
+          os: [ubuntu-latest ]
           flutter_path: /opt/hostedtoolcache/flutter
-          # - os: windows-latest                                   
+          # os: windows-latest                                   
           # flutter_path: [path-for-windows]
-          # - os: macos-latest                                   
+          # os: macos-latest                                   
           # flutter_path: [path-for-macos]
     steps:
       - name: Checkout Flutter repository with stable channel.
@@ -56,13 +56,17 @@ jobs:
         run: |
           flutter doctor -v
 
-      - name: Archive Build Artifact
-        uses: actions/upload-artifact@master
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-flutter
         with:
-          name: ${{ runner.os }}-flutter-install-artifact
+          # npm cache files are stored in `~/.npm` on Linux/macOS
           path: ${{ matrix.flutter_path }}
-          if-no-files-found: error
-          retention-days: 1
+          key: ${{ runner.os }}-flutter-install-cache
+          restore-keys: |
+            ${{ runner.os }}-flutter-install-cache
+            flutter-install-cache
 
 
   setup:
@@ -77,12 +81,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:                                 
-          - os: [ubuntu-latest]
+        include:
+          os: [ubuntu-latest ]
           flutter_path: /opt/hostedtoolcache/flutter
-          # - os: windows-latest                                   
+          # os: windows-latest                                   
           # flutter_path: [path-for-windows]
-          # - os: macos-latest                                   
+          # os: macos-latest                                   
           # flutter_path: [path-for-macos]
     steps:
       - name: Fetch Repo HEAD

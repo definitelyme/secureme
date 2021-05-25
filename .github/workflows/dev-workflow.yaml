@@ -29,7 +29,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          os: [ubuntu-latest ]
+          os: [ubuntu-latest]
           flutter_path: /opt/hostedtoolcache/flutter
           # os: windows-latest                                   
           # flutter_path: [path-for-windows]
@@ -82,7 +82,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          os: [ubuntu-latest ]
+          os: [ubuntu-latest]
           flutter_path: /opt/hostedtoolcache/flutter
           # os: windows-latest                                   
           # flutter_path: [path-for-windows]

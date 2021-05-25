@@ -32,10 +32,6 @@ jobs:
         include:
           - os: ubuntu-latest
             flutter_path: /opt/hostedtoolcache/flutter
-          # os: windows-latest
-          # flutter_path: [path-for-windows]
-          # os: macos-latest
-          # flutter_path: [path-for-macos]
     steps:
       - name: Checkout Flutter repository with stable channel.
         uses: actions/checkout@v2
@@ -54,9 +50,7 @@ jobs:
 
       - name: Add Flutter to the PATH for Unix
         if: startsWith(matrix.os, 'macOS') || startsWith(matrix.os, 'ubuntu')
-        run: |
-          echo "${{ matrix.flutter_path }}" >> $GITHUB_PATH
-          echo "${{ matrix.flutter_path }}\bin" >> $GITHUB_PATH
+        run: echo "${{ matrix.flutter_path }}\bin" >> $GITHUB_PATH
       
       - name: Add Flutter to the PATH for Windows
         if: startsWith(matrix.os, 'windows')

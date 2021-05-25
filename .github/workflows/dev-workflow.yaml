@@ -45,8 +45,9 @@ jobs:
           sudo mkdir -p /usr/local/lib/android/sdk/ndk
           sudo chmod -R 777 /usr/local/lib/android/sdk/ndk
           sudo chown -R $USER:$USER /usr/local/lib/android/sdk/ndk
-          sudo chmod -R 777 ${{ matrix.flutter_path }}
-          sudo chown -R $USER:$USER ${{ matrix.flutter_path }}
+
+        # sudo chmod -R 777 ${{ matrix.flutter_path }}
+        # sudo chown -R $USER:$USER ${{ matrix.flutter_path }}
 
       - name: Cache / Restore Flutter Installation
         id: flutter-cache

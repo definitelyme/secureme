@@ -23,61 +23,6 @@ jobs:
     name: Install Dependencies
     runs-on: ${{ matrix.os }}
     env:
-      GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-      FLUTTER_REF: "beta"
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest]
-        include:
-          - os: ubuntu-latest
-            flutter_path: /opt/hostedtoolcache/flutter
-    steps:
-      - name: Checkout Flutter repository with stable channel.
-        uses: actions/checkout@v2
-        with:
-          repository: 'flutter/flutter'
-          ref: ${{ env.FLUTTER_REF }}
-          path: 'flutter'
-          fetch-depth: 0
-
-      - name: Move Flutter to Root
-        run: |
-          mv "$GITHUB_WORKSPACE/flutter/" /opt/hostedtoolcache/
-          ls /opt/hostedtoolcache/
-          echo "This here is the flutter path"
-          ls "${{ matrix.flutter_path }}"
-
-      - name: Add Flutter to the PATH for Unix
-        if: startsWith(matrix.os, 'macOS') || startsWith(matrix.os, 'ubuntu')
-        run: echo "${{ matrix.flutter_path }}\bin" >> $GITHUB_PATH
-      
-      - name: Add Flutter to the PATH for Windows
-        if: startsWith(matrix.os, 'windows')
-        run: echo "${{ matrix.flutter_path }}\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-      
-      - name: Run Flutter doctor.
-        run: |
-          flutter doctor -v
-
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-flutter
-        with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ${{ matrix.flutter_path }}
-          key: ${{ runner.os }}-flutter-install-cache
-          restore-keys: |
-            ${{ runner.os }}-flutter-install-cache
-            flutter-install-cache
-
-
-  setup:
-    name: Install Dependencies
-    runs-on: ${{ matrix.os }}
-    needs: start
-    env:
       APP_NAME: "Secureme"
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       FLUTTER_CHANNEL: "beta"
@@ -88,145 +33,208 @@ jobs:
         os: [ubuntu-latest]
         include:
           - os: ubuntu-latest
-            flutter_path: /opt/hostedtoolcache/flutter
-          # os: windows-latest
-          # flutter_path: [path-for-windows]
-          # os: macos-latest
-          # flutter_path: [path-for-macos]
+            flutter_path: "$GITHUB_WORKSPACE/flutter"
+            code_path: "$GITHUB_WORKSPACE/code"
     steps:
-      - name: Fetch Repo HEAD
+      - name: Cache / Restore Flutter Installation
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-flutter-installation
+        with:
+          path: ${{ matrix.flutter_path }}
+          key: ${{ runner.os }}-flutter-install-cache
+          restore-keys: |
+            ${{ runner.os }}-flutter-install-cache
+            flutter-install-cache
+
+      - name: Cache / Restore Application Code
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-application-code
+        with:
+          path: ${{ matrix.code_path }}
+          key: ${{ runner.os }}-${{ env.APP_NAME }}-code
+          restore-keys: |
+            ${{ runner.os }}-${{ env.APP_NAME }}-code
+            ${{ env.APP_NAME }}-code
+            code
+
+      - name: Checkout Flutter repository with stable channel.
+        uses: actions/checkout@v2
+        with:
+          repository: 'flutter/flutter'
+          ref: ${{ env.FLUTTER_CHANNEL }}
+          path: 'flutter'
+          fetch-depth: 0
+      
+      - name: Checkout to ${{ env.APP_NAME }} Repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          # path: 'code'
+          path: 'app'
 
-      - name: Download Build Artifact
-        uses: actions/download-artifact@master
-        with:
-          name: ${{ runner.os }}-flutter-install-artifact
-          path: ${{ matrix.flutter_path }}
-          if-no-files-found: error
-
-      - run: |
-          ls $GITHUB_WORKSPACE
-          echo "Flutter repository next ======================+++>>"
+      - name: Add Flutter to the PATH for Unix
+        if: startsWith(matrix.os, 'macOS') || startsWith(matrix.os, 'ubuntu')
+        run: |
+          echo "${{ matrix.flutter_path }}" >> $GITHUB_PATH
+          echo "${{ matrix.flutter_path }}/bin" >> $GITHUB_PATH
+      
+      - name: Add Flutter to the PATH for Windows
+        if: startsWith(matrix.os, 'windows')
+        run: echo "${env:GITHUB_WORKSPACE}\flutter\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      
+      - name: Run Flutter doctor.
+        run: |
+          ls
+          echo "===========================================================>>>>>>>>>>>>"
           ls ${{ matrix.flutter_path }}
+          echo "===========================================================>>>>>>>>>>>>"
+          ls ${{ matrix.code_path }}
+          echo "===========================================================>>>>>>>>>>>>"
           flutter doctor -v
 
-      - name: Set up Java Environment
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
 
-      - name: Prepare NDK dir for caching
-        run: |
-          sudo mkdir -p /usr/local/lib/android/sdk/ndk
-          sudo chmod -R 777 /usr/local/lib/android/sdk/ndk
-          sudo chown -R $USER:$USER /usr/local/lib/android/sdk/ndk
+  # setup:
+  #   name: Install Dependencies
+  #   runs-on: ${{ matrix.os }}
+  #   needs: start
+  #   env:
+  #     APP_NAME: "Secureme"
+  #     GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+  #     FLUTTER_CHANNEL: "beta"
+  #     FLUTTER_VERSION: "2.2.0"
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #       include:
+  #         - os: ubuntu-latest
+  #           flutter_path: "$GITHUB_WORKSPACE/flutter"
+  #         # os: windows-latest
+  #         # flutter_path: [path-for-windows]
+  #         # os: macos-latest
+  #         # flutter_path: [path-for-macos]
+  #   steps:
+  #     - run: |
+  #         ls $GITHUB_WORKSPACE
+  #         echo "Flutter repository next ======================+++>>"
+  #         ls ${{ matrix.flutter_path }}
+  #         flutter doctor -v
 
-      - name: Cache Android NDK
-        id: ndk-cache
-        uses: actions/cache@v2
-        with:
-          path: /usr/local/lib/android/sdk/ndk
-          key: ndk-cache-21.0.6113669-v2
+  #     - name: Set up Java Environment
+  #       uses: actions/setup-java@v1
+  #       with:
+  #         java-version: 1.8
 
-      - name: Install NDK
-        if: steps.ndk-cache.outputs.cache-hit != 'true'
-        run: echo "y" | sudo ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --install "ndk;21.0.6113669"
+  #     - name: Prepare NDK dir for caching
+  #       run: |
+  #         sudo mkdir -p /usr/local/lib/android/sdk/ndk
+  #         sudo chmod -R 777 /usr/local/lib/android/sdk/ndk
+  #         sudo chown -R $USER:$USER /usr/local/lib/android/sdk/ndk
 
-      # - name: Cache Flutter dependencies
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: /opt/hostedtoolcache/flutter
-      #     key: ${{ runner.OS }}-flutter-deps-cache-${{ env.FLUTTER_CHANNEL }}-${{ env.FLUTTER_VERSION }}
+  #     - name: Cache Android NDK
+  #       id: ndk-cache
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: /usr/local/lib/android/sdk/ndk
+  #         key: ndk-cache-21.0.6113669-v2
 
-      # - name: Set up Flutter Environment
-      #   uses: subosito/flutter-action@v1
-      #   with:
-      #     flutter-version: ${{ env.FLUTTER_VERSION }}
-      #     channel: ${{ env.FLUTTER_CHANNEL }}
+  #     - name: Install NDK
+  #       if: steps.ndk-cache.outputs.cache-hit != 'true'
+  #       run: echo "y" | sudo ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --install "ndk;21.0.6113669"
 
-      - name: Strip unnecessary files & folders
-        run: |
-          flutter doctor -v
-          rm -rf /home/runner/work/secureme/secureme/.git/
+  #     # - name: Cache Flutter dependencies
+  #     #   uses: actions/cache@v2
+  #     #   with:
+  #     #     path: /opt/hostedtoolcache/flutter
+  #     #     key: ${{ runner.OS }}-flutter-deps-cache-${{ env.FLUTTER_CHANNEL }}-${{ env.FLUTTER_VERSION }}
+
+  #     # - name: Set up Flutter Environment
+  #     #   uses: subosito/flutter-action@v1
+  #     #   with:
+  #     #     flutter-version: ${{ env.FLUTTER_VERSION }}
+  #     #     channel: ${{ env.FLUTTER_CHANNEL }}
+
+  #     - name: Strip unnecessary files & folders
+  #       run: |
+  #         flutter doctor -v
+  #         rm -rf /home/runner/work/secureme/secureme/.git/
           
-      - name: Archive Build Artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: ${{ env.APP_NAME }}-artifact
-          path: /home/runner/work/secureme/secureme
-          if-no-files-found: error
-          retention-days: 2
+  #     - name: Archive Build Artifact
+  #       uses: actions/upload-artifact@master
+  #       with:
+  #         name: ${{ env.APP_NAME }}-artifact
+  #         path: /home/runner/work/secureme/secureme
+  #         if-no-files-found: error
+  #         retention-days: 2
 
 
-  build:
-    name: Build APK
-    runs-on: ubuntu-latest
-    needs: setup
-    env:
-      APP_NAME: "Secureme"
-    steps:
-      - name: Fetch Repo HEAD
-        uses: actions/checkout@master
-        with:
-          fetch-depth: 0
+  # build:
+  #   name: Build APK
+  #   runs-on: ubuntu-latest
+  #   needs: setup
+  #   env:
+  #     APP_NAME: "Secureme"
+  #   steps:
+  #     - name: Fetch Repo HEAD
+  #       uses: actions/checkout@master
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Download Build Artifact
-        uses: actions/download-artifact@master
-        with:
-          name: ${{ env.APP_NAME }}-artifact
-          path: /home/runner/work/secureme/secureme
-          if-no-files-found: error
+  #     - name: Download Build Artifact
+  #       uses: actions/download-artifact@master
+  #       with:
+  #         name: ${{ env.APP_NAME }}-artifact
+  #         path: /home/runner/work/secureme/secureme
+  #         if-no-files-found: error
 
-      - name: Run Pre-build scipts
-        run: |
-          flutter pub get
-          # flutter test
+  #     - name: Run Pre-build scipts
+  #       run: |
+  #         flutter pub get
+  #         # flutter test
 
-      - name: Archive APK Artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: ${{ env.APP_NAME }}-apk-artifact
-          path: /home/runner/work/secureme/secureme
-          if-no-files-found: error
-          retention-days: 2
+  #     - name: Archive APK Artifact
+  #       uses: actions/upload-artifact@master
+  #       with:
+  #         name: ${{ env.APP_NAME }}-apk-artifact
+  #         path: /home/runner/work/secureme/secureme
+  #         if-no-files-found: error
+  #         retention-days: 2
 
-  bump-version:
-    name: Perform version bump
-    needs: build
-    runs-on: ubuntu-latest
-    env:
-      APP_NAME: "Secureme"
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - name: Fetch Repo HEAD
-        uses: actions/checkout@master
-        with:
-          fetch-depth: 0
+  # bump-version:
+  #   name: Perform version bump
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     APP_NAME: "Secureme"
+  #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #   steps:
+  #     - name: Fetch Repo HEAD
+  #       uses: actions/checkout@master
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Download Build Artifact
-        uses: actions/download-artifact@master
-        with:
-          name: ${{ env.APP_NAME }}-apk-artifact
-          path: /home/runner/work/secureme/secureme
-          if-no-files-found: error
+  #     - name: Download Build Artifact
+  #       uses: actions/download-artifact@master
+  #       with:
+  #         name: ${{ env.APP_NAME }}-apk-artifact
+  #         path: /home/runner/work/secureme/secureme
+  #         if-no-files-found: error
 
-      # - name: Bump version and push tag
-      #   id: bump_tag
-      #   uses: mathieudutour/github-tag-action@v4.5
-      #   with:
-      #     release_branches: .*
-      #     github_token: ${{ env.GITHUB_TOKEN }}
+  #     # - name: Bump version and push tag
+  #     #   id: bump_tag
+  #     #   uses: mathieudutour/github-tag-action@v4.5
+  #     #   with:
+  #     #     release_branches: .*
+  #     #     github_token: ${{ env.GITHUB_TOKEN }}
 
-      # - name: Push new version to Release Tags
-      #   uses: ncipollo/release-action@v1
-      #   with:
-      #     name: ${{ env.APP_NAME }}-${{ steps.bump_tag.outputs.new_version }}
-      #     tag: ${{ steps.bump_tag.outputs.new_tag }}
-      #     token: ${{ env.GITHUB_TOKEN }}
-      #     body: A new release of ${{ env.APP_NAME }} is available!
-      #     allowUpdates: false
-      #     omitName: false
-      #     omitBody: false
+  #     # - name: Push new version to Release Tags
+  #     #   uses: ncipollo/release-action@v1
+  #     #   with:
+  #     #     name: ${{ env.APP_NAME }}-${{ steps.bump_tag.outputs.new_version }}
+  #     #     tag: ${{ steps.bump_tag.outputs.new_tag }}
+  #     #     token: ${{ env.GITHUB_TOKEN }}
+  #     #     body: A new release of ${{ env.APP_NAME }} is available!
+  #     #     allowUpdates: false
+  #     #     omitName: false
+  #     #     omitBody: false

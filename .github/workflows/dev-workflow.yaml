@@ -113,8 +113,8 @@ jobs:
           sudo mkdir -p /usr/local/lib/android/sdk/ndk
           sudo chmod -R 777 /usr/local/lib/android/sdk/ndk
           sudo chown -R $USER:$USER /usr/local/lib/android/sdk/ndk
-          sudo chmod -R 777 ${{ env.GITHUB_WORKSPACE }}
-          sudo chown -R $USER:$USER ${{ env.GITHUB_WORKSPACE }}
+          sudo chmod -R 777 ${env:GITHUB_WORKSPACE}
+          sudo chown -R $USER:$USER ${env:GITHUB_WORKSPACE}
 
       - name: Restore Flutter Cache
         id: flutter-cache

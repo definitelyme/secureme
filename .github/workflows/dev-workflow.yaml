@@ -27,7 +27,6 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
-      APP_RESTORE_KEY: ${{ matrix.os }}-Secureme-code
       FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-01
       NDK_RESTORE_KEY: ${{ matrix.os }}-android-ndk-21.0.6113669-v2
     strategy:
@@ -37,19 +36,15 @@ jobs:
         include:
           - os: ubuntu-latest
             flutter_path: "$GITHUB_WORKSPACE/flutter"
-            app_path: "$GITHUB_WORKSPACE/app"
             ndk_path: "/usr/local/lib/android/sdk/ndk"
     steps:
-      - name: Prepare directories for caching
+      - name: Prepare ndk dir for caching
         run: |
           sudo mkdir -p /usr/local/lib/android/sdk/ndk
           sudo chmod -R 777 /usr/local/lib/android/sdk/ndk
           sudo chown -R $USER:$USER /usr/local/lib/android/sdk/ndk
 
-        # sudo chmod -R 777 ${{ matrix.flutter_path }}
-        # sudo chown -R $USER:$USER ${{ matrix.flutter_path }}
-
-      - name: Cache / Restore Flutter Installation
+      - name: Cache Flutter Installation
         id: flutter-cache
         uses: actions/cache@v2
         env:
@@ -59,16 +54,7 @@ jobs:
           key: ${{ env.FLUTTER_RESTORE_KEY }}
           restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
 
-      - name: Cache / Restore Application Code
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-${{ env.APP_NAME }}-application
-        with:
-          path: ${{ matrix.app_path }}
-          key: ${{ env.APP_RESTORE_KEY }}
-          restore-keys: ${{ env.APP_RESTORE_KEY }}
-
-      - name: Cache / Restore Android NDK
+      - name: Cache NDK Installation
         id: ndk-cache
         uses: actions/cache@v2
         with:
@@ -77,19 +63,13 @@ jobs:
           restore-keys: ${{ env.NDK_RESTORE_KEY }}
 
       - name: Checkout Flutter repository with stable channel.
-        # if: steps.flutter-cache.outputs.cache-hit != 'true'
+        if: steps.flutter-cache.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           repository: 'flutter/flutter'
           ref: ${{ env.FLUTTER_CHANNEL }}
           path: 'flutter'
           fetch-depth: 0
-      
-      - name: Checkout to ${{ env.APP_NAME }} Repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          path: 'app'
 
       - name: Set up Java Environment
         uses: actions/setup-java@v1
@@ -99,24 +79,6 @@ jobs:
       - name: Install NDK
         if: steps.ndk-cache.outputs.cache-hit != 'true'
         run: echo "y" | sudo ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --install "ndk;21.0.6113669"
-
-      - name: Add Flutter to the PATH for Unix
-        if: startsWith(matrix.os, 'macOS') || startsWith(matrix.os, 'ubuntu')
-        run: |
-          echo "${{ matrix.flutter_path }}" >> $GITHUB_PATH
-          echo "${{ matrix.flutter_path }}/bin" >> $GITHUB_PATH
-      
-      - name: Add Flutter to the PATH for Windows
-        if: startsWith(matrix.os, 'windows')
-        run: echo "${env:GITHUB_WORKSPACE}\flutter\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-      
-      - name: Run Flutter doctor.
-        run: |
-          ls
-          echo "====================>>>>>>>>>>>>>>>><<<<<<<<<<<*&&&)*)&))&)**)(*)>>>>>>>>>>>>>>>>>"
-          ls ${{ matrix.flutter_path }}
-          echo "====================>>>>>>>>>>>>>>>><<<<<<<<<<<*&&&)*)&))&)**)(*)>>>>>>>>>>>>>>>>>"
-          flutter doctor -v
 
   
   build:
@@ -128,7 +90,6 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
-      APP_RESTORE_KEY: ${{ matrix.os }}-Secureme-code
       FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-01
       NDK_RESTORE_KEY: ${{ matrix.os }}-android-ndk-21.0.6113669-v2
     strategy:
@@ -141,7 +102,13 @@ jobs:
             app_path: "$GITHUB_WORKSPACE/app"
             ndk_path: "/usr/local/lib/android/sdk/ndk"
     steps:
-      - name: Cache / Restore Flutter Installation
+      - name: Prepare ndk dir for restoring
+        run: |
+          sudo mkdir -p /usr/local/lib/android/sdk/ndk
+          sudo chmod -R 777 /usr/local/lib/android/sdk/ndk
+          sudo chown -R $USER:$USER /usr/local/lib/android/sdk/ndk
+
+      - name: Restore Flutter Cache
         id: flutter-cache
         uses: actions/cache@v2
         env:
@@ -151,16 +118,7 @@ jobs:
           key: ${{ env.FLUTTER_RESTORE_KEY }}
           restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
 
-      - name: Cache / Restore Application Code
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-${{ env.APP_NAME }}-application
-        with:
-          path: ${{ matrix.app_path }}
-          key: ${{ env.APP_RESTORE_KEY }}
-          restore-keys: ${{ env.APP_RESTORE_KEY }}
-
-      - name: Cache / Restore Android NDK
+      - name: Restore NDK Cache
         id: ndk-cache
         uses: actions/cache@v2
         with:
@@ -168,11 +126,30 @@ jobs:
           key: ${{ env.NDK_RESTORE_KEY }}
           restore-keys: ${{ env.NDK_RESTORE_KEY }}
 
+      - name: Add Flutter to the PATH for Unix
+        if: startsWith(matrix.os, 'macOS') || startsWith(matrix.os, 'ubuntu')
+        run: |
+          echo "${{ matrix.flutter_path }}" >> $GITHUB_PATH
+          echo "${{ matrix.flutter_path }}/bin" >> $GITHUB_PATH
+      
+      - name: Add Flutter to the PATH for Windows
+        if: startsWith(matrix.os, 'windows')
+        run: echo "${env:GITHUB_WORKSPACE}\flutter\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Checkout to ${{ env.APP_NAME }} Repository
+        uses: actions/checkout@v2
+        with:
+          path: 'app'
+          fetch-depth: 0
+      
+      - name: Run Pre-build scipts
       - run: |
           ls $GITHUB_WORKSPACE
           echo "Flutter repository next ======================+++>>>>>>>"
           ls ${{ matrix.flutter_path }}
           echo "Flutter repository next ======================+++>>>>>>>"
+          flutter pub get
+          # flutter test
           flutter doctor -v
 
 
@@ -189,38 +166,6 @@ jobs:
       #     channel: ${{ env.FLUTTER_CHANNEL }}
 
 
-
-  # build:
-  #   name: Build APK
-  #   runs-on: ubuntu-latest
-  #   needs: setup
-  #   env:
-  #     APP_NAME: "Secureme"
-  #   steps:
-  #     - name: Fetch Repo HEAD
-  #       uses: actions/checkout@master
-  #       with:
-  #         fetch-depth: 0
-
-  #     - name: Download Build Artifact
-  #       uses: actions/download-artifact@master
-  #       with:
-  #         name: ${{ env.APP_NAME }}-artifact
-  #         path: /home/runner/work/secureme/secureme
-  #         if-no-files-found: error
-
-  #     - name: Run Pre-build scipts
-  #       run: |
-  #         flutter pub get
-  #         # flutter test
-
-  #     - name: Archive APK Artifact
-  #       uses: actions/upload-artifact@master
-  #       with:
-  #         name: ${{ env.APP_NAME }}-apk-artifact
-  #         path: /home/runner/work/secureme/secureme
-  #         if-no-files-found: error
-  #         retention-days: 2
 
   # bump-version:
   #   name: Perform version bump

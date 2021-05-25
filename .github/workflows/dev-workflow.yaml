@@ -53,11 +53,13 @@ jobs:
 
       - name: Add Flutter to the PATH for Unix
         if: startsWith(matrix.os, 'macOS') || startsWith(matrix.os, 'ubuntu')
-        run: echo "${{ matrix.flutter_path }}" >> $GITHUB_PATH
+        run: |
+          echo "${{ matrix.flutter_path }}" >> $GITHUB_PATH
+          echo "${{ matrix.flutter_path }}\bin" >> $GITHUB_PATH
       
       - name: Add Flutter to the PATH for Windows
         if: startsWith(matrix.os, 'windows')
-        run: echo "${{ matrix.flutter_path }}\flutter\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        run: echo "${{ matrix.flutter_path }}\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       
       - name: Run Flutter doctor.
         run: |

@@ -34,7 +34,7 @@ jobs:
         include:
           - os: ubuntu-latest
             flutter_path: "$GITHUB_WORKSPACE/flutter"
-            code_path: "$GITHUB_WORKSPACE/code"
+            app_path: "$GITHUB_WORKSPACE/app"
     steps:
       - name: Cache / Restore Flutter Installation
         uses: actions/cache@v2
@@ -47,17 +47,17 @@ jobs:
             ${{ runner.os }}-flutter-install-cache
             flutter-install-cache
 
-      - name: Cache / Restore Application Code
+      - name: Cache / Restore Application app
         uses: actions/cache@v2
         env:
-          cache-name: cache-application-code
+          cache-name: cache-application-app
         with:
-          path: ${{ matrix.code_path }}
+          path: ${{ matrix.app_path }}
           key: ${{ runner.os }}-${{ env.APP_NAME }}-code
           restore-keys: |
             ${{ runner.os }}-${{ env.APP_NAME }}-code
-            ${{ env.APP_NAME }}-code
-            code
+            ${{ env.APP_NAME }}-app
+            app
 
       - name: Checkout Flutter repository with stable channel.
         uses: actions/checkout@v2
@@ -89,7 +89,7 @@ jobs:
           echo "===========================================================>>>>>>>>>>>>"
           ls ${{ matrix.flutter_path }}
           echo "===========================================================>>>>>>>>>>>>"
-          ls ${{ matrix.code_path }}
+          ls ${{ matrix.app_path }}
           echo "===========================================================>>>>>>>>>>>>"
           flutter doctor -v
 

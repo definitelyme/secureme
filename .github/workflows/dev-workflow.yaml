@@ -50,7 +50,7 @@ jobs:
         env:
           cache-name: cache-flutter-installation
         with:
-          path: 'flutter'
+          path: '/'
           key: ${{ env.FLUTTER_RESTORE_KEY }}
           restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
 
@@ -68,7 +68,7 @@ jobs:
         with:
           repository: 'flutter/flutter'
           ref: ${{ env.FLUTTER_CHANNEL }}
-          path: 'flutter'
+          path: '/'
           fetch-depth: 0
 
       - name: Set up Java Environment
@@ -99,13 +99,13 @@ jobs:
         include:
           - os: ubuntu-latest
             flutter_path: "$GITHUB_WORKSPACE/flutter"
-            app_path: "$GITHUB_WORKSPACE/app"
+            # app_path: "$GITHUB_WORKSPACE/app"
             ndk_path: "/usr/local/lib/android/sdk/ndk"
     steps:
       - name: Checkout to ${{ env.APP_NAME }} Repository
         uses: actions/checkout@v2
         with:
-          # path: 'app'
+          path: 'secureme'
           fetch-depth: 0
 
       - name: Prepare ndk dir for restoring
@@ -122,7 +122,7 @@ jobs:
         env:
           cache-name: cache-flutter-installation
         with:
-          path: 'flutter'
+          path: '/'
           key: ${{ env.FLUTTER_RESTORE_KEY }}
           restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
 
@@ -150,7 +150,7 @@ jobs:
           flutter precache
           flutter pub get
           # flutter test
-        # working-directory: app
+        working-directory: secureme
 
       # - name: Build Android APK
       #   run: |

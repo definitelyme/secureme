@@ -143,14 +143,15 @@ jobs:
           fetch-depth: 0
       
       - name: Run Pre-build scipts
-      - run: |
-          ls $GITHUB_WORKSPACE
-          echo "Flutter repository next ======================+++>>>>>>>"
-          ls ${{ matrix.flutter_path }}
-          echo "Flutter repository next ======================+++>>>>>>>"
-          flutter pub get
-          # flutter test
-          flutter doctor -v
+          run: |
+            ls $GITHUB_WORKSPACE
+            echo "Flutter repository next ======================+++>>>>>>>"
+            ls ${{ matrix.flutter_path }}
+            echo "Flutter repository next ======================+++>>>>>>>"
+            flutter pub get
+            # flutter test
+            flutter doctor -v
+          working-directory: app
 
 
       # - name: Cache Flutter dependencies

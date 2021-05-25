@@ -68,7 +68,7 @@ jobs:
         with:
           repository: 'flutter/flutter'
           ref: ${{ env.FLUTTER_CHANNEL }}
-          path: '/'
+          # path: '/' 
           fetch-depth: 0
 
       - name: Set up Java Environment

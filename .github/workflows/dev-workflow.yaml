@@ -27,7 +27,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
-      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-01
+      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key
       NDK_RESTORE_KEY: ${{ matrix.os }}-android-ndk-21.0.6113669-v2
     strategy:
       fail-fast: false
@@ -54,13 +54,13 @@ jobs:
           key: ${{ env.FLUTTER_RESTORE_KEY }}
           restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
 
-      - name: Cache NDK Installation
-        id: ndk-cache
-        uses: actions/cache@v2
-        with:
-          path: ${{ matrix.ndk_path }}
-          key: ${{ env.NDK_RESTORE_KEY }}
-          restore-keys: ${{ env.NDK_RESTORE_KEY }}
+      # - name: Cache NDK Installation
+      #   id: ndk-cache
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ${{ matrix.ndk_path }}
+      #     key: ${{ env.NDK_RESTORE_KEY }}
+      #     restore-keys: ${{ env.NDK_RESTORE_KEY }}
 
       - name: Install Flutter Channel ${{ env.FLUTTER_CHANNEL }}-${{ env.FLUTTER_VERSION }}
         if: steps.flutter-cache.outputs.cache-hit != 'true'
@@ -76,9 +76,9 @@ jobs:
         with:
           java-version: 1.8
 
-      - name: Install NDK
-        if: steps.ndk-cache.outputs.cache-hit != 'true'
-        run: echo "y" | sudo ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --install "ndk;21.0.6113669"
+      # - name: Install NDK
+      #   if: steps.ndk-cache.outputs.cache-hit != 'true'
+      #   run: echo "y" | sudo ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --install "ndk;21.0.6113669"
 
   
   build:
@@ -90,7 +90,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
-      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-01
+      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key
       NDK_RESTORE_KEY: ${{ matrix.os }}-android-ndk-21.0.6113669-v2
     strategy:
       fail-fast: false
@@ -148,6 +148,7 @@ jobs:
         run: |
           flutter doctor -v
           flutter precache
+          flutter format --set-exit-if-changed --dry-run .
           flutter pub get
           # flutter test
         working-directory: secureme

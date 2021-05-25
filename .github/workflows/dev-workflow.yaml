@@ -27,6 +27,8 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
+      APP_RESTORE_KEY: ${{ runner.os }}-${{ env.APP_NAME }}-code
+      FLUTTER_RESTORE_KEY: ${{ runner.os }}-flutter-install-cache
     strategy:
       fail-fast: false
       matrix:
@@ -42,22 +44,21 @@ jobs:
           cache-name: cache-flutter-installation
         with:
           path: ${{ matrix.flutter_path }}
-          key: ${{ runner.os }}-flutter-install-cache
+          key: ${{ env.FLUTTER_RESTORE_KEY }}
           restore-keys: |
-            ${{ runner.os }}-flutter-install-cache
+            ${{ env.FLUTTER_RESTORE_KEY }}
             flutter-install-cache
 
-      - name: Cache / Restore Application app
+      - name: Cache / Restore Application Code
         uses: actions/cache@v2
         env:
-          cache-name: cache-application-app
+          cache-name: cache-${{ env.APP_NAME }}-application
         with:
           path: ${{ matrix.app_path }}
-          key: ${{ runner.os }}-${{ env.APP_NAME }}-code
+          key: ${{ env.APP_RESTORE_KEY }}
           restore-keys: |
-            ${{ runner.os }}-${{ env.APP_NAME }}-code
-            ${{ env.APP_NAME }}-app
-            app
+            ${{ env.APP_RESTORE_KEY }}
+            code
 
       - name: Checkout Flutter repository with stable channel.
         uses: actions/checkout@v2
@@ -88,6 +89,10 @@ jobs:
           ls
           echo "===========================================================>>>>>>>>>>>>"
           ls ${{ matrix.flutter_path }}
+          echo "===========================================================>>>>>>>>>>>>"
+          echo ${{ env.APP_RESTORE_KEY }}
+          echo "===========================================================>>>>>>>>>>>>"
+          echo ${{ env.FLUTTER_RESTORE_KEY }}
           echo "===========================================================>>>>>>>>>>>>"
           ls ${{ matrix.app_path }}
           echo "===========================================================>>>>>>>>>>>>"

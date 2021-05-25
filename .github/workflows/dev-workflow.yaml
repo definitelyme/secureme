@@ -50,7 +50,7 @@ jobs:
         env:
           cache-name: cache-flutter-installation
         with:
-          path: '/'
+          path: 'flutter'
           key: ${{ env.FLUTTER_RESTORE_KEY }}
           restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
 
@@ -68,7 +68,7 @@ jobs:
         with:
           repository: 'flutter/flutter'
           ref: ${{ env.FLUTTER_CHANNEL }}
-          # path: '/' 
+          path: 'flutter' 
           fetch-depth: 0
 
       - name: Set up Java Environment
@@ -122,7 +122,7 @@ jobs:
         env:
           cache-name: cache-flutter-installation
         with:
-          path: '/'
+          path: 'flutter'
           key: ${{ env.FLUTTER_RESTORE_KEY }}
           restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
 

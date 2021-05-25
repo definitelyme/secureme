@@ -49,6 +49,7 @@ jobs:
         run: |
           mv "$GITHUB_WORKSPACE/flutter/" /opt/hostedtoolcache/
           ls /opt/hostedtoolcache/
+          echo "This here is the flutter path"
           ls "${{ matrix.flutter_path }}"
 
       - name: Add Flutter to the PATH for Unix

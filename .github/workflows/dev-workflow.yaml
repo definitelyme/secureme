@@ -80,11 +80,11 @@ jobs:
         if: steps.ndk-cache.outputs.cache-hit != 'true'
         run: echo "y" | sudo ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --install "ndk;21.0.6113669"
 
-      - name: Post setup run scipts
-        run: |
-          flutter doctor -v
-          flutter precache
-        working-directory: flutter
+      # - name: Post setup run scipts
+      #   run: |
+      #     flutter doctor -v
+      #     flutter precache
+      #   working-directory: flutter
 
   build:
     name: Build APK
@@ -150,6 +150,7 @@ jobs:
       - name: Run Pre-build scipts
         run: |
           ls -a
+          flutter doctor -v
           flutter format --set-exit-if-changed --dry-run .
           flutter pub get
           # flutter test

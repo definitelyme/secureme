@@ -168,9 +168,8 @@ jobs:
       - name: Post build Android APK
         id: post_build_apk
         run: |
-          echo "DATE_TIME_NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
-          echo "ARMEABI_V7A_ARTIFACT=Android-armeabi-v7a-apk-${{ env.DATE_TIME_NOW }}" >> $GITHUB_ENV
-          echo "ARM64_V8A_ARTIFACT=Android-arm64-v8a-apk-${{ env.DATE_TIME_NOW }}" >> $GITHUB_ENV
+          echo "ARMEABI_V7A_ARTIFACT=Android-armeabi-v7a-apk-$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
+          echo "ARM64_V8A_ARTIFACT=Android-arm64-v8a-apk-$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
         working-directory: secureme
 
       - name: Archive APK (armeabi-v7a arch)
@@ -178,7 +177,7 @@ jobs:
         with:
           name: ${{ env.ARMEABI_V7A_ARTIFACT }}
           path: |
-            build/app/outputs/flutter-apk/app-armeabi-v7a-prod-release.apk
+            build/app/outputs/flutter-apk/app\-(armeabi\-v7a).*(\.apk)
           if-no-files-found: warn
           retention-days: 10
 
@@ -187,7 +186,7 @@ jobs:
         with:
           name: ${{ env.ARM64_V8A_ARTIFACT }}
           path: |
-            build/app/outputs/flutter-apk/app-arm64-v8a-prod-release.apk
+            build/app/outputs/flutter-apk/*.apk
           if-no-files-found: warn
           retention-days: 10
 

@@ -86,6 +86,7 @@ jobs:
           cd flutter
           flutter doctor -v
           flutter precache
+        working-directory: flutter
 
   build:
     name: Build APK

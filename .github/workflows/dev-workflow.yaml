@@ -97,6 +97,10 @@ jobs:
       FLUTTER_VERSION: "2.2.0"
       FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key
       NDK_RESTORE_KEY: ${{ matrix.os }}-android-ndk-21.0.6113669-v2
+    outputs:
+      now: ${{ env.DATE_TIME_NOW }}
+      armeabi_v7a: ${{ env.ARMEABI_V7A_ARTIFACT }}
+      arm64_v8a: ${{ env.ARM64_V8A_ARTIFACT }}
     strategy:
       fail-fast: false
       matrix:
@@ -164,50 +168,77 @@ jobs:
       - name: Post build Android APK
         id: post_build_apk
         run: |
-          echo "::set-output name=date::$(date +'%Y-%m-%d')"
+          echo "DATE_TIME_NOW::$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
+          echo "ARMEABI_V7A_ARTIFACT=Android-armeabi-v7a-apk-${{ env.DATE_TIME_NOW }}" >> $GITHUB_ENV
+          echo "ARM64_V8A_ARTIFACT=Android-arm64-v8a-apk-${{ env.DATE_TIME_NOW }}" >> $GITHUB_ENV
+        working-directory: secureme
 
-      - name: Archive APK Build Artifact
+      - name: Archive APK (armeabi-v7a arch)
         uses: actions/upload-artifact@master
         with:
-          name: Android-APK-${{ steps.post_build_apk.outputs.date }}
+          name: ${{ env.ARMEABI_V7A_ARTIFACT }}
           path: |
-            secureme/build/app/outputs/flutter-apk/*.apk
-            build/app/outputs/flutter-apk/*.apk
+            build/app/outputs/flutter-apk/app-armeabi-v7a-prod-release.apk
+          if-no-files-found: warn
+          retention-days: 10
+
+      - name: Archive APK (arm64-v8a arch)
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ env.ARM64_V8A_ARTIFACT }}
+          path: |
+            build/app/outputs/flutter-apk/app-arm64-v8a-prod-release.apk
+          if-no-files-found: warn
+          retention-days: 10
+
+      - name: Archive APK Symbols
+        uses: actions/upload-artifact@master
+        with:
+          name: APK-Build-Obfuscation-symbols
+          path: |
             secureme/build/app/outputs/apk/**/*.symbols
             build/app/outputs/apk/**/*.symbols
           if-no-files-found: warn
-          retention-days: 10
-  # bump-version:
-  #   name: Perform version bump
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     APP_NAME: "Secureme"
-  #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #   steps:
-  #     - name: Fetch Repo HEAD
-  #       uses: actions/checkout@master
-  #       with:
-  #         fetch-depth: 0
-  #     - name: Download Build Artifact
-  #       uses: actions/download-artifact@master
-  #       with:
-  #         name: ${{ env.APP_NAME }}-apk-artifact
-  #         path: /home/runner/work/secureme/secureme
-  #         if-no-files-found: error
-  #     # - name: Bump version and push tag
-  #     #   id: bump_tag
-  #     #   uses: mathieudutour/github-tag-action@v4.5
-  #     #   with:
-  #     #     release_branches: .*
-  #     #     github_token: ${{ env.GITHUB_TOKEN }}
-  #     # - name: Push new version to Release Tags
-  #     #   uses: ncipollo/release-action@v1
-  #     #   with:
-  #     #     name: ${{ env.APP_NAME }}-${{ steps.bump_tag.outputs.new_version }}
-  #     #     tag: ${{ steps.bump_tag.outputs.new_tag }}
-  #     #     token: ${{ env.GITHUB_TOKEN }}
-  #     #     body: A new release of ${{ env.APP_NAME }} is available!
-  #     #     allowUpdates: false
-  #     #     omitName: false
-  #     #     omitBody: false
+          retention-days: 5
+
+  bump-version:
+    name: Bump build version
+    needs: build
+    runs-on: ${{ matrix.os }}
+    env:
+      APP_NAME: "Secureme"
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        include:
+          - os: ubuntu-latest
+    steps:
+      - name: Test outputs
+        run: |
+          echo ${{ needs.build.outputs.now }}
+          echo ${{ needs.build.outputs.armeabi_v7a }}
+          echo ${{ needs.build.outputs.arm64_v8a }}
+      # - name: Download Build Artifact
+      #   uses: actions/download-artifact@master
+      #   with:
+      #     name: ${{ env.APP_NAME }}-apk-artifact
+      #     path: /home/runner/work/secureme/secureme
+      #     if-no-files-found: error
+  # - name: Bump version and push tag
+  #   id: bump_tag
+  #   uses: mathieudutour/github-tag-action@v4.5
+  #   with:
+  #     release_branches: .*
+  #     github_token: ${{ env.GITHUB_TOKEN }}
+  # - name: Push new version to Release Tags
+  #   uses: ncipollo/release-action@v1
+  #   with:
+  #     name: ${{ env.APP_NAME }}-${{ steps.bump_tag.outputs.new_version }}
+  #     tag: ${{ steps.bump_tag.outputs.new_tag }}
+  #     token: ${{ env.GITHUB_TOKEN }}
+  #     body: A new release of ${{ env.APP_NAME }} is available!
+  #     allowUpdates: false
+  #     omitName: false
+  #     omitBody: false

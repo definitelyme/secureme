@@ -28,7 +28,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
-      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key
+      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key-001
       NDK_RESTORE_KEY: ${{ matrix.os }}-android-ndk-21.0.6113669-v2
     strategy:
       fail-fast: false
@@ -96,7 +96,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
-      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key
+      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key-001
       NDK_RESTORE_KEY: ${{ matrix.os }}-android-ndk-21.0.6113669-v2
     outputs:
       now: ${{ env.DATE_TIME_NOW }}
@@ -169,8 +169,8 @@ jobs:
       - name: Post build Android APK
         id: post_build_apk
         run: |
-          echo "ARMEABI_V7A_ARTIFACT=Android-armeabi-v7a-apk-$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
-          echo "ARM64_V8A_ARTIFACT=Android-arm64-v8a-apk-$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
+          echo "ARMEABI_V7A_ARTIFACT=Android-armeabi-v7a-apk-$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_ENV
+          echo "ARM64_V8A_ARTIFACT=Android-arm64-v8a-apk-$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_ENV
         working-directory: secureme
 
       - name: Archive APK (armeabi-v7a arch)

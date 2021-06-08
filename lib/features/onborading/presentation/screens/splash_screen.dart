@@ -18,7 +18,7 @@ class SplashScreen extends StatelessWidget with AutoRouteWrapper {
         listener: (context, state) {
           if (state.isLoading == false)
             navigator.pushAndPopUntil(
-              Onboarding(),
+              OnboardingRoute(),
               predicate: (_) => false,
             );
         },

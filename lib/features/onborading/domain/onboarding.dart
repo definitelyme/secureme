@@ -2,6 +2,7 @@ library onboarding.dart;
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kt_dart/collection.dart';
+import 'package:secureme/utils/utils.dart';
 
 part 'onboarding.freezed.dart';
 
@@ -19,20 +20,26 @@ class OnboardingItem<Pixel> with _$OnboardingItem<Pixel> {
   static KtList<OnboardingItem<String>> get list => KtList.from([
         OnboardingItem(
           title: 'Report a crime',
-          description: 'Reporting description',
-          image: 'image',
+          description: 'Lorem ipsum dolor sit amet, consectetur'
+              'adipiscing elit, sed do eiusmod tempor'
+              'incididunt ut labore et dolore magna aliqua.',
+          image: AppAssets.civilian,
         ),
         //
         OnboardingItem(
           title: 'Find an officer',
-          description: 'I found the chief',
-          image: 'image',
+          description: 'Lorem ipsum dolor sit amet, consectetur'
+              'adipiscing elit, sed do eiusmod tempor'
+              'incididunt ut labore et dolore magna aliqua.',
+          image: AppAssets.officer,
         ),
         //
         OnboardingItem(
           title: 'Safety Always!',
-          description: 'Brief Decription here',
-          image: 'image',
+          description: 'Lorem ipsum dolor sit amet, consectetur'
+              'adipiscing elit, sed do eiusmod tempor'
+              'incididunt ut labore et dolore magna aliqua.',
+          image: AppAssets.getHelp,
         ),
       ]);
 }

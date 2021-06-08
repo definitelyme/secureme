@@ -39,7 +39,7 @@ class Helpers {
   static const String currency = '₦';
 
   static double buttonRadius = 12.0;
-  static double appPadding = App.shortest! * 0.04;
+  static double appPadding = App.shortest * 0.05;
   static double inputBorderRadius = 16.0;
   static Future<Directory?> get rootDir async =>
       await getExternalStorageDirectory();
@@ -240,7 +240,7 @@ class Helpers {
   double get width => MediaQuery.of(context).size.width;
 
   /// give access to Immutable MediaQuery.of(context).size.shortestSide
-  double? get shortest => MediaQuery.of(context).size.shortestSide;
+  double get shortest => MediaQuery.of(context).size.shortestSide;
 
   /// give access to Immutable MediaQuery.of(context).size.shortestSide
   double get longest => MediaQuery.of(context).size.longestSide;

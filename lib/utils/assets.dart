@@ -8,11 +8,11 @@ mixin AppAssets {
   static const IMAGES_DIR = '$ASSETS_DIR/images';
   // Sub-folders
   //////////////  IMAGES  ////////////
-  static const String ONBOARDING_PROFILE_IMAGES_DIR =
-      '$IMAGES_DIR/onboarding/profile';
+  static const String ONBOARDING_IMAGES_DIR = '$IMAGES_DIR/onboarding';
 
   /////////////  SVGS /////////////
   static const String AUTH_SVG_DIR = '$SVG_DIR/auth';
+  static const String ONBOARDING_SVG_DIR = '$SVG_DIR/onboarding';
 
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
@@ -20,6 +20,10 @@ mixin AppAssets {
   static const String logo = '$IMAGES_DIR/logo.png';
 
   static const String user = '$IMAGES_DIR/user.png';
+
+  static const String civilian = '$ONBOARDING_SVG_DIR/civilian.svg';
+  static const String officer = '$ONBOARDING_SVG_DIR/officer.svg';
+  static const String getHelp = '$ONBOARDING_SVG_DIR/get_help.svg';
 
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////

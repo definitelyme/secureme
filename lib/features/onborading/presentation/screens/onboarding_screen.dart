@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kt_dart/collection.dart';
 import 'package:secureme/features/onborading/domain/onboarding.dart';
 import 'package:secureme/features/onborading/presentation/managers/index.dart';
@@ -26,11 +27,7 @@ class OnboardingScreen extends StatelessWidget with AutoRouteWrapper {
     return AdaptiveScaffold(
       body: Stack(
         children: [
-          Positioned(
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
+          Positioned.fill(
             child: BlocBuilder<OnboardingCubit, OnboardingState>(
               builder: (c, s) => PageView.builder(
                 itemCount: context.read<OnboardingCubit>().items.size,
@@ -45,6 +42,21 @@ class OnboardingScreen extends StatelessWidget with AutoRouteWrapper {
           ),
           //
           Positioned(
+            top: 0,
+            right: 0,
+            child: SafeArea(
+              child: AppButton(
+                onPressed: () => navigator.pushAndPopUntil(
+                  LoginRoute(),
+                  predicate: (_) => false,
+                ),
+                text: 'Skip',
+                textColor: AppColors.errorRed,
+              ),
+            ),
+          ),
+          //
+          Positioned(
             left: App.height * 0.02,
             right: App.height * 0.02,
             bottom: App.height * 0.02,
@@ -52,43 +64,65 @@ class OnboardingScreen extends StatelessWidget with AutoRouteWrapper {
               builder: (c, s) => Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AnimatedSmoothIndicator(
-                    activeIndex: s.currentIndex,
-                    count: context.read<OnboardingCubit>().items.size,
-                    effect: ExpandingDotsEffect(
-                      expansionFactor: 3.5,
-                      activeDotColor: App.theme.accentColor,
-                      radius: 100.0,
-                      spacing: 6.0,
-                      dotHeight: App.height * 0.006,
-                      dotWidth: 8.0,
-                      dotColor: AppColors.accentColor.shade100,
+                  Visibility(
+                    visible: s.currentIndex != 0,
+                    child: AppIconButton(
+                      onPressed: context.read<OnboardingCubit>().prev,
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
+                      child: RotatedBox(
+                        quarterTurns: 2,
+                        child: Icon(
+                          Icons.navigate_next_rounded,
+                          color: Helpers.computeLuminance(
+                            Theme.of(context).scaffoldBackgroundColor,
+                          ),
+                          size: 28.0,
+                        ),
+                      ),
                     ),
                   ),
                   //
                   Visibility(
-                    visible: context
+                    visible: !context
                         .read<OnboardingCubit>()
                         .isLast(right(s.currentIndex)),
-                    maintainSize: true,
-                    maintainState: true,
-                    maintainAnimation: true,
-                    child: Material(
-                      color: AppColors.accentColor,
-                      elevation: 2.0,
-                      clipBehavior: Clip.antiAlias,
-                      type: MaterialType.circle,
-                      child: InkWell(
-                        onTap: context.read<OnboardingCubit>().next,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                          child: Icon(
-                            Icons.navigate_next_rounded,
-                            color: Colors.white,
-                            size: 28.0,
-                          ),
+                    child: AnimatedSmoothIndicator(
+                      activeIndex: s.currentIndex,
+                      count: context.read<OnboardingCubit>().items.size,
+                      effect: ExpandingDotsEffect(
+                        expansionFactor: 3.5,
+                        activeDotColor: App.theme.accentColor,
+                        radius: 100.0,
+                        spacing: 6.0,
+                        dotHeight: App.height * 0.006,
+                        dotWidth: 6.0,
+                        dotColor: AppColors.accentColor.shade100,
+                      ),
+                    ),
+                  ),
+                  //
+                  Visibility(
+                    visible: !context
+                        .read<OnboardingCubit>()
+                        .isLast(right(s.currentIndex)),
+                    replacement: AppButton(
+                      onPressed: () => navigator.pushAndPopUntil(
+                        UserOptionRoute(),
+                        predicate: (_) => false,
+                      ),
+                      text: 'Get Started!',
+                    ),
+                    child: AppIconButton(
+                      onPressed: context.read<OnboardingCubit>().next,
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
+                      child: Icon(
+                        Icons.navigate_next_rounded,
+                        color: Helpers.computeLuminance(
+                          Theme.of(context).scaffoldBackgroundColor,
                         ),
+                        size: 28.0,
                       ),
                     ),
                   ),
@@ -112,73 +146,50 @@ class OnBoardingItemBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: Helpers.appPadding),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Flexible(
-            child: Image(
-              image: AssetImage('${AppAssets.logo}'),
-              fit: BoxFit.contain,
-            ),
-          ),
-          Flexible(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Flexible(
-                  child: AutoSizeText(
-                    '${item!.title}',
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                      color: App.theme.accentColor,
-                    ),
-                    softWrap: true,
-                    wrapWords: true,
-                  ),
+      child: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Flexible(
+              child: AutoSizeText(
+                '${item!.title}',
+                textAlign: TextAlign.start,
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold,
                 ),
-                //
-                VerticalSpace(height: App.height * 0.035),
-                //
-                Flexible(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: App.shortest! * 0.035,
-                    ),
-                    child: AutoSizeText(
-                      '${item!.description}',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 17.0, wordSpacing: 2.0),
-                      softWrap: true,
-                      wrapWords: true,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          //
-          Flexible(
-            child: Visibility(
-              visible: context.read<OnboardingCubit>().isLast(left(item!)),
-              maintainAnimation: true,
-              maintainSize: true,
-              maintainState: true,
-              child: AppElevatedButton(
-                onPressed: () {
-                  print("Okay Let's get started");
-                },
-                text: 'Get Started!',
-                width: App.width * 0.28,
-                height: App.height * 0.05,
+                softWrap: true,
+                wrapWords: true,
               ),
             ),
-          ),
-        ],
+            //
+            Flexible(
+              child: AutoSizeText(
+                '${item!.description}',
+                textAlign: TextAlign.start,
+                style: TextStyle(fontSize: 17.0, wordSpacing: 2.0),
+                softWrap: true,
+                wrapWords: true,
+              ),
+            ),
+
+            //
+            Flexible(
+              flex: 3,
+              child: SvgPicture.asset(
+                item!.image,
+                width: App.shortest,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

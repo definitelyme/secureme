@@ -11,15 +11,15 @@ import 'package:secureme/utils/utils.dart';
 import 'package:secureme/widgets/widgets.dart';
 import 'package:secureme/features/core/presentation/index.dart';
 
+/// Application Router
+final AppRouter _router = AppRouter();
+
 class Secureme extends StatelessWidget {
   /// This is the entry point for Secureme App
   const Secureme({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    /// Application Router
-    final _router = AppRouter();
-
     return MultiBlocProvider(
       providers: [
         BlocProvider<ThemeCubit>(create: (_) => getIt<ThemeCubit>()),

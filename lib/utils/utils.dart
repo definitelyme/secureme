@@ -11,6 +11,8 @@ export 'extensions/list_extension.dart';
 export 'extensions/num_extension.dart';
 export 'extensions/string_extension.dart';
 export 'extensions/response_extension.dart';
+export 'extensions/platform_extension.dart';
+export 'extensions/button_type_extension.dart';
 export 'helpers.dart';
 export 'smartlets_icons.dart';
 export 'strings.dart';

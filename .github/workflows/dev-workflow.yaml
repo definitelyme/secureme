@@ -50,7 +50,7 @@ jobs:
         env:
           cache-name: cache-flutter-installation
         with:
-          path: 'flutter'
+          path: "flutter"
           key: ${{ env.FLUTTER_RESTORE_KEY }}
           restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
 
@@ -66,9 +66,9 @@ jobs:
         if: steps.flutter-cache.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
-          repository: 'flutter/flutter'
+          repository: "flutter/flutter"
           ref: ${{ env.FLUTTER_CHANNEL }}
-          path: 'flutter' 
+          path: "flutter"
           fetch-depth: 0
 
       - name: Set up Java Environment
@@ -80,7 +80,6 @@ jobs:
       #   if: steps.ndk-cache.outputs.cache-hit != 'true'
       #   run: echo "y" | sudo ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --install "ndk;21.0.6113669"
 
-  
   build:
     name: Build APK
     runs-on: ${{ matrix.os }}
@@ -105,7 +104,7 @@ jobs:
       - name: Checkout to ${{ env.APP_NAME }} Repository
         uses: actions/checkout@v2
         with:
-          path: 'secureme'
+          path: "secureme"
           fetch-depth: 0
 
       - name: Prepare ndk dir for restoring
@@ -122,7 +121,7 @@ jobs:
         env:
           cache-name: cache-flutter-installation
         with:
-          path: 'flutter'
+          path: "flutter"
           key: ${{ env.FLUTTER_RESTORE_KEY }}
           restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
 
@@ -139,11 +138,11 @@ jobs:
         run: |
           echo "${{ matrix.flutter_path }}" >> $GITHUB_PATH
           echo "${{ matrix.flutter_path }}/bin" >> $GITHUB_PATH
-      
+
       - name: Add Flutter to the PATH for Windows
         if: startsWith(matrix.os, 'windows')
         run: echo "${env:GITHUB_WORKSPACE}\flutter\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-      
+
       - name: Run Pre-build scipts
         run: |
           flutter doctor -v
@@ -153,22 +152,21 @@ jobs:
           # flutter test
         working-directory: secureme
 
-      # - name: Build Android APK
-      #   run: |
-      #     flutter build apk -t lib/main.dart --release --target-platform android-arm,android-arm64 --split-per-abi  --flavor=prod --obfuscate --split-debug-info=./build/app/outputs/apk/obfuscation --dart-define=BUILD_NUMBER=$BUILD_NUMBER --dart-define=BUILD_VERSION=$BUILD_VERSION --dart-define=BUILD_COMMIT=$FCI_COMMIT
-      #   # working-directory: app
+      - name: Build Android APK
+        run: |
+          flutter build apk -t lib/main.dart --release --target-platform android-arm,android-arm64 --split-per-abi  --flavor=prod --obfuscate --split-debug-info=./build/app/outputs/apk/obfuscation --dart-define=BUILD_NUMBER=$BUILD_NUMBER --dart-define=BUILD_VERSION=$BUILD_VERSION --dart-define=BUILD_COMMIT=$FCI_COMMIT
+        working-directory: secureme
 
-      # - name: Show output path
-      #   run: |
-      #     ls ${{ env.GITHUB_WORKSPACE }}/build
-      #     echo "===============>>>>>>>>>>><<<?????????????????/////////////#######################"
-      #     ls ${{ env.GITHUB_WORKSPACE }}/build/app/outputs
-      #     echo "===============>>>>>>>>>>><<<?????????????????/////////////#######################"
-      #     ls ${{ env.GITHUB_WORKSPACE }}/build/app/outputs/apk
-      #     echo "===============>>>>>>>>>>><<<?????????????????/////////////#######################"
-      #     ls ${{ env.GITHUB_WORKSPACE }}/build/app/outputs/apk/release
-      #   # working-directory: app
-
+      - name: Show output path
+        run: |
+          ls ${{ env.GITHUB_WORKSPACE }}/build
+          echo "===============>>>>>>>>>>><<<?????????????????/////////////#######################"
+          ls ${{ env.GITHUB_WORKSPACE }}/build/app/outputs
+          echo "===============>>>>>>>>>>><<<?????????????????/////////////#######################"
+          ls ${{ env.GITHUB_WORKSPACE }}/build/app/outputs/apk
+          echo "===============>>>>>>>>>>><<<?????????????????/////////////#######################"
+          ls ${{ env.GITHUB_WORKSPACE }}/build/app/outputs/apk/release
+        working-directory: secureme
       # - name: Archive Build Artifact
       #   uses: actions/upload-artifact@master
       #   with:
@@ -176,8 +174,6 @@ jobs:
       #     path: /home/runner/work/secureme/secureme/
       #     if-no-files-found: error
       #     retention-days: 2
-
-
   # bump-version:
   #   name: Perform version bump
   #   needs: build
@@ -190,21 +186,18 @@ jobs:
   #       uses: actions/checkout@master
   #       with:
   #         fetch-depth: 0
-
   #     - name: Download Build Artifact
   #       uses: actions/download-artifact@master
   #       with:
   #         name: ${{ env.APP_NAME }}-apk-artifact
   #         path: /home/runner/work/secureme/secureme
   #         if-no-files-found: error
-
   #     # - name: Bump version and push tag
   #     #   id: bump_tag
   #     #   uses: mathieudutour/github-tag-action@v4.5
   #     #   with:
   #     #     release_branches: .*
   #     #     github_token: ${{ env.GITHUB_TOKEN }}
-
   #     # - name: Push new version to Release Tags
   #     #   uses: ncipollo/release-action@v1
   #     #   with:

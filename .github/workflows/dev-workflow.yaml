@@ -54,13 +54,13 @@ jobs:
           key: ${{ env.FLUTTER_RESTORE_KEY }}
           restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
 
-      # - name: Cache NDK Installation
-      #   id: ndk-cache
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: ${{ matrix.ndk_path }}
-      #     key: ${{ env.NDK_RESTORE_KEY }}
-      #     restore-keys: ${{ env.NDK_RESTORE_KEY }}
+      - name: Cache NDK Installation
+        id: ndk-cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ matrix.ndk_path }}
+          key: ${{ env.NDK_RESTORE_KEY }}
+          restore-keys: ${{ env.NDK_RESTORE_KEY }}
 
       - name: Install Flutter Channel ${{ env.FLUTTER_CHANNEL }}-${{ env.FLUTTER_VERSION }}
         if: steps.flutter-cache.outputs.cache-hit != 'true'
@@ -76,9 +76,14 @@ jobs:
         with:
           java-version: 1.8
 
-      # - name: Install NDK
-      #   if: steps.ndk-cache.outputs.cache-hit != 'true'
-      #   run: echo "y" | sudo ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --install "ndk;21.0.6113669"
+      - name: Install NDK
+        if: steps.ndk-cache.outputs.cache-hit != 'true'
+        run: echo "y" | sudo ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --install "ndk;21.0.6113669"
+
+      - name: Run Post setup scipts
+        run: |
+          flutter doctor -v
+          flutter precache
 
   build:
     name: Build APK
@@ -98,7 +103,7 @@ jobs:
         include:
           - os: ubuntu-latest
             flutter_path: "$GITHUB_WORKSPACE/flutter"
-            # app_path: "$GITHUB_WORKSPACE/app"
+            app_path: "$GITHUB_WORKSPACE/secureme"
             ndk_path: "/usr/local/lib/android/sdk/ndk"
     steps:
       - name: Checkout to ${{ env.APP_NAME }} Repository
@@ -145,8 +150,6 @@ jobs:
 
       - name: Run Pre-build scipts
         run: |
-          flutter doctor -v
-          flutter precache
           flutter format --set-exit-if-changed --dry-run .
           flutter pub get
           # flutter test
@@ -154,7 +157,7 @@ jobs:
 
       - name: Build Android APK
         run: |
-          flutter build apk -t lib/main.dart --release --target-platform android-arm,android-arm64 --split-per-abi  --flavor=prod --obfuscate --split-debug-info=./build/app/outputs/apk/obfuscation --dart-define=BUILD_NUMBER=$BUILD_NUMBER --dart-define=BUILD_VERSION=$BUILD_VERSION --dart-define=BUILD_COMMIT=$FCI_COMMIT
+          flutter build apk -t lib/main.dart --release --target-platform android-arm,android-arm64 --split-per-abi  --flavor prod --obfuscate --split-debug-info=./build/app/outputs/apk/obfuscation
         working-directory: secureme
 
       - name: Show output path

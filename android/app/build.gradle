@@ -21,8 +21,26 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+def devStoreFile = keystoreProperties.getProperty('debug.file')
+def devStorePassword = keystoreProperties.getProperty('debug.storePassword')
+def devKeyAlias = keystoreProperties.getProperty('debug.alias')
+def devKeyPassword = keystoreProperties.getProperty('debug.keyPassword')
+
+def prodStoreFile = keystoreProperties.getProperty('prod.file')
+def prodStorePassword = keystoreProperties.getProperty('prod.storePassword')
+def prodKeyAlias = keystoreProperties.getProperty('prod.alias')
+def prodKeyPassword = keystoreProperties.getProperty('prod.keyPassword')
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
@@ -35,7 +53,6 @@ android {
     lintOptions {
         disable 'InvalidPackage'
         checkReleaseBuilds false // Add this
-        // abortOnError false
     }
 
     defaultConfig {
@@ -49,29 +66,22 @@ android {
     }
 
     signingConfigs {
-        debug {
-            storeFile file(keyProperties['devStoreFile'])
-            storePassword keyProperties['devStorePassword']
-            keyAlias keyProperties['devKeyAlias']
-            keyPassword keyProperties['devKeyPassword']
+        dev {
+            storeFile rootProject.file(devStoreFile)
+            storePassword devStorePassword
+            keyAlias devKeyAlias
+            keyPassword devKeyPassword
         }
-        release {
-            storeFile file(keyProperties['prodStoreFile']) ? file(keyProperties['prodStoreFile']) : null
-            storePassword keyProperties['prodStorePassword']
-            keyAlias keyProperties['prodKeyAlias']
-            keyPassword keyProperties['prodKeyPassword']
+        prod {
+            storeFile rootProject.file(prodStoreFile)
+            storePassword prodStorePassword
+            keyAlias prodKeyAlias
+            keyPassword prodKeyPassword
         }
     }
 
     buildTypes {
-        debug {
-            signingConfig signingConfigs.debug
-        }
-
         release {
-            // shrinkResources true
-            // minifyEnabled true
-            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -83,11 +93,11 @@ android {
             dimension "app"
             versionNameSuffix "-dev"
             applicationIdSuffix ".dev"
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.dev
         }
         prod {
             dimension "app"
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.prod
         }
     }
 }
@@ -98,10 +108,10 @@ flutter {
 
 dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation platform('com.google.firebase:firebase-bom:26.7.0')
+    implementation platform('com.google.firebase:firebase-bom:28.1.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }

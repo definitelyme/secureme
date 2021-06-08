@@ -72,6 +72,12 @@ jobs:
           path: "flutter"
           fetch-depth: 0
 
+      - name: Add Flutter to the PATH for Unix
+        if: startsWith(matrix.os, 'macOS') || startsWith(matrix.os, 'ubuntu')
+        run: |
+          echo "${{ matrix.flutter_path }}" >> $GITHUB_PATH
+          echo "${{ matrix.flutter_path }}/bin" >> $GITHUB_PATH
+
       - name: Set up Java Environment
         uses: actions/setup-java@v1
         with:
@@ -83,7 +89,8 @@ jobs:
 
       - name: Post setup run scipts
         run: |
-          cd flutter
+          # cd flutter
+          flutter doctor --android-licenses
           flutter doctor -v
           flutter precache
         working-directory: flutter

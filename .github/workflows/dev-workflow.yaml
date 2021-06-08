@@ -178,7 +178,7 @@ jobs:
         with:
           name: ${{ env.ARMEABI_V7A_ARTIFACT }}
           path: |
-            build/app/outputs/flutter-apk/app-(armeabi-v7a).*(.apk)
+            secureme/build/app/outputs/flutter-apk/app-(armeabi-v7a).*(.apk)
           if-no-files-found: warn
           retention-days: 10
 
@@ -187,7 +187,7 @@ jobs:
         with:
           name: ${{ env.ARM64_V8A_ARTIFACT }}
           path: |
-            build/app/outputs/flutter-apk/*.apk
+            secureme/build/app/outputs/flutter-apk/*.apk
           if-no-files-found: warn
           retention-days: 10
 

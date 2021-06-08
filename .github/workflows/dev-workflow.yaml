@@ -151,9 +151,10 @@ jobs:
         run: |
           ls -a
           flutter doctor -v
-          # flutter format --set-exit-if-changed --dry-run .
+          flutter format --dry-run .
           flutter pub get
           # flutter test
+          # flutter doctor --android-licenses
         working-directory: secureme
 
       - name: Build Android APK

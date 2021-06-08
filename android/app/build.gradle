@@ -30,8 +30,12 @@ android {
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        checkReleaseBuilds false
-//        abortOnError false
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
+        checkReleaseBuilds false // Add this
+        // abortOnError false
     }
 
     defaultConfig {

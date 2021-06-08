@@ -177,7 +177,7 @@ jobs:
         with:
           name: ${{ env.ARMEABI_V7A_ARTIFACT }}
           path: |
-            build/app/outputs/flutter-apk/app\-(armeabi\-v7a).*(\.apk)
+            build/app/outputs/flutter-apk/app-(armeabi-v7a).*(.apk)
           if-no-files-found: warn
           retention-days: 10
 

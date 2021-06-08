@@ -72,12 +72,6 @@ jobs:
           path: "flutter"
           fetch-depth: 0
 
-      - name: Add Flutter to the PATH for Unix
-        if: startsWith(matrix.os, 'macOS') || startsWith(matrix.os, 'ubuntu')
-        run: |
-          echo "${{ matrix.flutter_path }}" >> $GITHUB_PATH
-          echo "${{ matrix.flutter_path }}/bin" >> $GITHUB_PATH
-
       - name: Set up Java Environment
         uses: actions/setup-java@v1
         with:
@@ -89,11 +83,10 @@ jobs:
 
       # - name: Post setup run scipts
       #   run: |
-      #     # cd flutter
-      #     # flutter doctor --android-licenses
+      #     cd flutter
       #     flutter doctor -v
       #     flutter precache
-      #   working-directory: flutter
+      #   working-directory: secureme
 
   build:
     name: Build APK
@@ -166,7 +159,6 @@ jobs:
           flutter format --dry-run .
           flutter pub get
           # flutter test
-          # flutter doctor --android-licenses
         working-directory: secureme
 
       - name: Build Android APK

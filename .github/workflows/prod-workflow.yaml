@@ -13,10 +13,12 @@ on:
 
   push:
     branches:
-      - dev
+      - main
+      - releases
   pull_request:
     branches:
-      - dev
+      - main
+      - releases
     types:
       - opened
       - reopened

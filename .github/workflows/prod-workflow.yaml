@@ -1,4 +1,4 @@
-name: Build Debug APK (Release mode)
+name: Build Production APK
 on:
   workflow_dispatch:
     inputs:
@@ -26,7 +26,7 @@ on:
 
 jobs:
   setup:
-    name: Setup Environment
+    name: Setup Build Environment
     runs-on: ${{ matrix.os }}
     continue-on-error: true
     env:

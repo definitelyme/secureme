@@ -1,4 +1,4 @@
-name: Build Debug APK (Release mode)
+name: Build Debug APK
 on:
   workflow_dispatch:
     inputs:
@@ -52,8 +52,6 @@ jobs:
       - name: Cache Flutter Installation
         id: flutter-cache
         uses: actions/cache@v2
-        env:
-          cache-name: cache-flutter-installation
         with:
           path: "flutter"
           key: ${{ env.FLUTTER_RESTORE_KEY }}
@@ -84,13 +82,6 @@ jobs:
       - name: Install NDK
         if: steps.ndk-cache.outputs.cache-hit != 'true'
         run: echo "y" | sudo ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --install "ndk;21.0.6113669"
-
-      # - name: Post setup run scipts
-      #   run: |
-      #     cd flutter
-      #     flutter doctor -v
-      #     flutter precache
-      #   working-directory: secureme
 
   build:
     name: Build APK
@@ -132,8 +123,6 @@ jobs:
       - name: Restore Flutter Cache
         id: flutter-cache
         uses: actions/cache@v2
-        env:
-          cache-name: cache-flutter-installation
         with:
           path: "flutter"
           key: ${{ env.FLUTTER_RESTORE_KEY }}
@@ -200,68 +189,3 @@ jobs:
           path: secureme/**/*.symbols
           if-no-files-found: warn
           retention-days: 5
-
-  bump-version:
-    name: Bump build version
-    needs: build
-    runs-on: ${{ matrix.os }}
-    continue-on-error: true
-    env:
-      APP_NAME: "Secureme"
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest]
-        include:
-          - os: ubuntu-latest
-    steps:
-      - name: Download APK (armeabi-v7a arch)
-        uses: actions/download-artifact@master
-        with:
-          name: ${{ needs.build.outputs.armeabi_v7a }}
-          if-no-files-found: error
-
-      - name: Download APK (arm64-v8a arch)
-        uses: actions/download-artifact@master
-        with:
-          name: ${{ needs.build.outputs.arm64_v8a }}
-          if-no-files-found: error
-
-      - name: Display structure of downloaded files
-        run: |
-          ls -R
-          ls -a
-
-      - name: Create Release tag
-        id: create_release_tag
-        if: ${{ github.event.inputs.version == '' }}
-        uses: mathieudutour/github-tag-action@v4.5
-        with:
-          release_branches: .*
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Update Environment variables
-        run: |
-          if ${{ github.event.inputs.version == '' }}; then
-            echo "BUMP_TAG=${{ steps.create_release_tag.outputs.new_tag }}" >> $GITHUB_ENV
-            echo "BUMP_VERSION=${{ steps.create_release_tag.outputs.new_version }}" >> $GITHUB_ENV
-            echo "CHANGE_LOG=${{ steps.create_release_tag.outputs.changelog }}" >> $GITHUB_ENV
-          else
-            echo "BUMP_TAG=v${{ github.event.inputs.version}}" >> $GITHUB_ENV
-            echo "BUMP_VERSION=${{ github.event.inputs.version}}" >> $GITHUB_ENV
-            echo "CHANGE_LOG=Custom Workflow dispatch. Please check repo for changelog." >> $GITHUB_ENV
-          fi
-
-      - name: Push new version to Release Tags
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "build/app/outputs/flutter-apk/*.apk"
-          name: ${{ env.APP_NAME }}-${{ env.BUMP_VERSION }}
-          tag: ${{ env.BUMP_TAG }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          body: ${{ env.CHANGE_LOG }}
-          allowUpdates: true
-          omitName: false
-          omitBody: false
-          replacesArtifacts: true

@@ -217,18 +217,10 @@ jobs:
           name: ${{ needs.build.outputs.arm64_v8a }}
           if-no-files-found: error
 
-      - name: Display structure of downloaded files
-        run: |
-          ls -R
-          ls -a
-
-      # - name: Create Release tag
-      #   id: create_release_tag
-      #   if: ${{ github.event.inputs.version == '' }}
-      #   uses: mathieudutour/github-tag-action@v4.5
-      #   with:
-      #     release_branches: .*
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout to ${{ env.APP_NAME }} Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Get Previous tag
         id: previoustag

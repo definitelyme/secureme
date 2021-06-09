@@ -6,6 +6,10 @@ on:
         description: Specify Bump version
         required: true
         default: 1.0.0
+      release:
+        description: Release the outputs of this run
+        required: false
+        default: "false"
 
   push:
     branches:
@@ -171,36 +175,29 @@ jobs:
         run: |
           echo "ARMEABI_V7A_ARTIFACT=Android-armeabi-v7a-apk-$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_ENV
           echo "ARM64_V8A_ARTIFACT=Android-arm64-v8a-apk-$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_ENV
-
-          echo "ARM64_V8A_PATH=$(ls build/**/app-armeabi-v7a* | head -1)" >> $GITHUB_ENV
-          echo "ARM64_V8A_PATH=$(ls build/**/app-arm64-v8a* | head -1)" >> $GITHUB_ENV
         working-directory: secureme
 
-      - name: Archive APK (armeabi-v7a arch)
+      - name: Upload APK (armeabi-v7a arch)
         uses: actions/upload-artifact@master
         with:
           name: ${{ env.ARMEABI_V7A_ARTIFACT }}
-          path: |
-            secureme/build/**/app-armeabi-v7a*
+          path: secureme/**/app-armeabi-v7a*
           if-no-files-found: warn
           retention-days: 10
 
-      - name: Archive APK (arm64-v8a arch)
+      - name: Upload APK (arm64-v8a arch)
         uses: actions/upload-artifact@master
         with:
           name: ${{ env.ARM64_V8A_ARTIFACT }}
-          path: |
-            secureme/build/**/app-arm64-v8a*
+          path: secureme/**/app-arm64-v8a*
           if-no-files-found: warn
           retention-days: 10
 
-      - name: Archive APK Symbols
+      - name: Upload APK Symbols
         uses: actions/upload-artifact@master
         with:
-          name: APK-Build-Obfuscation-symbols
-          path: |
-            secureme/build/app/outputs/apk/**/*.symbols
-            build/app/outputs/apk/**/*.symbols
+          name: Obfuscation-symbols
+          path: secureme/**/*.symbols
           if-no-files-found: warn
           retention-days: 5
 
@@ -219,30 +216,53 @@ jobs:
         include:
           - os: ubuntu-latest
     steps:
-      - name: Test outputs
+      - name: Download APK (armeabi-v7a arch)
+        uses: actions/download-artifact@master
+        with:
+          name: ${{ needs.build.outputs.armeabi_v7a }}
+          if-no-files-found: error
+
+      - name: Download APK (arm64-v8a arch)
+        uses: actions/download-artifact@master
+        with:
+          name: ${{ needs.build.outputs.arm64_v8a }}
+          if-no-files-found: error
+
+      - name: Display structure of downloaded files
         run: |
-          echo ${{ needs.build.outputs.now }}
-          echo ${{ needs.build.outputs.armeabi_v7a }}
-          echo ${{ needs.build.outputs.arm64_v8a }}
-      # - name: Download Build Artifact
-      #   uses: actions/download-artifact@master
-      #   with:
-      #     name: ${{ env.APP_NAME }}-apk-artifact
-      #     path: /home/runner/work/secureme/secureme
-      #     if-no-files-found: error
-  # - name: Bump version and push tag
-  #   id: bump_tag
-  #   uses: mathieudutour/github-tag-action@v4.5
-  #   with:
-  #     release_branches: .*
-  #     github_token: ${{ env.GITHUB_TOKEN }}
-  # - name: Push new version to Release Tags
-  #   uses: ncipollo/release-action@v1
-  #   with:
-  #     name: ${{ env.APP_NAME }}-${{ steps.bump_tag.outputs.new_version }}
-  #     tag: ${{ steps.bump_tag.outputs.new_tag }}
-  #     token: ${{ env.GITHUB_TOKEN }}
-  #     body: A new release of ${{ env.APP_NAME }} is available!
-  #     allowUpdates: false
-  #     omitName: false
-  #     omitBody: false
+          ls -R
+          ls -a
+
+      - name: Create Release tag
+        id: create_release_tag
+        if: ${{ github.event.inputs.version == '' }}
+        uses: mathieudutour/github-tag-action@v4.5
+        with:
+          release_branches: .*
+          # create_annotated_tag: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update Environment variables
+        run: |
+          if ${{ github.event.inputs.version == '' }}; then
+            echo "BUMP_TAG=${{ steps.create_release_tag.outputs.new_tag }}" >> $GITHUB_ENV
+            echo "BUMP_VERSION=${{ steps.create_release_tag.outputs.new_version }}" >> $GITHUB_ENV
+            echo "CHANGE_LOG=${{ steps.create_release_tag.outputs.changelog }}" >> $GITHUB_ENV
+          else
+            echo "BUMP_TAG=v${{ github.event.inputs.version}}" >> $GITHUB_ENV
+            echo "BUMP_VERSION=${{ github.event.inputs.version}}" >> $GITHUB_ENV
+            echo "CHANGE_LOG=Custom Workflow dispatch. Please check repo for changelog." >> $GITHUB_ENV
+          fi
+
+      - name: Push new version to Release Tags
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "*.apk"
+          name: ${{ env.APP_NAME }}-${{ env.BUMP_VERSION }}
+          tag: ${{ env.BUMP_TAG }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: ${{ env.CHANGE_LOG }}
+          allowUpdates: true
+          omitName: false
+          omitBody: false
+          replacesArtifacts: true

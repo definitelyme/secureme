@@ -210,8 +210,7 @@ jobs:
       - name: Move downloaded artifacts to root folder
         run: |
           ls -R build
-          # mv build/**/app-armeabi-v7a* .
-          # mv build/**/app-arm64-v8a* .
+          cp build/**/*.apk .
 
       - name: Get Previous tag
         id: previoustag

@@ -210,7 +210,7 @@ jobs:
       - name: Move downloaded artifacts to root folder
         run: |
           ls -R build
-          cp build/**/*.apk .
+          # cp build/**/*.apk .
           cp build/app/outputs/flutter-apk/*.apk .
 
       - name: Get Previous tag

@@ -78,7 +78,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         include:
-          - os: [ubuntu-latest, macos-latest]
+          - os: [ubuntu-latest]
             flutter_path: "$GITHUB_WORKSPACE/flutter"
             ndk_path: "/usr/local/lib/android/sdk/ndk"
     defaults:

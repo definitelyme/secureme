@@ -209,7 +209,7 @@ jobs:
 
       - name: Move downloaded artifacts to root folder
         run: |
-          ls -a
+          ls -R build
           # mv build/**/app-armeabi-v7a* .
           # mv build/**/app-arm64-v8a* .
 

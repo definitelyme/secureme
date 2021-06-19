@@ -80,6 +80,7 @@ jobs:
         include:
           - os: [ubuntu-latest, macos-latest]
             flutter_path: "$GITHUB_WORKSPACE/flutter"
+            ndk_path: "/usr/local/lib/android/sdk/ndk"
     defaults:
       run:
         working-directory: secureme

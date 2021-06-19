@@ -27,10 +27,12 @@ class AppButton extends StatelessWidget {
   final VoidCallback? onPressed;
   //
   final Color? backgroundColor;
+  final Color? splashColor;
   final double? elevation;
   final EdgeInsetsGeometry? padding;
   final BorderRadius borderRadius;
   final OutlinedBorder? shape;
+  final BorderSide? side;
   final MaterialTapTargetSize? tapTargetSize;
   final TextStyle? textStyle;
 
@@ -59,10 +61,12 @@ class AppButton extends StatelessWidget {
     this.clipBehavior = Clip.antiAlias,
     this.onLongPress,
     this.backgroundColor,
+    this.splashColor,
     this.elevation,
     this.padding,
     BorderRadius? borderRadius,
-    OutlinedBorder? shape,
+    this.shape,
+    this.side,
     this.tapTargetSize,
     this.textStyle,
     this.child,
@@ -71,6 +75,7 @@ class AppButton extends StatelessWidget {
     this.pressedOpacity = 0.4,
     this.onPressed,
   })  : assert(text != null || child != null),
+        // height = App.shortest * 0.1,
         type = disabled && (Platform.isIOS || Platform.isMacOS)
             ? ButtonType.elevated
             : ButtonType.flat,
@@ -80,12 +85,6 @@ class AppButton extends StatelessWidget {
         disabledColor = disabled
             ? CupertinoColors.inactiveGray
             : CupertinoColors.quaternarySystemFill,
-        shape = shape ??
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(Helpers.buttonRadius),
-              ),
-            ),
         super(key: key);
 
   AppButton.filled({
@@ -106,10 +105,12 @@ class AppButton extends StatelessWidget {
     this.clipBehavior = Clip.antiAlias,
     this.onLongPress,
     this.backgroundColor,
+    this.splashColor,
     this.elevation,
     this.padding,
     BorderRadius? borderRadius,
-    OutlinedBorder? shape,
+    this.shape,
+    this.side,
     this.tapTargetSize,
     this.textStyle,
     this.child,
@@ -118,6 +119,7 @@ class AppButton extends StatelessWidget {
     this.pressedOpacity = 0.4,
     this.onPressed,
   })  : assert(text != null || child != null),
+        // height = App.shortest * 0.1,
         type = ButtonType.elevated,
         opacity = disabled ? 0.6 : opacity ?? 1.0,
         borderRadius =
@@ -125,12 +127,6 @@ class AppButton extends StatelessWidget {
         disabledColor = disabled
             ? CupertinoColors.inactiveGray
             : CupertinoColors.quaternarySystemFill,
-        shape = shape ??
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(Helpers.buttonRadius),
-              ),
-            ),
         super(key: key);
 
   @override
@@ -190,22 +186,22 @@ class AppButton extends StatelessWidget {
         ),
       ),
       material: (context) => type.fold(
-        elevated: () => TextButton(
+        flat: () => TextButton(
           key: key,
           onPressed: onPressed,
           autofocus: autofocus,
           clipBehavior: clipBehavior,
           onLongPress: onLongPress,
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(backgroundColor),
+          style: TextButton.styleFrom(
+            backgroundColor: backgroundColor ?? AppColors.accentColor,
             alignment: alignment,
-            elevation: MaterialStateProperty.all(elevation),
-            padding: MaterialStateProperty.all(padding),
-            shape: MaterialStateProperty.all(
-              shape ?? RoundedRectangleBorder(borderRadius: borderRadius),
-            ),
+            elevation: elevation,
+            side: side,
+            splashFactory: CustomSplashFactory(splashColor: splashColor),
+            padding: padding,
+            shape: shape ?? RoundedRectangleBorder(borderRadius: borderRadius),
             tapTargetSize: tapTargetSize,
-            textStyle: MaterialStateProperty.all(textStyle),
+            textStyle: textStyle,
           ),
           child: Visibility(
             visible: text != null && !text!.isBlank,
@@ -232,22 +228,21 @@ class AppButton extends StatelessWidget {
             ),
           ),
         ),
-        flat: () => ElevatedButton(
+        elevated: () => ElevatedButton(
           key: key,
           onPressed: onPressed,
           autofocus: autofocus,
           clipBehavior: clipBehavior,
           onLongPress: onLongPress,
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(backgroundColor),
+          style: ElevatedButton.styleFrom(
+            primary: backgroundColor ?? AppColors.accentColor,
             alignment: alignment,
-            elevation: MaterialStateProperty.all(elevation),
-            padding: MaterialStateProperty.all(padding),
-            shape: MaterialStateProperty.all(
-              shape ?? RoundedRectangleBorder(borderRadius: borderRadius),
-            ),
+            elevation: elevation,
+            padding: padding,
+            splashFactory: CustomSplashFactory(splashColor: splashColor),
+            shape: shape ?? RoundedRectangleBorder(borderRadius: borderRadius),
             tapTargetSize: tapTargetSize,
-            textStyle: MaterialStateProperty.all(textStyle),
+            textStyle: textStyle,
           ),
           child: Visibility(
             visible: text != null && !text!.isBlank,

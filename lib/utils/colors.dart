@@ -135,4 +135,5 @@ class AppColors {
 
   static const Color infectedBg = Color(0xfffbeae5);
   static const Color iconGrey = Color(0xff455a64);
+  // static const Color inputBgColor = Color(0xff455a64);
 }

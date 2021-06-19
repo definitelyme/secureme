@@ -9,6 +9,8 @@ import 'package:secureme/utils/utils.dart';
 import 'package:secureme/widgets/widgets.dart';
 
 class SplashScreen extends StatelessWidget with AutoRouteWrapper {
+  const SplashScreen({Key? key}) : super(key: key);
+
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(

@@ -14,6 +14,8 @@ import 'package:secureme/utils/utils.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingScreen extends StatelessWidget with AutoRouteWrapper {
+  const OnboardingScreen({Key? key}) : super(key: key);
+
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
@@ -27,6 +29,15 @@ class OnboardingScreen extends StatelessWidget with AutoRouteWrapper {
     return AdaptiveScaffold(
       body: Stack(
         children: [
+          Positioned.fill(
+            child: CustomPaint(
+              painter: _OnBoardingMaskGroup(Helpers.foldTheme(
+                light: () => Colors.grey.shade300,
+                dark: () => Colors.grey.shade800,
+              )!),
+            ),
+          ),
+          //
           Positioned.fill(
             child: BlocBuilder<OnboardingCubit, OnboardingState>(
               builder: (c, s) => PageView.builder(
@@ -42,16 +53,26 @@ class OnboardingScreen extends StatelessWidget with AutoRouteWrapper {
           ),
           //
           Positioned(
-            top: 0,
-            right: 0,
+            top: 5,
+            right: 5,
             child: SafeArea(
               child: AppButton(
                 onPressed: () => navigator.pushAndPopUntil(
-                  LoginRoute(),
+                  UserOptionRoute(),
                   predicate: (_) => false,
                 ),
+                textColor: Helpers.foldTheme(
+                  light: () => AppColors.errorRed,
+                  dark: () => AppColors.lightRed,
+                ),
+                elevation: 0.0,
+                backgroundColor: Colors.transparent,
+                splashColor: Colors.white24,
+                padding: EdgeInsets.symmetric(horizontal: 14.0),
+                borderRadius: BorderRadius.circular(8.0),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                height: App.shortest * 0.1,
                 text: 'Skip',
-                textColor: AppColors.errorRed,
               ),
             ),
           ),
@@ -111,6 +132,12 @@ class OnboardingScreen extends StatelessWidget with AutoRouteWrapper {
                         UserOptionRoute(),
                         predicate: (_) => false,
                       ),
+                      textColor: Colors.white,
+                      backgroundColor: AppColors.accentColor,
+                      splashColor: Colors.white24,
+                      padding: EdgeInsets.symmetric(horizontal: 14.0),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      height: App.shortest * 0.1,
                       text: 'Get Started!',
                     ),
                     child: AppIconButton(
@@ -193,4 +220,43 @@ class OnBoardingItemBuilder extends StatelessWidget {
       ),
     );
   }
+}
+
+class _OnBoardingMaskGroup extends CustomPainter {
+  final Color color;
+
+  _OnBoardingMaskGroup(this.color);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint_0 = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 1.0;
+
+    var path_0 = Path();
+    path_0.moveTo(size.width * 0.4279200, size.height * 0.7588177);
+    path_0.quadraticBezierTo(size.width * 0.4813333, size.height * 0.7595320,
+        size.width * 0.5340800, size.height * 0.7589163);
+    path_0.cubicTo(
+        size.width * 0.6616000,
+        size.height * 0.7590271,
+        size.width * 0.9082667,
+        size.height * 0.7416133,
+        size.width,
+        size.height * 0.7032143);
+    path_0.quadraticBezierTo(size.width * 1.0002133, size.height * 0.5464901,
+        size.width, size.height * 0.0000123);
+    path_0.lineTo(size.width * 0.0053333, 0);
+    path_0.quadraticBezierTo(size.width * 0.0013333, size.height * 0.5401478,
+        size.width * 0.0000267, size.height * 0.7026478);
+    path_0.quadraticBezierTo(size.width * 0.1758933, size.height * 0.7478079,
+        size.width * 0.4279200, size.height * 0.7588177);
+    path_0.close();
+
+    canvas.drawPath(path_0, paint_0);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

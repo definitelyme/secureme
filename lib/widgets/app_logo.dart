@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:secureme/utils/utils.dart';
@@ -20,9 +21,13 @@ class SecuremeLogo extends StatelessWidget {
   final BoxFit fit;
   final AlignmentGeometry alignment;
   final ImageRepeat repeat;
-  final WidgetBuilder builder;
+  final WidgetBuilder? builder;
   final EdgeInsetsGeometry padding;
   final _LogoPosition _position;
+  final FontWeight? fontWeight;
+  final double? fontSize;
+  final TextAlign? textAlign;
+  final int? maxLines;
 
   const SecuremeLogo({
     Key? key,
@@ -32,9 +37,13 @@ class SecuremeLogo extends StatelessWidget {
     this.fit = BoxFit.contain,
     this.alignment = Alignment.center,
     this.repeat = ImageRepeat.noRepeat,
+    this.padding = EdgeInsets.zero,
   })  : _position = _LogoPosition.markOnly,
+        fontWeight = null,
+        fontSize = null,
+        textAlign = null,
+        maxLines = 1,
         builder = _builder,
-        padding = EdgeInsets.zero,
         maxHeight = kMaxHeight,
         maxWidth = kMaxWidth,
         super(key: key);
@@ -49,22 +58,29 @@ class SecuremeLogo extends StatelessWidget {
     this.fit = BoxFit.cover,
     this.alignment = Alignment.center,
     this.repeat = ImageRepeat.noRepeat,
-    required this.builder,
+    this.builder,
     this.padding = EdgeInsets.zero,
+    this.maxLines = 1,
+    this.fontSize = 15.5,
+    this.fontWeight = FontWeight.w300,
+    this.textAlign = TextAlign.center,
   })  : _position = _LogoPosition.horizontal,
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return _position.fold(
-      markOnly: () => Image.asset(
-        logo,
-        fit: fit,
-        height: logoHeight,
-        width: logoWidth,
-        alignment: alignment,
-        semanticLabel: '${AppStrings.appName} Logo',
-        repeat: repeat,
+      markOnly: () => Padding(
+        padding: padding,
+        child: Image.asset(
+          logo,
+          fit: fit,
+          height: logoHeight,
+          width: logoWidth,
+          alignment: alignment,
+          semanticLabel: '${AppStrings.appName} Logo',
+          repeat: repeat,
+        ),
       ),
       horizontal: () => FractionallySizedBox(
         child: ConstrainedBox(
@@ -73,7 +89,7 @@ class SecuremeLogo extends StatelessWidget {
             maxWidth: maxWidth,
           ),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            // mainAxisSize: MainAxisSize.min,
             children: [
               Flexible(
                 child: Padding(
@@ -92,7 +108,62 @@ class SecuremeLogo extends StatelessWidget {
               //
               Expanded(
                 flex: 2,
-                child: builder.call(context),
+                child: builder?.call(context) ??
+                    Container(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        // crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Flexible(
+                            child: AutoSizeText.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'SECURE',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: 'ME',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              maxLines: maxLines,
+                              textAlign: textAlign,
+                              softWrap: true,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6!
+                                  .copyWith(
+                                    fontSize: 20.0,
+                                    letterSpacing: 1,
+                                  ),
+                            ),
+                          ),
+                          //
+                          Flexible(
+                            child: AutoSizeText(
+                              'INITIATIVE',
+                              maxLines: maxLines,
+                              textAlign: textAlign,
+                              softWrap: true,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6!
+                                  .copyWith(
+                                    fontSize: fontSize,
+                                    letterSpacing: 6,
+                                    fontWeight: fontWeight,
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
               ),
             ],
           ),

@@ -12,6 +12,7 @@ mixin AppAssets {
 
   /////////////  SVGS /////////////
   static const String AUTH_SVG_DIR = '$SVG_DIR/auth';
+  static const String HOME_SVG_DIR = '$SVG_DIR/home';
   static const String ONBOARDING_SVG_DIR = '$SVG_DIR/onboarding';
 
   /////////////////////////////////////////////////////
@@ -27,18 +28,52 @@ mixin AppAssets {
 
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
+  static SvgPicture key = SvgPicture.asset(
+    '$AUTH_SVG_DIR/key_icon.svg',
+    height: 22,
+    width: 22,
+    fit: BoxFit.contain,
+  );
+
+  static SvgPicture signUp = SvgPicture.asset(
+    '$AUTH_SVG_DIR/signup_icon.svg',
+    height: 22,
+    width: 22,
+    fit: BoxFit.contain,
+  );
+
+  static SvgPicture deviceScreen = SvgPicture.asset(
+    '$AUTH_SVG_DIR/device_screen.svg',
+    height: 24,
+    width: 26,
+    fit: BoxFit.contain,
+  );
+
+  static SvgPicture face = SvgPicture.asset(
+    '$HOME_SVG_DIR/face.svg',
+    height: 27,
+    width: 27,
+    fit: BoxFit.contain,
+  );
+
+  static SvgPicture chatBubble = SvgPicture.asset(
+    '$HOME_SVG_DIR/chat_bubble.svg',
+    height: 22,
+    width: 22,
+    fit: BoxFit.contain,
+  );
 
   static SvgPicture google = SvgPicture.asset(
     '$AUTH_SVG_DIR/google.svg',
-    height: 23,
-    width: 23,
+    height: 22,
+    width: 22,
     fit: BoxFit.contain,
   );
 
   static SvgPicture facebook = SvgPicture.asset(
     '$AUTH_SVG_DIR/facebook.svg',
-    height: 23,
-    width: 23,
+    height: 22,
+    width: 22,
     fit: BoxFit.contain,
   );
 }

@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart' hide Router;
@@ -38,6 +39,7 @@ class Secureme extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 theme: app.cupertinoThemeData(),
                 color: Colors.deepPurpleAccent,
+                locale: DevicePreview.locale(context),
                 routeInformationParser: _router.defaultRouteParser(),
                 routerDelegate: _router.delegate(
                   navigatorObservers: () => <NavigatorObserver>[
@@ -50,7 +52,8 @@ class Secureme extends StatelessWidget {
                 builder: (context, child) {
                   /// Setup Basic Utils
                   Helpers.setup(context, _router);
-                  return child!;
+
+                  return DevicePreview.appBuilder(context, child);
                 },
               ),
               material: (context) => MaterialApp.router(
@@ -58,6 +61,7 @@ class Secureme extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 theme: app.themeData(),
                 darkTheme: AppTheme.dark().themeData(),
+                locale: DevicePreview.locale(context),
                 routeInformationParser: _router.defaultRouteParser(),
                 routerDelegate: _router.delegate(
                   navigatorObservers: () => <NavigatorObserver>[
@@ -70,7 +74,8 @@ class Secureme extends StatelessWidget {
                 builder: (context, child) {
                   /// Setup Basic Utils
                   Helpers.setup(context, _router);
-                  return child!;
+
+                  return DevicePreview.appBuilder(context, child);
                 },
               ),
             ),

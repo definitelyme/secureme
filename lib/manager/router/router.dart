@@ -1,7 +1,6 @@
 import 'package:auto_route/annotations.dart';
 import 'package:secureme/_404.dart';
-import 'package:secureme/features/auth/presentation/screens/login_sreen.dart';
-import 'package:secureme/features/auth/presentation/screens/signup_screen.dart';
+import 'package:secureme/features/auth/presentation/screens/index.dart';
 import 'package:secureme/features/onborading/presentation/screens/splash_screen.dart';
 import 'package:secureme/features/onborading/presentation/screens/onboarding_screen.dart';
 import 'package:secureme/features/onborading/presentation/screens/user_option_screen.dart';
@@ -39,6 +38,20 @@ import 'package:secureme/features/onborading/presentation/screens/user_option_sc
       page: SignupScreen,
       maintainState: true,
       cupertinoPageTitle: 'Sign Up',
+    ),
+    //
+    AdaptiveRoute(
+      fullMatch: true,
+      page: OtpVerificationScreen,
+      maintainState: true,
+      cupertinoPageTitle: 'Verification',
+    ),
+    //
+    AdaptiveRoute(
+      fullMatch: true,
+      page: ForgotPasswordScreen,
+      maintainState: true,
+      cupertinoPageTitle: 'Forgot Password',
     ),
     //
     AdaptiveRoute(

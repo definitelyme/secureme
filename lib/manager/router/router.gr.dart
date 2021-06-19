@@ -6,11 +6,8 @@
 
 import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i2;
-import 'package:secureme/_404.dart' as _i8;
-import 'package:secureme/features/auth/presentation/screens/login_sreen.dart'
-    as _i6;
-import 'package:secureme/features/auth/presentation/screens/signup_screen.dart'
-    as _i7;
+import 'package:secureme/_404.dart' as _i7;
+import 'package:secureme/features/auth/presentation/screens/index.dart' as _i6;
 import 'package:secureme/features/onborading/presentation/screens/onboarding_screen.dart'
     as _i4;
 import 'package:secureme/features/onborading/presentation/screens/splash_screen.dart'
@@ -27,17 +24,17 @@ class AppRouter extends _i1.RootStackRouter {
     SplashRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i3.SplashScreen();
+          return const _i3.SplashScreen();
         }),
     OnboardingRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i4.OnboardingScreen();
+          return const _i4.OnboardingScreen();
         }),
     UserOptionRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i5.UserOptionScreen();
+          return const _i5.UserOptionScreen();
         }),
     LoginRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
         routeData: routeData,
@@ -48,13 +45,29 @@ class AppRouter extends _i1.RootStackRouter {
     SignupRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i7.SignupScreen();
+          return _i6.SignupScreen();
         },
         title: 'Sign Up'),
+    OtpVerificationRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<OtpVerificationRouteArgs>(
+              orElse: () => const OtpVerificationRouteArgs());
+          return _i6.OtpVerificationScreen(key: args.key);
+        },
+        title: 'Verification'),
+    ForgotPasswordRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<ForgotPasswordRouteArgs>(
+              orElse: () => const ForgotPasswordRouteArgs());
+          return _i6.ForgotPasswordScreen(key: args.key);
+        },
+        title: 'Forgot Password'),
     UnknownRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i8.UnknownScreen();
+          return _i7.UnknownScreen();
         },
         title: 'Error 404')
   };
@@ -70,6 +83,10 @@ class AppRouter extends _i1.RootStackRouter {
             path: '/login-screen', fullMatch: true),
         _i1.RouteConfig(SignupRoute.name,
             path: '/signup-screen', fullMatch: true),
+        _i1.RouteConfig(OtpVerificationRoute.name,
+            path: '/otp-verification-screen', fullMatch: true),
+        _i1.RouteConfig(ForgotPasswordRoute.name,
+            path: '/forgot-password-screen', fullMatch: true),
         _i1.RouteConfig(UnknownRoute.name, path: '*')
       ];
 }
@@ -102,6 +119,36 @@ class SignupRoute extends _i1.PageRouteInfo {
   const SignupRoute() : super(name, path: '/signup-screen');
 
   static const String name = 'SignupRoute';
+}
+
+class OtpVerificationRoute extends _i1.PageRouteInfo<OtpVerificationRouteArgs> {
+  OtpVerificationRoute({_i2.Key? key})
+      : super(name,
+            path: '/otp-verification-screen',
+            args: OtpVerificationRouteArgs(key: key));
+
+  static const String name = 'OtpVerificationRoute';
+}
+
+class OtpVerificationRouteArgs {
+  const OtpVerificationRouteArgs({this.key});
+
+  final _i2.Key? key;
+}
+
+class ForgotPasswordRoute extends _i1.PageRouteInfo<ForgotPasswordRouteArgs> {
+  ForgotPasswordRoute({_i2.Key? key})
+      : super(name,
+            path: '/forgot-password-screen',
+            args: ForgotPasswordRouteArgs(key: key));
+
+  static const String name = 'ForgotPasswordRoute';
+}
+
+class ForgotPasswordRouteArgs {
+  const ForgotPasswordRouteArgs({this.key});
+
+  final _i2.Key? key;
 }
 
 class UnknownRoute extends _i1.PageRouteInfo {

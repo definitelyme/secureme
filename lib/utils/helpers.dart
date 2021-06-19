@@ -38,9 +38,9 @@ class Helpers {
   static const Duration autoRetrievalTimeout = Duration(seconds: 40);
   static const String currency = '₦';
 
-  static double buttonRadius = 12.0;
+  static double buttonRadius = 10.0;
   static double appPadding = App.shortest * 0.05;
-  static double inputBorderRadius = 16.0;
+  static double inputBorderRadius = 10.0;
   static Future<Directory?> get rootDir async =>
       await getExternalStorageDirectory();
   static Future<Directory> get cacheDir async => kIsWeb
@@ -94,19 +94,17 @@ class Helpers {
       FocusManager.instance.primaryFocus!.unfocus();
   }
 
-  static T optionOf<T>(
-    dynamic _default,
-    dynamic dark, {
+  static T? foldTheme<T>({
+    required T Function() light,
+    T? Function()? dark,
     BuildContext? context,
   }) {
-    assert(_default != null);
-    assert(dark != null);
     var isDarkMode =
         BlocProvider.of<ThemeCubit>(context ?? App.context).isDarkMode ||
             (MediaQuery.of(context ?? App.context).platformBrightness ==
                 Brightness.dark);
 
-    return isDarkMode ? dark as T : _default as T;
+    return isDarkMode ? dark?.call() : light.call();
   }
 
   static Color computeLuminance(Color color) =>

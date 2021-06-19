@@ -6,6 +6,8 @@ import 'package:secureme/utils/utils.dart';
 import 'package:secureme/widgets/widgets.dart';
 
 class UserOptionScreen extends StatelessWidget with AutoRouteWrapper {
+  const UserOptionScreen({Key? key}) : super(key: key);
+
   @override
   Widget wrappedRoute(BuildContext context) {
     return this;
@@ -13,44 +15,14 @@ class UserOptionScreen extends StatelessWidget with AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AdaptiveScaffold(
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             SecuremeLogo.horizontal(
-              maxWidth: App.shortest * 0.55,
-              builder: (context) => Container(
-                child: AutoSizeText.rich(
-                  TextSpan(children: [
-                    TextSpan(
-                      text: 'SECURE',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20.0,
-                      ),
-                    ),
-                    TextSpan(
-                      text: 'ME',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 20.0,
-                      ),
-                    ),
-                    TextSpan(
-                      text: '\nINITIATIVE',
-                      style: TextStyle(letterSpacing: 6),
-                    ),
-                  ]),
-                  textAlign: TextAlign.center,
-                  softWrap: true,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                        fontSize: 16,
-                        letterSpacing: 1,
-                        fontWeight: FontWeight.w300,
-                      ),
-                ),
-              ),
+              maxWidth: App.shortest * 0.52,
+              // logoWidth: App.shortest * 0.13,
             ),
             //
             VerticalSpace(height: App.longest * 0.1),
@@ -69,17 +41,20 @@ class UserOptionScreen extends StatelessWidget with AutoRouteWrapper {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     AppIconButton(
-                      onPressed: () => navigator.pushAndPopUntil(
+                      onPressed: () => navigator.push(
                         LoginRoute(),
-                        predicate: (_) => false,
                       ),
+                      tooltip: 'Select this if you\'re not in the force.',
                       elevation: 3.0,
                       child: Icon(
                         Theme.of(context).platform.fold(
                               cupertino: () => CupertinoIcons.person_badge_plus,
                               material: () => Icons.person_add_alt_1_outlined,
                             ),
-                        color: AppColors.accentColor,
+                        color: Theme.of(context).platform.fold(
+                              material: () => Colors.white,
+                              cupertino: () => AppColors.accentColor,
+                            ),
                       ),
                     ),
                     //
@@ -95,17 +70,20 @@ class UserOptionScreen extends StatelessWidget with AutoRouteWrapper {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     AppIconButton(
-                      onPressed: () => navigator.pushAndPopUntil(
+                      onPressed: () => navigator.push(
                         LoginRoute(),
-                        predicate: (_) => false,
                       ),
+                      tooltip: 'Select this if you\'re an officer.',
                       elevation: 3.0,
                       child: Icon(
                         Theme.of(context).platform.fold(
-                              cupertino: () => CupertinoIcons.person_badge_plus,
-                              material: () => Icons.person_add_alt_1_outlined,
+                              cupertino: () => CupertinoIcons.lock_shield,
+                              material: () => Icons.shield_outlined,
                             ),
-                        color: AppColors.accentColor,
+                        color: Theme.of(context).platform.fold(
+                              material: () => Colors.white,
+                              cupertino: () => AppColors.accentColor,
+                            ),
                       ),
                     ),
                     //

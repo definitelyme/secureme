@@ -2,20 +2,12 @@ name: Build Debug APK
 on:
   workflow_dispatch:
     inputs:
-      name:
-        description: "Person to greet"
-        required: true
-        default: "Mona the Octocat"
-      home:
-        description: "location"
-        required: false
-        default: "The Octoverse"
       version:
-        description: Specify Bump version
+        description: "Specify Bump version"
         required: true
-        default: 1.0.0
+        default: "1.0.0"
       release:
-        description: Release the outputs of this run
+        description: "Release the outputs of this run"
         required: false
         default: "false"
 

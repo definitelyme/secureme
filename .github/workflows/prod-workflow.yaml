@@ -1,5 +1,16 @@
 name: Build Production APK
 on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Specify Bump version"
+        required: true
+        default: "1.0.0"
+      release:
+        description: "Release the outputs of this run"
+        required: false
+        default: "false"
+
   push:
     branches:
       - main
@@ -13,17 +24,6 @@ on:
       - opened
       - reopened
       - synchronize
-
-  workflow_dispatch:
-    inputs:
-      version:
-        description: Specify Bump version
-        required: true
-        default: 1.0.0
-      release:
-        description: Release the outputs of this run
-        required: false
-        default: "false"
 
 jobs:
   setup:

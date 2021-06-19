@@ -33,7 +33,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os:
+          - ubuntu-latest
+          - macos-latest
     steps:
       - name: Cache Flutter Installation
         id: flutter-cache
@@ -76,7 +78,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os:
+          - ubuntu-latest
+          - macos-latest
         include:
           - os: [ubuntu-latest, macos-latest]
             flutter_path: "$GITHUB_WORKSPACE/flutter"
@@ -184,7 +188,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os:
+          - ubuntu-latest
+          - macos-latest
     steps:
       - name: Checkout to ${{ env.APP_NAME }} Repository
         uses: actions/checkout@v2

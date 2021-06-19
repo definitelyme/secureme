@@ -71,7 +71,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       APP_NAME: "Secureme"
-      WORKING_DIRECTORY: "secureme"
+      # WORKING_DIRECTORY: "secureme"
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
@@ -88,6 +88,9 @@ jobs:
           - os: ubuntu-latest
             flutter_path: "$GITHUB_WORKSPACE/flutter"
             ndk_path: "/usr/local/lib/android/sdk/ndk"
+    defaults:
+      run:
+        working-directory: secureme
     steps:
       - name: Checkout to ${{ env.APP_NAME }} Repository
         uses: actions/checkout@v2
@@ -139,20 +142,20 @@ jobs:
           flutter format --dry-run .
           flutter pub get
           # flutter test
-        working-directory: ${{ env.WORKING_DIRECTORY }}
 
+        # working-directory: ${{ env.WORKING_DIRECTORY }}
       - name: Build Android APK
         run: |
           flutter build apk -t lib/main.dart --release --target-platform android-arm,android-arm64 --split-per-abi  --flavor prod --obfuscate --split-debug-info=./build/app/outputs/apk/obfuscation
-        working-directory: ${{ env.WORKING_DIRECTORY }}
 
+        # working-directory: ${{ env.WORKING_DIRECTORY }}
       - name: Post build Android APK
         id: post_build_apk
         run: |
           echo "ARMEABI_V7A_ARTIFACT=Android-armeabi-v7a-apk-$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_ENV
           echo "ARM64_V8A_ARTIFACT=Android-arm64-v8a-apk-$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_ENV
-        working-directory: ${{ env.WORKING_DIRECTORY }}
 
+        # working-directory: ${{ env.WORKING_DIRECTORY }}
       - name: Upload APK (armeabi-v7a arch)
         uses: actions/upload-artifact@master
         with:
@@ -210,8 +213,7 @@ jobs:
       - name: Move downloaded artifacts to root folder
         run: |
           mv build/app/outputs/flutter-apk/*.apk .
-          ls -a
-          ls -R build
+          rm -rf build/
 
       - name: Get Previous tag
         id: previoustag

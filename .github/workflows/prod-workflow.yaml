@@ -73,6 +73,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       APP_NAME: "Secureme"
+      WORKING_DIRECTORY: "secureme"
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
@@ -96,13 +97,13 @@ jobs:
           path: "secureme"
           fetch-depth: 0
 
-      - name: Prepare ndk dir for restore
+      - name: Prepare NDK dir for Cache / Restore
         run: |
           sudo mkdir -p /usr/local/lib/android/sdk/ndk
           sudo chmod -R 777 /usr/local/lib/android/sdk/ndk
           sudo chown -R $USER:$USER /usr/local/lib/android/sdk/ndk
 
-      - name: Restore NDK Cache
+      - name: Cache / Restore NDK Installation
         id: ndk-cache
         uses: actions/cache@v2
         with:
@@ -140,19 +141,19 @@ jobs:
           flutter format --dry-run .
           flutter pub get
           # flutter test
-        working-directory: secureme
+        working-directory: ${{ env.WORKING_DIRECTORY }}
 
       - name: Build Android APK
         run: |
           flutter build apk -t lib/main.dart --release --target-platform android-arm,android-arm64 --split-per-abi  --flavor prod --obfuscate --split-debug-info=./build/app/outputs/apk/obfuscation
-        working-directory: secureme
+        working-directory: ${{ env.WORKING_DIRECTORY }}
 
       - name: Post build Android APK
         id: post_build_apk
         run: |
           echo "ARMEABI_V7A_ARTIFACT=Android-armeabi-v7a-apk-$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_ENV
           echo "ARM64_V8A_ARTIFACT=Android-arm64-v8a-apk-$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_ENV
-        working-directory: secureme
+        working-directory: ${{ env.WORKING_DIRECTORY }}
 
       - name: Upload APK (armeabi-v7a arch)
         uses: actions/upload-artifact@master

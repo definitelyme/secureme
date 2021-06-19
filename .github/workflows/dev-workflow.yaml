@@ -1,5 +1,15 @@
 name: Build Debug APK
 on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+    types:
+      - opened
+      - synchronize
+
   workflow_dispatch:
     inputs:
       version:
@@ -10,16 +20,6 @@ on:
         description: Release the outputs of this run
         required: false
         default: "false"
-
-  push:
-    branches:
-      - dev
-  pull_request:
-    branches:
-      - dev
-    types:
-      - opened
-      - synchronize
 
 jobs:
   setup:

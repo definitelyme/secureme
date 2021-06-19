@@ -51,13 +51,8 @@ android {
     }
 
     lintOptions {
-<<<<<<< Updated upstream
-        disable 'InvalidPackage'
-        checkReleaseBuilds false // Add this
-=======
         checkReleaseBuilds false
         // abortOnError false
->>>>>>> Stashed changes
     }
 
     defaultConfig {

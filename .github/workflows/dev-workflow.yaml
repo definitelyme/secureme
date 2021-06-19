@@ -254,10 +254,16 @@ jobs:
             echo "CHANGE_LOG=Custom Workflow dispatch. Please check repo for changelog." >> $GITHUB_ENV
           fi
 
+      - name: Move downloaded artifacts to root folder
+        run: |
+          ls -a
+          mv build/**/app-armeabi-v7a* .
+          mv build/**/app-arm64-v8a* .
+
       - name: Push new version to Release Tags
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/flutter-apk/*.apk"
+          artifacts: "*.apk"
           name: ${{ env.APP_NAME }}-${{ env.BUMP_VERSION }}
           tag: ${{ env.BUMP_TAG }}
           token: ${{ secrets.GITHUB_TOKEN }}

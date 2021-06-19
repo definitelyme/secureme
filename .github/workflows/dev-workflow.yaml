@@ -33,10 +33,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        include:
-          - os: ubuntu-latest
-            flutter_path: "$GITHUB_WORKSPACE/flutter"
+        os: [ubuntu-latest, macos-latest]
     steps:
       - name: Cache Flutter Installation
         id: flutter-cache
@@ -68,7 +65,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       APP_NAME: "Secureme"
-      # WORKING_DIRECTORY: "secureme"
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
@@ -80,11 +76,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest]
         include:
-          - os: ubuntu-latest
+          - os: [ubuntu-latest, macos-latest]
             flutter_path: "$GITHUB_WORKSPACE/flutter"
-            ndk_path: "/usr/local/lib/android/sdk/ndk"
     defaults:
       run:
         working-directory: secureme
@@ -189,9 +184,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        include:
-          - os: ubuntu-latest
+        os: [ubuntu-latest, macos-latest]
     steps:
       - name: Checkout to ${{ env.APP_NAME }} Repository
         uses: actions/checkout@v2

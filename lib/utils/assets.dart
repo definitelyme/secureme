@@ -21,12 +21,23 @@ mixin AppAssets {
   static const String logo = '$IMAGES_DIR/logo.png';
 
   static const String user = '$IMAGES_DIR/user.png';
+  static const String unnamed = '$IMAGES_DIR/unnamed.png';
+  static const String female = '$IMAGES_DIR/female.png';
 
   static const String civilian = '$ONBOARDING_SVG_DIR/civilian.svg';
   static const String officer = '$ONBOARDING_SVG_DIR/officer.svg';
   static const String getHelp = '$ONBOARDING_SVG_DIR/get_help.svg';
 
   /////////////////////////////////////////////////////
+  ///
+  static const List<String> images = [
+    logo,
+    user,
+    unnamed,
+    female,
+  ];
+
+  ///
   /////////////////////////////////////////////////////
   static SvgPicture key = SvgPicture.asset(
     '$AUTH_SVG_DIR/key_icon.svg',

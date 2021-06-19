@@ -23,14 +23,14 @@ class AuthFailure with _$AuthFailure, Response {
     required Object credentials,
   }) = _AccountAlreadyExists;
 
-  factory AuthFailure.cancelledAction() => AuthFailure(message: 'Aborted!');
+  factory AuthFailure.cancelledAction() => const AuthFailure(message: 'Aborted!');
 
   factory AuthFailure.invalidCredentials({String? message}) => AuthFailure(
         code: INVALID_CREDENTIAL,
         message: message ?? 'These credentials do not match our records.',
       );
 
-  factory AuthFailure.weakPassword({String? message}) => AuthFailure(
+  factory AuthFailure.weakPassword({String? message}) => const AuthFailure(
         code: WEAK_PASSWORD,
         message: 'Password is weak.',
       );

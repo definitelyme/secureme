@@ -27,7 +27,7 @@ class UserOptionScreen extends StatelessWidget with AutoRouteWrapper {
             //
             VerticalSpace(height: App.longest * 0.1),
             //
-            AutoSizeText(
+            const AutoSizeText(
               'Choose Option',
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
@@ -42,7 +42,7 @@ class UserOptionScreen extends StatelessWidget with AutoRouteWrapper {
                   children: [
                     AppIconButton(
                       onPressed: () => navigator.push(
-                        LoginRoute(),
+                        const LoginRoute(),
                       ),
                       tooltip: 'Select this if you\'re not in the force.',
                       elevation: 3.0,
@@ -58,9 +58,9 @@ class UserOptionScreen extends StatelessWidget with AutoRouteWrapper {
                       ),
                     ),
                     //
-                    VerticalSpace(height: 10.0),
+                    const VerticalSpace(height: 10.0),
                     //
-                    AutoSizeText('Civilian'),
+                    const AutoSizeText('Civilian'),
                   ],
                 ),
                 //
@@ -71,7 +71,7 @@ class UserOptionScreen extends StatelessWidget with AutoRouteWrapper {
                   children: [
                     AppIconButton(
                       onPressed: () => navigator.push(
-                        LoginRoute(),
+                        const LoginRoute(),
                       ),
                       tooltip: 'Select this if you\'re an officer.',
                       elevation: 3.0,
@@ -87,9 +87,9 @@ class UserOptionScreen extends StatelessWidget with AutoRouteWrapper {
                       ),
                     ),
                     //
-                    VerticalSpace(height: 10.0),
+                    const VerticalSpace(height: 10.0),
                     //
-                    AutoSizeText('Police'),
+                    const AutoSizeText('Police'),
                   ],
                 ),
               ],

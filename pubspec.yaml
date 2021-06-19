@@ -107,6 +107,8 @@ dependencies:
   wiredash: ^0.6.2
   # Approximate how your app looks and performs on another device.
   device_preview: ^0.7.3
+  # Just another bunch of beautiful icons to use
+  line_icons: ^2.0.1
 
 dependency_overrides:
   build: ">=2.0.0 <2.1.0"

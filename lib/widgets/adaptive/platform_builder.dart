@@ -9,7 +9,7 @@ class PlatformBuilder extends StatelessWidget {
   final _PlatformBuilder? cupertino;
   final _PlatformBuilder? material;
 
-  PlatformBuilder({
+  const PlatformBuilder({
     Key? key,
     _PlatformBuilder? cupertino,
     _PlatformBuilder? material,

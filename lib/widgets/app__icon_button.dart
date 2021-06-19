@@ -48,7 +48,7 @@ class AppIconButton extends StatelessWidget {
             : ButtonType.flat,
         super(key: key);
 
-  AppIconButton.filled({
+  const AppIconButton.filled({
     Key? key,
     this.backgroundColor = AppColors.accentColor,
     this.elevation = 2.0,

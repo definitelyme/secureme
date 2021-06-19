@@ -6,8 +6,10 @@
 
 import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i2;
-import 'package:secureme/_404.dart' as _i7;
+import 'package:secureme/_404.dart' as _i8;
 import 'package:secureme/features/auth/presentation/screens/index.dart' as _i6;
+import 'package:secureme/features/core/domain/entities/entities.dart' as _i9;
+import 'package:secureme/features/home/presentation/screens/index.dart' as _i7;
 import 'package:secureme/features/onborading/presentation/screens/onboarding_screen.dart'
     as _i4;
 import 'package:secureme/features/onborading/presentation/screens/splash_screen.dart'
@@ -61,13 +63,32 @@ class AppRouter extends _i1.RootStackRouter {
         builder: (data) {
           final args = data.argsAs<ForgotPasswordRouteArgs>(
               orElse: () => const ForgotPasswordRouteArgs());
-          return _i6.ForgotPasswordScreen(key: args.key);
+          return _i6.ForgotPasswordScreen(
+              key: args.key, emailAddress: args.emailAddress);
         },
         title: 'Forgot Password'),
+    HomeRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
+        routeData: routeData,
+        builder: (_) {
+          return const _i7.HomeScreen();
+        },
+        title: 'Home'),
+    ProfileRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
+        routeData: routeData,
+        builder: (_) {
+          return const _i7.ProfileScreen();
+        },
+        title: 'Profile'),
+    EditProfileRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
+        routeData: routeData,
+        builder: (_) {
+          return const _i7.EditProfileScreen();
+        },
+        title: 'Profile'),
     UnknownRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i7.UnknownScreen();
+          return _i8.UnknownScreen();
         },
         title: 'Error 404')
   };
@@ -87,6 +108,11 @@ class AppRouter extends _i1.RootStackRouter {
             path: '/otp-verification-screen', fullMatch: true),
         _i1.RouteConfig(ForgotPasswordRoute.name,
             path: '/forgot-password-screen', fullMatch: true),
+        _i1.RouteConfig(HomeRoute.name, path: '/home-screen', fullMatch: true),
+        _i1.RouteConfig(ProfileRoute.name,
+            path: '/profile-screen', fullMatch: true),
+        _i1.RouteConfig(EditProfileRoute.name,
+            path: '/edit-profile-screen', fullMatch: true),
         _i1.RouteConfig(UnknownRoute.name, path: '*')
       ];
 }
@@ -137,18 +163,39 @@ class OtpVerificationRouteArgs {
 }
 
 class ForgotPasswordRoute extends _i1.PageRouteInfo<ForgotPasswordRouteArgs> {
-  ForgotPasswordRoute({_i2.Key? key})
+  ForgotPasswordRoute({_i2.Key? key, _i9.EmailAddress? emailAddress})
       : super(name,
             path: '/forgot-password-screen',
-            args: ForgotPasswordRouteArgs(key: key));
+            args:
+                ForgotPasswordRouteArgs(key: key, emailAddress: emailAddress));
 
   static const String name = 'ForgotPasswordRoute';
 }
 
 class ForgotPasswordRouteArgs {
-  const ForgotPasswordRouteArgs({this.key});
+  const ForgotPasswordRouteArgs({this.key, this.emailAddress});
 
   final _i2.Key? key;
+
+  final _i9.EmailAddress? emailAddress;
+}
+
+class HomeRoute extends _i1.PageRouteInfo {
+  const HomeRoute() : super(name, path: '/home-screen');
+
+  static const String name = 'HomeRoute';
+}
+
+class ProfileRoute extends _i1.PageRouteInfo {
+  const ProfileRoute() : super(name, path: '/profile-screen');
+
+  static const String name = 'ProfileRoute';
+}
+
+class EditProfileRoute extends _i1.PageRouteInfo {
+  const EditProfileRoute() : super(name, path: '/edit-profile-screen');
+
+  static const String name = 'EditProfileRoute';
 }
 
 class UnknownRoute extends _i1.PageRouteInfo {

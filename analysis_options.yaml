@@ -15,3 +15,5 @@ analyzer:
 linter:
   rules:
     await_only_futures: true
+    prefer_const_constructors: true
+    prefer_const_constructors_in_immutables: true

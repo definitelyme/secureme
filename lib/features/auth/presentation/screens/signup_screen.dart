@@ -13,7 +13,7 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
   final FocusNode passwordFocus = FocusNode();
   final FocusNode confirmPasswordFocus = FocusNode();
   final TapGestureRecognizer tapRecognizer = TapGestureRecognizer()
-    ..onTap = (() => navigator.replace(LoginRoute()));
+    ..onTap = (() => navigator.replace(const LoginRoute()));
 
   @override
   Widget wrappedRoute(BuildContext context) {
@@ -29,12 +29,12 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
           controller: ScrollController(),
           clipBehavior: Clip.antiAlias,
           padding: EdgeInsets.symmetric(horizontal: Helpers.appPadding),
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
-                padding: EdgeInsets.only(bottom: 12.0),
+                padding: const EdgeInsets.only(bottom: 12.0),
                 child: SecuremeLogo.horizontal(
                   logoHeight: App.shortest * 0.16,
                   logoWidth: App.shortest * 0.135,
@@ -46,7 +46,7 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
               Flexible(
                 child: ClipRRect(
                   clipBehavior: Clip.antiAlias,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(50),
                     bottomLeft: Radius.circular(50),
                   ),
@@ -95,14 +95,17 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
                                     child: AdaptiveTextFormInput(
                                       hintText: 'Jane Doe',
                                       hintStyle: Helpers.foldTheme(
-                                        light: () =>
-                                            TextStyle(color: Colors.black54),
-                                        dark: () =>
-                                            TextStyle(color: Colors.white60),
+                                        light: () => const TextStyle(
+                                          color: Colors.black54,
+                                        ),
+                                        dark: () => const TextStyle(
+                                          color: Colors.white60,
+                                        ),
                                       ),
                                       style: Helpers.foldTheme(
-                                        light: () =>
-                                            TextStyle(color: Colors.black),
+                                        light: () => const TextStyle(
+                                          color: Colors.black,
+                                        ),
                                       ),
                                       keyboardType: TextInputType.name,
                                       autoFillHints: [
@@ -128,14 +131,17 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
                                     child: AdaptiveTextFormInput(
                                       hintText: 'johndoe@email.com',
                                       hintStyle: Helpers.foldTheme(
-                                        light: () =>
-                                            TextStyle(color: Colors.black54),
-                                        dark: () =>
-                                            TextStyle(color: Colors.white60),
+                                        light: () => const TextStyle(
+                                          color: Colors.black54,
+                                        ),
+                                        dark: () => const TextStyle(
+                                          color: Colors.white60,
+                                        ),
                                       ),
                                       style: Helpers.foldTheme(
-                                        light: () =>
-                                            TextStyle(color: Colors.black),
+                                        light: () => const TextStyle(
+                                          color: Colors.black,
+                                        ),
                                       ),
                                       keyboardType: TextInputType.emailAddress,
                                       autoFillHints: [AutofillHints.email],
@@ -154,14 +160,17 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
                                     child: AdaptiveTextFormInput(
                                       hintText: '08123456789',
                                       hintStyle: Helpers.foldTheme(
-                                        light: () =>
-                                            TextStyle(color: Colors.black54),
-                                        dark: () =>
-                                            TextStyle(color: Colors.white60),
+                                        light: () => const TextStyle(
+                                          color: Colors.black54,
+                                        ),
+                                        dark: () => const TextStyle(
+                                          color: Colors.white60,
+                                        ),
                                       ),
                                       style: Helpers.foldTheme(
-                                        light: () =>
-                                            TextStyle(color: Colors.black),
+                                        light: () => const TextStyle(
+                                          color: Colors.black,
+                                        ),
                                       ),
                                       maxLength: 11,
                                       maxLengthEnforced: true,
@@ -188,8 +197,8 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
                                       autoCorrect: false,
                                       obscureText: true,
                                       style: Helpers.foldTheme(
-                                        light: () =>
-                                            TextStyle(color: Colors.black),
+                                        light: () => const TextStyle(
+                                            color: Colors.black),
                                       ),
                                       focus: passwordFocus,
                                       autoFillHints: [
@@ -199,14 +208,14 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
                                       decoration: InputDecoration(
                                         hintText: 'sec****t',
                                         hintStyle: Helpers.foldTheme(
-                                          light: () =>
-                                              TextStyle(color: Colors.black54),
-                                          dark: () =>
-                                              TextStyle(color: Colors.white60),
+                                          light: () => const TextStyle(
+                                              color: Colors.black54),
+                                          dark: () => const TextStyle(
+                                              color: Colors.white60),
                                         ),
                                         suffixIcon: Material(
                                           color: Colors.transparent,
-                                          shape: CircleBorder(),
+                                          shape: const CircleBorder(),
                                           clipBehavior: Clip.hardEdge,
                                           child: IconButton(
                                             icon: Icon(
@@ -250,7 +259,7 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
                             child: SizedBox(
                               height: App.longest * 0.045,
                               width: double.infinity,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.check,
                                 color: Colors.white,
                                 size: 30.0,
@@ -273,10 +282,10 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
               Flexible(
                 child: GestureDetector(
                   onTap: () => navigator.replace(
-                    LoginRoute(),
+                    const LoginRoute(),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(6.0),
+                    padding: const EdgeInsets.all(6.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [

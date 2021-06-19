@@ -58,7 +58,7 @@ class OnboardingScreen extends StatelessWidget with AutoRouteWrapper {
             child: SafeArea(
               child: AppButton(
                 onPressed: () => navigator.pushAndPopUntil(
-                  UserOptionRoute(),
+                  const UserOptionRoute(),
                   predicate: (_) => false,
                 ),
                 textColor: Helpers.foldTheme(
@@ -68,7 +68,7 @@ class OnboardingScreen extends StatelessWidget with AutoRouteWrapper {
                 elevation: 0.0,
                 backgroundColor: Colors.transparent,
                 splashColor: Colors.white24,
-                padding: EdgeInsets.symmetric(horizontal: 14.0),
+                padding: const EdgeInsets.symmetric(horizontal: 14.0),
                 borderRadius: BorderRadius.circular(8.0),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 height: App.shortest * 0.1,
@@ -129,13 +129,13 @@ class OnboardingScreen extends StatelessWidget with AutoRouteWrapper {
                         .isLast(right(s.currentIndex)),
                     replacement: AppButton(
                       onPressed: () => navigator.pushAndPopUntil(
-                        UserOptionRoute(),
+                        const UserOptionRoute(),
                         predicate: (_) => false,
                       ),
                       textColor: Colors.white,
                       backgroundColor: AppColors.accentColor,
                       splashColor: Colors.white24,
-                      padding: EdgeInsets.symmetric(horizontal: 14.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 14.0),
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       height: App.shortest * 0.1,
                       text: 'Get Started!',
@@ -187,7 +187,7 @@ class OnBoardingItemBuilder extends StatelessWidget {
                 '${item!.title}',
                 textAlign: TextAlign.start,
                 maxLines: 1,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 25.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -200,7 +200,7 @@ class OnBoardingItemBuilder extends StatelessWidget {
               child: AutoSizeText(
                 '${item!.description}',
                 textAlign: TextAlign.start,
-                style: TextStyle(fontSize: 17.0, wordSpacing: 2.0),
+                style: const TextStyle(fontSize: 17.0, wordSpacing: 2.0),
                 softWrap: true,
                 wrapWords: true,
               ),

@@ -2,14 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:secureme/features/core/domain/entities/entities.dart';
 import 'package:secureme/utils/utils.dart';
 import 'package:secureme/widgets/widgets.dart';
 
 /// A stateless widget to render ForgotPasswordScreen.
 class ForgotPasswordScreen extends StatelessWidget with AutoRouteWrapper {
   final FocusNode emailFocus = FocusNode();
+  final EmailAddress? emailAddress;
 
-  ForgotPasswordScreen({Key? key}) : super(key: key);
+  ForgotPasswordScreen({Key? key, this.emailAddress}) : super(key: key);
 
   @override
   Widget wrappedRoute(BuildContext context) {
@@ -25,7 +27,7 @@ class ForgotPasswordScreen extends StatelessWidget with AutoRouteWrapper {
           controller: ScrollController(),
           clipBehavior: Clip.antiAlias,
           padding: EdgeInsets.symmetric(horizontal: Helpers.appPadding),
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -35,7 +37,7 @@ class ForgotPasswordScreen extends StatelessWidget with AutoRouteWrapper {
                   borderRadius: BorderRadius.circular(100.0),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(17.0),
+                  padding: const EdgeInsets.all(17.0),
                   child: AppAssets.face,
                 ),
               ),
@@ -93,12 +95,13 @@ class ForgotPasswordScreen extends StatelessWidget with AutoRouteWrapper {
                                   hintText: 'johndoe@email.com',
                                   hintStyle: Helpers.foldTheme(
                                     light: () =>
-                                        TextStyle(color: Colors.black54),
+                                        const TextStyle(color: Colors.black54),
                                     dark: () =>
-                                        TextStyle(color: Colors.white60),
+                                        const TextStyle(color: Colors.white60),
                                   ),
                                   style: Helpers.foldTheme(
-                                    light: () => TextStyle(color: Colors.black),
+                                    light: () =>
+                                        const TextStyle(color: Colors.black),
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                   autoFillHints: [AutofillHints.email],
@@ -126,7 +129,7 @@ class ForgotPasswordScreen extends StatelessWidget with AutoRouteWrapper {
                           child: SizedBox(
                             height: App.longest * 0.045,
                             width: double.infinity,
-                            child: Icon(
+                            child: const Icon(
                               Icons.check,
                               color: Colors.white,
                               size: 30.0,

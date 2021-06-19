@@ -34,7 +34,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   void prev() async {
     if (state.currentIndex != 0)
       await state.controller.previousPage(
-        duration: Duration(milliseconds: 400),
+        duration: const Duration(milliseconds: 400),
         curve: Curves.easeOut,
       );
     emit(state.copyWith(controller: state.controller));
@@ -43,7 +43,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   void next() async {
     if (state.currentIndex != items.size - 1)
       await state.controller.nextPage(
-        duration: Duration(milliseconds: 400),
+        duration: const Duration(milliseconds: 400),
         curve: Curves.easeIn,
       );
     emit(state.copyWith(controller: state.controller));

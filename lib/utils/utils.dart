@@ -17,3 +17,4 @@ export 'helpers.dart';
 export 'smartlets_icons.dart';
 export 'strings.dart';
 export 'dialogs/bottom_alert_dialog.dart';
+export 'hero_tags.dart';

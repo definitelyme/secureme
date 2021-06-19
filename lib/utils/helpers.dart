@@ -111,7 +111,9 @@ class Helpers {
       color.computeLuminance() > 0.5 ? Colors.black : Colors.white;
 
   static Future<void> precache(BuildContext context) async {
-    // await precacheImage(AssetImage(AppAssets.onBoarding1), context);
+    AppAssets.images.forEach(
+      (img) async => await precacheImage(AssetImage(img), context),
+    );
   }
 
   static String hhmmss([Duration duration = Duration.zero]) {
@@ -152,7 +154,7 @@ class Helpers {
           child: SpinKitWave(
             color: theme.accentColor,
             size: 30.0,
-            duration: Duration(milliseconds: 1200),
+            duration: const Duration(milliseconds: 1200),
             type: SpinKitWaveType.center,
             itemCount: 7,
           ),

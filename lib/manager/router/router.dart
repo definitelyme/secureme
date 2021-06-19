@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:secureme/_404.dart';
 import 'package:secureme/features/auth/presentation/screens/index.dart';
+import 'package:secureme/features/home/presentation/screens/index.dart';
 import 'package:secureme/features/onborading/presentation/screens/splash_screen.dart';
 import 'package:secureme/features/onborading/presentation/screens/onboarding_screen.dart';
 import 'package:secureme/features/onborading/presentation/screens/user_option_screen.dart';
@@ -52,6 +53,30 @@ import 'package:secureme/features/onborading/presentation/screens/user_option_sc
       page: ForgotPasswordScreen,
       maintainState: true,
       cupertinoPageTitle: 'Forgot Password',
+    ),
+
+    ///
+    ///////
+    ///
+    AdaptiveRoute(
+      fullMatch: true,
+      page: HomeScreen,
+      maintainState: true,
+      cupertinoPageTitle: 'Home',
+    ),
+    //
+    AdaptiveRoute(
+      fullMatch: true,
+      page: ProfileScreen,
+      maintainState: true,
+      cupertinoPageTitle: 'Profile',
+    ),
+    //
+    AdaptiveRoute(
+      fullMatch: true,
+      page: EditProfileScreen,
+      maintainState: true,
+      cupertinoPageTitle: 'Profile',
     ),
     //
     AdaptiveRoute(

@@ -116,7 +116,7 @@ class SecuremeLogo extends StatelessWidget {
                         children: [
                           Flexible(
                             child: AutoSizeText.rich(
-                              TextSpan(
+                              const TextSpan(
                                 children: [
                                   TextSpan(
                                     text: 'SECURE',

@@ -33,7 +33,7 @@ class OtpVerificationScreen extends StatelessWidget with AutoRouteWrapper {
           controller: ScrollController(),
           clipBehavior: Clip.antiAlias,
           padding: EdgeInsets.symmetric(horizontal: Helpers.appPadding),
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -42,7 +42,7 @@ class OtpVerificationScreen extends StatelessWidget with AutoRouteWrapper {
                   color: AppColors.accentColor,
                   borderRadius: BorderRadius.circular(100.0),
                 ),
-                padding: EdgeInsets.all(17.0),
+                padding: const EdgeInsets.all(17.0),
                 child: AppAssets.deviceScreen,
               ),
               //
@@ -121,7 +121,7 @@ class OtpVerificationScreen extends StatelessWidget with AutoRouteWrapper {
                           child: SizedBox(
                             height: App.longest * 0.045,
                             width: double.infinity,
-                            child: Icon(
+                            child: const Icon(
                               Icons.check,
                               color: Colors.white,
                               size: 30.0,

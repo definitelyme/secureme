@@ -91,11 +91,11 @@ class AppTheme extends HiveObject {
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         isDense: true,
         filled: true,
-        hintStyle: TextStyle(color: Colors.grey),
-        labelStyle: TextStyle(color: Colors.grey),
-        errorStyle: TextStyle(color: AppColors.errorRed),
+        hintStyle: const TextStyle(color: Colors.grey),
+        labelStyle: const TextStyle(color: Colors.grey),
+        errorStyle: const TextStyle(color: AppColors.errorRed),
         fillColor: AppColors.accentColor.shade200.withOpacity(0.8),
-        contentPadding: EdgeInsets.symmetric(
+        contentPadding: const EdgeInsets.symmetric(
           vertical: 14.0,
           horizontal: 12.0,
         ),
@@ -104,7 +104,7 @@ class AppTheme extends HiveObject {
           borderRadius: BorderRadius.circular(Helpers.inputBorderRadius),
         ),
         focusedErrorBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.errorRed, width: 2.0),
+          borderSide: const BorderSide(color: AppColors.errorRed, width: 2.0),
           borderRadius: BorderRadius.circular(Helpers.inputBorderRadius),
         ),
         border: OutlineInputBorder(
@@ -112,11 +112,11 @@ class AppTheme extends HiveObject {
           borderRadius: BorderRadius.circular(Helpers.inputBorderRadius),
         ),
         errorBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.errorRed, width: 1.3),
+          borderSide: const BorderSide(color: AppColors.errorRed, width: 1.3),
           borderRadius: BorderRadius.circular(Helpers.inputBorderRadius),
         ),
       ),
-      textTheme: TextTheme()
+      textTheme: const TextTheme()
         ..apply(
           displayColor: Colors.black87, // For headline 1 - 6
           bodyColor: Colors.black87, // For every other text style
@@ -144,11 +144,11 @@ class AppTheme extends HiveObject {
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         isDense: true,
         filled: true,
-        hintStyle: TextStyle(color: Colors.grey),
-        labelStyle: TextStyle(color: Colors.grey),
-        errorStyle: TextStyle(color: AppColors.errorRed),
+        hintStyle: const TextStyle(color: Colors.grey),
+        labelStyle: const TextStyle(color: Colors.grey),
+        errorStyle: const TextStyle(color: AppColors.errorRed),
         fillColor: AppColors.secondaryColor.shade500,
-        contentPadding: EdgeInsets.symmetric(
+        contentPadding: const EdgeInsets.symmetric(
           vertical: 14.0,
           horizontal: 12.0,
         ),
@@ -157,7 +157,7 @@ class AppTheme extends HiveObject {
           borderRadius: BorderRadius.circular(Helpers.inputBorderRadius),
         ),
         focusedErrorBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.errorRed, width: 2.0),
+          borderSide: const BorderSide(color: AppColors.errorRed, width: 2.0),
           borderRadius: BorderRadius.circular(Helpers.inputBorderRadius),
         ),
         border: OutlineInputBorder(
@@ -165,11 +165,11 @@ class AppTheme extends HiveObject {
           borderRadius: BorderRadius.circular(Helpers.inputBorderRadius),
         ),
         errorBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.errorRed, width: 1.3),
+          borderSide: const BorderSide(color: AppColors.errorRed, width: 1.3),
           borderRadius: BorderRadius.circular(Helpers.inputBorderRadius),
         ),
       ),
-      textTheme: TextTheme()
+      textTheme: const TextTheme()
         ..apply(
           displayColor: Colors.white, // For headline 1 - 6
           bodyColor: Colors.white, // For every other text style

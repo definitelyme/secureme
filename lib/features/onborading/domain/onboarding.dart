@@ -18,7 +18,7 @@ class OnboardingItem<Pixel> with _$OnboardingItem<Pixel> {
   }) = _OnboardingItem;
 
   static KtList<OnboardingItem<String>> get list => KtList.from([
-        OnboardingItem(
+        const OnboardingItem(
           title: 'Report a crime',
           description: 'Lorem ipsum dolor sit amet, consectetur'
               'adipiscing elit, sed do eiusmod tempor'
@@ -26,7 +26,7 @@ class OnboardingItem<Pixel> with _$OnboardingItem<Pixel> {
           image: AppAssets.civilian,
         ),
         //
-        OnboardingItem(
+        const OnboardingItem(
           title: 'Find an officer',
           description: 'Lorem ipsum dolor sit amet, consectetur'
               'adipiscing elit, sed do eiusmod tempor'
@@ -34,7 +34,7 @@ class OnboardingItem<Pixel> with _$OnboardingItem<Pixel> {
           image: AppAssets.officer,
         ),
         //
-        OnboardingItem(
+        const OnboardingItem(
           title: 'Safety Always!',
           description: 'Lorem ipsum dolor sit amet, consectetur'
               'adipiscing elit, sed do eiusmod tempor'

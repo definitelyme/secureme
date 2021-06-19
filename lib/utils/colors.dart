@@ -25,6 +25,9 @@ class AppColors {
     return value;
   }
 
+  static MaterialColor material(Color color) =>
+      MaterialColor(color.value, swatch(color));
+
   static Map<int, Color> swatch(Color color) {
     var _color = color;
     int r, g, b;

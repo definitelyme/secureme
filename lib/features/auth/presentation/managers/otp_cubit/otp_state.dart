@@ -4,5 +4,5 @@ part of 'otp_cubit.dart';
 class OtpState with _$OtpState {
   const factory OtpState() = _OtpState;
 
-  factory OtpState.initial() => OtpState();
+  factory OtpState.initial() => const OtpState();
 }

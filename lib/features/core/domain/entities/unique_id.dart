@@ -6,12 +6,12 @@ class UniqueId<T> {
 
   factory UniqueId() {
     // Grants true uniqueness
-    return UniqueId._(Uuid().v1() as T);
+    return UniqueId._(const Uuid().v1() as T);
   }
 
   factory UniqueId.v4() {
     // Grants true uniqueness
-    return UniqueId._(Uuid().v4() as T);
+    return UniqueId._(const Uuid().v4() as T);
   }
 
   factory UniqueId.fromExternal(T id) {

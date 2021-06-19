@@ -34,8 +34,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
-      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key-001
-      NDK_RESTORE_KEY: ${{ matrix.os }}-android-ndk-21.0.6113669-v2
+      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key-v1
     strategy:
       fail-fast: false
       matrix:
@@ -43,14 +42,7 @@ jobs:
         include:
           - os: ubuntu-latest
             flutter_path: "$GITHUB_WORKSPACE/flutter"
-            ndk_path: "/usr/local/lib/android/sdk/ndk"
     steps:
-      - name: Prepare ndk dir for caching
-        run: |
-          sudo mkdir -p /usr/local/lib/android/sdk/ndk
-          sudo chmod -R 777 /usr/local/lib/android/sdk/ndk
-          sudo chown -R $USER:$USER /usr/local/lib/android/sdk/ndk
-
       - name: Cache Flutter Installation
         id: flutter-cache
         uses: actions/cache@v2
@@ -60,14 +52,6 @@ jobs:
           path: "flutter"
           key: ${{ env.FLUTTER_RESTORE_KEY }}
           restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
-
-      - name: Cache NDK Installation
-        id: ndk-cache
-        uses: actions/cache@v2
-        with:
-          path: ${{ matrix.ndk_path }}
-          key: ${{ env.NDK_RESTORE_KEY }}
-          restore-keys: ${{ env.NDK_RESTORE_KEY }}
 
       - name: Install Flutter Channel ${{ env.FLUTTER_CHANNEL }}-${{ env.FLUTTER_VERSION }}
         if: steps.flutter-cache.outputs.cache-hit != 'true'
@@ -83,17 +67,6 @@ jobs:
         with:
           java-version: 1.8
 
-      - name: Install NDK
-        if: steps.ndk-cache.outputs.cache-hit != 'true'
-        run: echo "y" | sudo ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --install "ndk;21.0.6113669"
-
-      # - name: Post setup run scipts
-      #   run: |
-      #     cd flutter
-      #     flutter doctor -v
-      #     flutter precache
-      #   working-directory: secureme
-
   build:
     name: Build APK
     needs: setup
@@ -103,10 +76,9 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
-      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key-001
-      NDK_RESTORE_KEY: ${{ matrix.os }}-android-ndk-21.0.6113669-v2
+      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key-v1
+      NDK_RESTORE_KEY: ${{ matrix.os }}-android-ndk-21.0.6113669-v3
     outputs:
-      now: ${{ env.DATE_TIME_NOW }}
       armeabi_v7a: ${{ env.ARMEABI_V7A_ARTIFACT }}
       arm64_v8a: ${{ env.ARM64_V8A_ARTIFACT }}
     strategy:
@@ -116,7 +88,6 @@ jobs:
         include:
           - os: ubuntu-latest
             flutter_path: "$GITHUB_WORKSPACE/flutter"
-            app_path: "$GITHUB_WORKSPACE/secureme"
             ndk_path: "/usr/local/lib/android/sdk/ndk"
     steps:
       - name: Checkout to ${{ env.APP_NAME }} Repository
@@ -131,6 +102,18 @@ jobs:
           sudo chmod -R 777 /usr/local/lib/android/sdk/ndk
           sudo chown -R $USER:$USER /usr/local/lib/android/sdk/ndk
 
+      - name: Restore NDK Cache
+        id: ndk-cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ matrix.ndk_path }}
+          key: ${{ env.NDK_RESTORE_KEY }}
+          restore-keys: ${{ env.NDK_RESTORE_KEY }}
+
+      - name: Install NDK
+        if: steps.ndk-cache.outputs.cache-hit != 'true'
+        run: echo "y" | sudo ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --install "ndk;21.0.6113669"
+
       - name: Restore Flutter Cache
         id: flutter-cache
         uses: actions/cache@v2
@@ -140,14 +123,6 @@ jobs:
           path: "flutter"
           key: ${{ env.FLUTTER_RESTORE_KEY }}
           restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
-
-      - name: Restore NDK Cache
-        id: ndk-cache
-        uses: actions/cache@v2
-        with:
-          path: ${{ matrix.ndk_path }}
-          key: ${{ env.NDK_RESTORE_KEY }}
-          restore-keys: ${{ env.NDK_RESTORE_KEY }}
 
       - name: Add Flutter to the PATH for Unix
         if: startsWith(matrix.os, 'macOS') || startsWith(matrix.os, 'ubuntu')
@@ -218,6 +193,11 @@ jobs:
         include:
           - os: ubuntu-latest
     steps:
+      - name: Checkout to ${{ env.APP_NAME }} Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
       - name: Download APK (armeabi-v7a arch)
         uses: actions/download-artifact@master
         with:
@@ -230,10 +210,11 @@ jobs:
           name: ${{ needs.build.outputs.arm64_v8a }}
           if-no-files-found: error
 
-      - name: Checkout to ${{ env.APP_NAME }} Repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      - name: Move downloaded artifacts to root folder
+        run: |
+          ls -a
+          mv build/**/app-armeabi-v7a* .
+          mv build/**/app-arm64-v8a* .
 
       - name: Get Previous tag
         id: previoustag
@@ -266,12 +247,6 @@ jobs:
             echo "BUMP_VERSION=${{ github.event.inputs.version}}" >> $GITHUB_ENV
             echo "CHANGE_LOG=Custom Workflow dispatch. Please check repo for changelog." >> $GITHUB_ENV
           fi
-
-      - name: Move downloaded artifacts to root folder
-        run: |
-          ls -a
-          mv build/**/app-armeabi-v7a* .
-          mv build/**/app-arm64-v8a* .
 
       - name: Push new version to Release Tags
         uses: ncipollo/release-action@v1

@@ -30,8 +30,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     continue-on-error: true
     env:
-      APP_NAME: "Secureme"
-      GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
       FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key-v1
@@ -200,22 +198,20 @@ jobs:
           fetch-depth: 0
 
       - name: Download APK (armeabi-v7a arch)
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v2
         with:
           name: ${{ needs.build.outputs.armeabi_v7a }}
-          if-no-files-found: error
 
       - name: Download APK (arm64-v8a arch)
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v2
         with:
           name: ${{ needs.build.outputs.arm64_v8a }}
-          if-no-files-found: error
 
       - name: Move downloaded artifacts to root folder
         run: |
           ls -a
-          mv build/**/app-armeabi-v7a* .
-          mv build/**/app-arm64-v8a* .
+          # mv build/**/app-armeabi-v7a* .
+          # mv build/**/app-arm64-v8a* .
 
       - name: Get Previous tag
         id: previoustag

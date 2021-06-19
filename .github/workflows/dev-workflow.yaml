@@ -119,7 +119,7 @@ jobs:
           restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
 
       - name: Add Flutter to the PATH for Unix
-        if: startsWith(matrix.os, 'macOS') || startsWith(matrix.os, 'ubuntu')
+        if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')
         run: |
           echo "${{ matrix.flutter_path }}" >> $GITHUB_PATH
           echo "${{ matrix.flutter_path }}/bin" >> $GITHUB_PATH

@@ -10,7 +10,7 @@ part 'network_cubit.freezed.dart';
 
 @injectable
 class NetworkCubit extends Cubit<NetworkState> {
-  NetworkCubit() : super(NetworkState());
+  NetworkCubit() : super(const NetworkState());
 
   void get watch async {}
 }

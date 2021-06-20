@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "598582145433",
+    "project_id": "securing-me",
+    "storage_bucket": "securing-me.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598582145433:android:04551361db789097eee308",
+        "android_client_info": {
+          "package_name": "com.app.secureme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598582145433-r743ob3strlu1c7jl4qk2ltkpdiq2kgd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.secureme",
+            "certificate_hash": "26eae2fe805201531478e9d723f3f8ba7ebd4190"
+          }
+        },
+        {
+          "client_id": "598582145433-5r8of4vkv11jm8sm39dlas1me0mulb51.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFwlZkjCEh1s5JtVK3ema1amTVXzAkWJo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "598582145433-5r8of4vkv11jm8sm39dlas1me0mulb51.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "598582145433-9nvdtkk9spjs0d8kj2p0kfv5e5j7l8sf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.secureme"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598582145433:android:b6ef2b233e03f438eee308",
+        "android_client_info": {
+          "package_name": "com.app.secureme.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598582145433-0qt5rmffkrt4l8a4hobvrdgskdajpjmi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.secureme.dev",
+            "certificate_hash": "4399d3b9f0cb8b71ab769e632adf6e0235443d26"
+          }
+        },
+        {
+          "client_id": "598582145433-5r8of4vkv11jm8sm39dlas1me0mulb51.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFwlZkjCEh1s5JtVK3ema1amTVXzAkWJo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "598582145433-5r8of4vkv11jm8sm39dlas1me0mulb51.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "598582145433-9nvdtkk9spjs0d8kj2p0kfv5e5j7l8sf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.secureme"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

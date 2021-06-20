@@ -9,6 +9,8 @@ import 'package:secureme/utils/utils.dart';
 import 'package:secureme/widgets/widgets.dart';
 
 class SplashScreen extends StatelessWidget with AutoRouteWrapper {
+  const SplashScreen({Key? key}) : super(key: key);
+
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
@@ -18,7 +20,7 @@ class SplashScreen extends StatelessWidget with AutoRouteWrapper {
         listener: (context, state) {
           if (state.isLoading == false)
             navigator.pushAndPopUntil(
-              Onboarding(),
+              const OnboardingRoute(),
               predicate: (_) => false,
             );
         },
@@ -32,7 +34,7 @@ class SplashScreen extends StatelessWidget with AutoRouteWrapper {
     return AdaptiveScaffold(
       body: Stack(
         children: [
-          Positioned(
+          const Positioned(
             top: 0,
             left: 0,
             right: 0,
@@ -56,7 +58,7 @@ class SplashScreen extends StatelessWidget with AutoRouteWrapper {
                 child: SpinKitWave(
                   color: Theme.of(context).accentColor,
                   size: 30.0,
-                  duration: Duration(milliseconds: 1200),
+                  duration: const Duration(milliseconds: 1200),
                   type: SpinKitWaveType.center,
                   itemCount: 7,
                 ),

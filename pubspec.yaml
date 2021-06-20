@@ -1,7 +1,7 @@
 name: secureme
 description: A new Flutter project.
 
-publish_to: 'none' 
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -14,7 +14,7 @@ dependencies:
   # Contains utility classes in the style of
   # dart:async to work with asynchronous computations.
   async: any
-  # A simple widget to add in the widget tree when you want to 
+  # A simple widget to add in the widget tree when you want to
   # show nothing, with minimal impact on performance.
   nil: ^1.1.1
   # The following adds the Cupertino Icons font to your application.
@@ -30,7 +30,7 @@ dependencies:
   firebase_auth: ^1.2.0
   # A Flutter plugin to use the Google Analytics for Firebase API.
   firebase_analytics: ^8.1.0
-  # Crashlytics helps you to collect analytics and 
+  # Crashlytics helps you to collect analytics and
   # details about crashes and errors that occur in your app.
   firebase_crashlytics: "^2.0.4"
   # Google services & Authentication
@@ -100,11 +100,15 @@ dependencies:
   date_format: ^1.0.4
   # A flutter library to show images from the internet
   # and keep them in the cache directory.
-  # cached_network_image: ^3.0.0
+  cached_network_image: ^3.1.0-alpha.1
   # This Flutter package provides a Avatar Glow Widget with cool background glowing animation.
   avatar_glow: ^2.0.1
   # Capture in-app user feedback, wishes, ratings and much more.
   wiredash: ^0.6.2
+  # Approximate how your app looks and performs on another device.
+  device_preview: ^0.7.3
+  # Just another bunch of beautiful icons to use
+  line_icons: ^2.0.1
 
 dependency_overrides:
   build: ">=2.0.0 <2.1.0"
@@ -131,7 +135,16 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  
+
   assets:
     - assets/
     - assets/images/
+    - assets/svgs/
+    - assets/svgs/auth/
+    - assets/svgs/home/
+    - assets/svgs/onboarding/
+
+  fonts:
+    - family: AppIcons
+      fonts:
+        - asset: assets/fonts/AppIcons.ttf

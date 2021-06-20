@@ -7,7 +7,7 @@ class UnknownScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          child: Text('404 Screen not found!'),
+          child: const Text('404 Screen not found!'),
         ),
       ),
     );

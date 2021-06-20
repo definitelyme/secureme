@@ -6,6 +6,7 @@ class AdaptiveScaffold extends StatelessWidget {
   @override
   final Key? key;
   final PreferredSizeWidget? appBar;
+  final AdaptiveToolbar? adaptiveToolbar;
   final ObstructingPreferredSizeWidget? navigationBar;
   final Widget? body;
   final FloatingActionButton? floatingActionButton;
@@ -30,6 +31,7 @@ class AdaptiveScaffold extends StatelessWidget {
   const AdaptiveScaffold({
     this.key,
     this.appBar,
+    this.adaptiveToolbar,
     this.navigationBar,
     this.body,
     this.floatingActionButton,
@@ -57,7 +59,7 @@ class AdaptiveScaffold extends StatelessWidget {
     return PlatformBuilder(
       material: (_) => Scaffold(
         key: key,
-        appBar: appBar,
+        appBar: appBar ?? adaptiveToolbar?.toolbar,
         backgroundColor: backgroundColor,
         body: body,
         bottomNavigationBar: bottomNavigationBar,
@@ -80,7 +82,7 @@ class AdaptiveScaffold extends StatelessWidget {
       ),
       cupertino: (_) => CupertinoPageScaffold(
         key: key,
-        navigationBar: navigationBar,
+        navigationBar: navigationBar ?? adaptiveToolbar?.cupertinoNavigationBar,
         backgroundColor: backgroundColor,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         child: body!,

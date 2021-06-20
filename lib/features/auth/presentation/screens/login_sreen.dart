@@ -7,12 +7,8 @@ import 'package:secureme/utils/utils.dart';
 import 'package:secureme/widgets/widgets.dart';
 
 class LoginScreen extends StatelessWidget with AutoRouteWrapper {
-  final FocusNode firstNameFocus = FocusNode();
-  final FocusNode lastNameFocus = FocusNode();
   final FocusNode emailFocus = FocusNode();
-  final FocusNode phoneFocus = FocusNode();
   final FocusNode passwordFocus = FocusNode();
-  final FocusNode confirmPasswordFocus = FocusNode();
   final TapGestureRecognizer tapRecognizer = TapGestureRecognizer()
     ..onTap = (() => navigator.replace(const LoginRoute()));
 
@@ -24,7 +20,7 @@ class LoginScreen extends StatelessWidget with AutoRouteWrapper {
   @override
   Widget build(BuildContext context) {
     return AdaptiveScaffold(
-      appBar: Toolbar(backgroundColor: Colors.transparent),
+      adaptiveToolbar: const AdaptiveToolbar(),
       body: Center(
         child: SingleChildScrollView(
           controller: ScrollController(),
@@ -34,13 +30,15 @@ class LoginScreen extends StatelessWidget with AutoRouteWrapper {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12.0),
-                child: SecuremeLogo.horizontal(
-                  logoHeight: App.shortest * 0.16,
-                  logoWidth: App.shortest * 0.135,
-                  maxWidth: App.shortest * 0.51,
-                  fit: BoxFit.cover,
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 12.0),
+                  child: SecuremeLogo.horizontal(
+                    logoHeight: App.shortest * 0.16,
+                    logoWidth: App.shortest * 0.135,
+                    maxWidth: App.shortest * 0.51,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               //
@@ -52,12 +50,15 @@ class LoginScreen extends StatelessWidget with AutoRouteWrapper {
                     bottomLeft: Radius.circular(50),
                   ),
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Helpers.foldTheme(
-                        light: () => Colors.grey.shade300,
-                        dark: () => Colors.grey.shade800,
-                      ),
-                    ),
+                    decoration: Theme.of(context).platform.fold(
+                          ignoreCupertino: true,
+                          material: () => BoxDecoration(
+                            color: Helpers.foldTheme(
+                              light: () => Colors.grey.shade300,
+                              dark: () => Colors.grey.shade800,
+                            ),
+                          ),
+                        ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -125,39 +126,37 @@ class LoginScreen extends StatelessWidget with AutoRouteWrapper {
                                         enableSuggestions: false,
                                         autoCorrect: false,
                                         obscureText: true,
+                                        focus: passwordFocus,
                                         style: Helpers.foldTheme(
                                           light: () => const TextStyle(
                                               color: Colors.black),
                                         ),
-                                        focus: passwordFocus,
                                         autoFillHints: [
                                           AutofillHints.newPassword,
                                           AutofillHints.password,
                                         ],
-                                        decoration: InputDecoration(
-                                          hintText: 'secret',
-                                          hintStyle: Helpers.foldTheme(
-                                            light: () => const TextStyle(
-                                                color: Colors.black54),
-                                            dark: () => const TextStyle(
-                                                color: Colors.white60),
-                                          ),
-                                          suffixIcon: Material(
-                                            color: Colors.transparent,
-                                            shape: const CircleBorder(),
-                                            clipBehavior: Clip.hardEdge,
-                                            child: IconButton(
-                                              icon: Icon(
-                                                AppIcons.eyelash_open,
-                                                color: Helpers.computeLuminance(
-                                                  Theme.of(context)
-                                                      .scaffoldBackgroundColor,
-                                                ),
+                                        hintText: 'se***t',
+                                        hintStyle: Helpers.foldTheme(
+                                          light: () => const TextStyle(
+                                              color: Colors.black54),
+                                          dark: () => const TextStyle(
+                                              color: Colors.white60),
+                                        ),
+                                        suffix: Material(
+                                          color: Colors.transparent,
+                                          shape: const CircleBorder(),
+                                          clipBehavior: Clip.hardEdge,
+                                          child: IconButton(
+                                            icon: Icon(
+                                              AppIcons.eyelash_open,
+                                              color: Helpers.computeLuminance(
+                                                Theme.of(context)
+                                                    .scaffoldBackgroundColor,
                                               ),
-                                              onPressed: () {
-                                                log.wtf('hello clicked');
-                                              },
                                             ),
+                                            onPressed: () {
+                                              log.wtf('hello clicked');
+                                            },
                                           ),
                                         ),
                                       ),
@@ -171,7 +170,10 @@ class LoginScreen extends StatelessWidget with AutoRouteWrapper {
                         //
                         Flexible(
                           child: VerticalSpace(
-                            height: App.shortest * 0.15,
+                            height: Theme.of(context).platform.fold(
+                                  material: () => App.shortest * 0.15,
+                                  cupertino: () => App.shortest * 0.05,
+                                )!,
                           ),
                         ),
                         //
@@ -190,9 +192,12 @@ class LoginScreen extends StatelessWidget with AutoRouteWrapper {
                             child: SizedBox(
                               height: App.longest * 0.045,
                               width: double.infinity,
-                              child: const Icon(
+                              child: Icon(
                                 Icons.check,
-                                color: Colors.white,
+                                color: Theme.of(context).platform.fold(
+                                      material: () => Colors.white,
+                                      cupertino: () => AppColors.accentColor,
+                                    ),
                                 size: 30.0,
                               ),
                             ),
@@ -206,7 +211,10 @@ class LoginScreen extends StatelessWidget with AutoRouteWrapper {
               //
               Flexible(
                 child: VerticalSpace(
-                  height: App.longest * 0.07,
+                  height: Theme.of(context).platform.fold(
+                        material: () => App.longest * 0.06,
+                        cupertino: () => App.longest * 0.04,
+                      )!,
                 ),
               ),
               //

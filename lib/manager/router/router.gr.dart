@@ -66,6 +66,7 @@ class AppRouter extends _i1.RootStackRouter {
           return _i6.ForgotPasswordScreen(
               key: args.key, emailAddress: args.emailAddress);
         },
+        fullscreenDialog: true,
         title: 'Forgot Password'),
     HomeRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
         routeData: routeData,
@@ -82,9 +83,23 @@ class AppRouter extends _i1.RootStackRouter {
     EditProfileRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return const _i7.EditProfileScreen();
+          return _i7.EditProfileScreen();
         },
+        fullscreenDialog: true,
         title: 'Profile'),
+    NotificationRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
+        routeData: routeData,
+        builder: (_) {
+          return const _i7.NotificationScreen();
+        },
+        title: 'Notifications'),
+    SettingsRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
+        routeData: routeData,
+        builder: (_) {
+          return const _i7.SettingsScreen();
+        },
+        fullscreenDialog: true,
+        title: 'Settings'),
     UnknownRoute.name: (routeData) => _i1.AdaptivePage<dynamic>(
         routeData: routeData,
         builder: (_) {
@@ -113,6 +128,10 @@ class AppRouter extends _i1.RootStackRouter {
             path: '/profile-screen', fullMatch: true),
         _i1.RouteConfig(EditProfileRoute.name,
             path: '/edit-profile-screen', fullMatch: true),
+        _i1.RouteConfig(NotificationRoute.name,
+            path: '/notification-screen', fullMatch: true),
+        _i1.RouteConfig(SettingsRoute.name,
+            path: '/settings-screen', fullMatch: true),
         _i1.RouteConfig(UnknownRoute.name, path: '*')
       ];
 }
@@ -196,6 +215,18 @@ class EditProfileRoute extends _i1.PageRouteInfo {
   const EditProfileRoute() : super(name, path: '/edit-profile-screen');
 
   static const String name = 'EditProfileRoute';
+}
+
+class NotificationRoute extends _i1.PageRouteInfo {
+  const NotificationRoute() : super(name, path: '/notification-screen');
+
+  static const String name = 'NotificationRoute';
+}
+
+class SettingsRoute extends _i1.PageRouteInfo {
+  const SettingsRoute() : super(name, path: '/settings-screen');
+
+  static const String name = 'SettingsRoute';
 }
 
 class UnknownRoute extends _i1.PageRouteInfo {

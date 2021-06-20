@@ -96,8 +96,8 @@ class AppTheme extends HiveObject {
         errorStyle: const TextStyle(color: AppColors.errorRed),
         fillColor: AppColors.accentColor.shade200.withOpacity(0.8),
         contentPadding: const EdgeInsets.symmetric(
-          vertical: 14.0,
-          horizontal: 12.0,
+          vertical: Helpers.inputVerticalPadding,
+          horizontal: Helpers.inputHorizontalPadding,
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide.none,
@@ -149,8 +149,8 @@ class AppTheme extends HiveObject {
         errorStyle: const TextStyle(color: AppColors.errorRed),
         fillColor: AppColors.secondaryColor.shade500,
         contentPadding: const EdgeInsets.symmetric(
-          vertical: 14.0,
-          horizontal: 12.0,
+          vertical: Helpers.inputVerticalPadding,
+          horizontal: Helpers.inputHorizontalPadding,
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide.none,

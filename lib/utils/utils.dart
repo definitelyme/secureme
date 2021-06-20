@@ -2,6 +2,7 @@ export 'package:secureme/config/env.dart';
 export 'package:secureme/config/secrets.dart';
 export 'package:secureme/manager/router/export.dart';
 export 'package:nil/nil.dart';
+export 'package:flutter_screenutil/flutter_screenutil.dart';
 
 export 'app_icons_icons.dart';
 export 'assets.dart';

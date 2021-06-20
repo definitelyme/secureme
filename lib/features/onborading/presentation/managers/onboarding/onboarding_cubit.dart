@@ -31,11 +31,21 @@ class OnboardingCubit extends Cubit<OnboardingState> {
     });
   }
 
+  void prev() async {
+    if (state.currentIndex != 0)
+      await state.controller.previousPage(
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeOut,
+      );
+    emit(state.copyWith(controller: state.controller));
+  }
+
   void next() async {
-    await state.controller.nextPage(
-      duration: Duration(milliseconds: 400),
-      curve: Curves.easeIn,
-    );
+    if (state.currentIndex != items.size - 1)
+      await state.controller.nextPage(
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeIn,
+      );
     emit(state.copyWith(controller: state.controller));
   }
 

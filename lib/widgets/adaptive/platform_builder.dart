@@ -9,7 +9,7 @@ class PlatformBuilder extends StatelessWidget {
   final _PlatformBuilder? cupertino;
   final _PlatformBuilder? material;
 
-  PlatformBuilder({
+  const PlatformBuilder({
     Key? key,
     _PlatformBuilder? cupertino,
     _PlatformBuilder? material,
@@ -20,7 +20,7 @@ class PlatformBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (Platform.isIOS || Platform.isMacOS)
-      return cupertino?.call(context) ?? nil;
+      return cupertino?.call(context) ?? material?.call(context) ?? nil;
     return material?.call(context) ?? nil;
   }
 }

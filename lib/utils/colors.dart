@@ -25,6 +25,9 @@ class AppColors {
     return value;
   }
 
+  static MaterialColor material(Color color) =>
+      MaterialColor(color.value, swatch(color));
+
   static Map<int, Color> swatch(Color color) {
     var _color = color;
     int r, g, b;
@@ -51,7 +54,7 @@ class AppColors {
   static const _primaryPrivate = 0xffE5E5E5;
   static const _primary2Private = 0xffF5F5F5;
   static const _secondaryPrivate = 0xff333333;
-  static const _accentPrivate = 0xff0099CC;
+  static const _accentPrivate = 0xff10b2d8;
 
   static const MaterialColor primaryColor = MaterialColor(
     _primaryPrivate,
@@ -88,16 +91,16 @@ class AppColors {
   static const MaterialColor accentColor = MaterialColor(
     _accentPrivate,
     <int, Color>{
-      50: Color(0xFFccf2ff),
-      100: Color(0xFF99e6ff),
-      200: Color(0xFF66d9ff),
-      300: Color(0xFF33ccff),
-      400: Color(0xFF00bfff),
-      500: Color(_accentPrivate),
-      600: Color(0xFF0086b3),
-      700: Color(0xFF007399),
-      800: Color(0xFF006080),
-      900: Color(0xFF004d66),
+      50: Color(0xFFd0f3fb),
+      100: Color(0xFFa0e8f8),
+      200: Color(0xFF71dcf4),
+      300: Color(0xFF41d1f1),
+      400: Color(0xFF12c5ed),
+      500: Color(_secondaryPrivate),
+      600: Color(0xFF0e9ebe),
+      700: Color(0xFF0c8aa6),
+      800: Color(0xFF0b768e),
+      900: Color(0xFF096277),
     },
   );
 
@@ -135,4 +138,5 @@ class AppColors {
 
   static const Color infectedBg = Color(0xfffbeae5);
   static const Color iconGrey = Color(0xff455a64);
+  // static const Color inputBgColor = Color(0xff455a64);
 }

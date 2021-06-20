@@ -49,7 +49,9 @@ class ShimmerBottomContent extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            //
+            const SizedBox(height: 10),
+            //
             Expanded(
               flex: 3,
               child: Container(
@@ -67,7 +69,9 @@ class ShimmerBottomContent extends StatelessWidget {
                         borderRadius: BorderRadius.circular(borderRadius),
                       ),
                     ),
-                    SizedBox(height: 8),
+                    //
+                    const SizedBox(height: 8),
+                    //
                     Container(
                       width: width * 0.65,
                       height: 6,
@@ -76,7 +80,9 @@ class ShimmerBottomContent extends StatelessWidget {
                         borderRadius: BorderRadius.circular(borderRadius),
                       ),
                     ),
-                    SizedBox(height: 8),
+                    //
+                    const SizedBox(height: 8),
+                    //
                     Container(
                       width: width * 0.95,
                       height: 6,

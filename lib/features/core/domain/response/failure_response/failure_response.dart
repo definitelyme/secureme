@@ -18,10 +18,10 @@ class FailureResponse with _$FailureResponse, Response {
   }) = _FailureResponse;
 
   factory FailureResponse.timeout() =>
-      FailureResponse(message: 'Connection Timeout! Please try again.');
+      const FailureResponse(message: 'Connection Timeout! Please try again.');
 
   factory FailureResponse.receiveTimeout() =>
-      FailureResponse(message: 'Connection Timeout! Please try again.');
+      const FailureResponse(message: 'Connection Timeout! Please try again.');
 
   factory FailureResponse.aborted(String message) =>
       FailureResponse(message: message);

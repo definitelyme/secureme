@@ -65,7 +65,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       APP_NAME: "Secureme"
-      GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       FLUTTER_CHANNEL: "beta"
       FLUTTER_VERSION: "2.2.0"
       FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key-v1
@@ -245,7 +245,7 @@ jobs:
           artifacts: "*.apk"
           name: ${{ env.APP_NAME }}-${{ env.BUMP_VERSION }}
           tag: ${{ env.BUMP_TAG }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ env.GITHUB_TOKEN }}
           allowUpdates: false
           omitName: false
           omitBody: false

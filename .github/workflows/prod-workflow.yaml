@@ -6,10 +6,6 @@ on:
         description: "Specify Bump version"
         required: true
         default: "1.0.0"
-      release:
-        description: "Release the outputs of this run"
-        required: false
-        default: "false"
 
   push:
     branches:

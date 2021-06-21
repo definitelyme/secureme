@@ -207,45 +207,39 @@ jobs:
           mv build/app/outputs/flutter-apk/*.apk .
           rm -rf build/
 
-      - name: Get Previous tag
-        id: previoustag
-        uses: WyriHaximus/github-action-get-previous-tag@v1
+      - name: Get Semantic Version
+        id: semver
+        uses: PaulHatch/semantic-version@v4.0.2
         with:
-          fallback: 1.0.0 # Optional fallback tag to use when no tag can be found
-
-      - name: Get next minor version
-        id: semvers
-        uses: WyriHaximus/github-action-next-semvers@v1
-        with:
-          version: ${{ steps.previoustag.outputs.tag }}
-
-      - name: Create new milestone
-        id: createmilestone
-        uses: WyriHaximus/github-action-create-milestone@v1
-        with:
-          title: ${{ steps.semvers.outputs.patch }}
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          # A string which, if present in a git commit, indicates that a change represents a
+          # major (breaking) change, supports regular expressions wrapped with '/'
+          major_pattern: "/(Major)|(major)|(MAJOR)/"
+          # Same as above except indicating a minor change, supports regular expressions wrapped with '/'
+          minor_pattern: "/(Minor)|(minor)|(MINOR)/"
+          # A string to determine the format of the version output
+          format: "${major}.${minor}.${patch}-patch-${increment}"
+          # Indicate whether short tags like 'v1' should be supported. If false only full
+          # tags like 'v1.0.0' will be recognized.
+          short_tags: false
 
       - name: Update Environment variables
         run: |
           if ${{ github.event.inputs.version == '' }}; then
-            echo "BUMP_TAG=${{ steps.semvers.outputs.v_patch }}" >> $GITHUB_ENV
-            echo "BUMP_VERSION=${{ steps.semvers.outputs.patch }}" >> $GITHUB_ENV
-            echo "CHANGE_LOG=This is a patch" >> $GITHUB_ENV
+            echo "BUMP_TAG=${{ steps.semver.outputs.version }}" >> $GITHUB_ENV
+            echo "BUMP_VERSION=${{ steps.semver.outputs.version_tag }}" >> $GITHUB_ENV
           else
             echo "BUMP_TAG=v${{ github.event.inputs.version}}" >> $GITHUB_ENV
             echo "BUMP_VERSION=${{ github.event.inputs.version}}" >> $GITHUB_ENV
-            echo "CHANGE_LOG=Custom Workflow dispatch. Please check repo for changelog." >> $GITHUB_ENV
           fi
 
       - name: Push new version to Release Tags
+        if: ${{ steps.semver.outputs.changed == 'true' }}
         uses: ncipollo/release-action@v1
         with:
           artifacts: "*.apk"
           name: ${{ env.APP_NAME }}-${{ env.BUMP_VERSION }}
           tag: ${{ env.BUMP_TAG }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          allowUpdates: true
+          token: ${{ env.GITHUB_TOKEN }}
+          allowUpdates: false
           omitName: false
           omitBody: false

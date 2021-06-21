@@ -40,7 +40,9 @@ class Secureme extends StatelessWidget {
                 theme: app.cupertinoThemeData(),
                 color: Colors.deepPurpleAccent,
                 locale: DevicePreview.locale(context),
-                routeInformationParser: _router.defaultRouteParser(),
+                routeInformationParser: _router.defaultRouteParser(
+                  includePrefixMatches: true,
+                ),
                 routerDelegate: _router.delegate(
                   navigatorObservers: () => <NavigatorObserver>[
                     if (env.flavor == BuildFlavor.prod)
@@ -49,12 +51,17 @@ class Secureme extends StatelessWidget {
                       ),
                   ],
                 ),
-                builder: (context, child) {
-                  /// Setup Basic Utils
-                  Helpers.setup(context, _router);
-
-                  return DevicePreview.appBuilder(context, child);
-                },
+                builder: (context, widget) => DevicePreview.appBuilder(
+                  context,
+                  Helpers.setup(
+                    context,
+                    _router,
+                    ScreenUtilInit(
+                      designSize: const Size(375, 812),
+                      builder: () => widget!,
+                    ),
+                  ),
+                ),
               ),
               material: (context) => MaterialApp.router(
                 title: AppStrings.appName.capitalizeFirst(),
@@ -62,7 +69,9 @@ class Secureme extends StatelessWidget {
                 theme: app.themeData(),
                 darkTheme: AppTheme.dark().themeData(),
                 locale: DevicePreview.locale(context),
-                routeInformationParser: _router.defaultRouteParser(),
+                routeInformationParser: _router.defaultRouteParser(
+                  includePrefixMatches: true,
+                ),
                 routerDelegate: _router.delegate(
                   navigatorObservers: () => <NavigatorObserver>[
                     if (env.flavor == BuildFlavor.prod)
@@ -71,12 +80,17 @@ class Secureme extends StatelessWidget {
                       ),
                   ],
                 ),
-                builder: (context, child) {
-                  /// Setup Basic Utils
-                  Helpers.setup(context, _router);
-
-                  return DevicePreview.appBuilder(context, child);
-                },
+                builder: (context, widget) => DevicePreview.appBuilder(
+                  context,
+                  Helpers.setup(
+                    context,
+                    _router,
+                    ScreenUtilInit(
+                      designSize: const Size(375, 812),
+                      builder: () => widget!,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),

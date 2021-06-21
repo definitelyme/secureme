@@ -16,10 +16,11 @@ class HomeScreen extends StatelessWidget with AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: Toolbar(
-        leadingCondition: false,
-        implyLeading: false,
+    return AdaptiveScaffold(
+      adaptiveToolbar: AdaptiveToolbar(
+        // showCustomLeading: false,
+        // implyLeading: false,
+        transitionBetweenRoutes: false,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),

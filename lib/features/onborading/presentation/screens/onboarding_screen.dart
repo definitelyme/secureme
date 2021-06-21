@@ -132,7 +132,10 @@ class OnboardingScreen extends StatelessWidget with AutoRouteWrapper {
                         const UserOptionRoute(),
                         predicate: (_) => false,
                       ),
-                      textColor: Colors.white,
+                      textColor: Theme.of(context).platform.fold(
+                            material: () => Colors.white,
+                            cupertino: () => AppColors.accentColor,
+                          ),
                       backgroundColor: AppColors.accentColor,
                       splashColor: Colors.white24,
                       padding: const EdgeInsets.symmetric(horizontal: 14.0),

@@ -20,8 +20,8 @@ class ForgotPasswordScreen extends StatelessWidget with AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: Toolbar(backgroundColor: Colors.transparent),
+    return AdaptiveScaffold(
+      adaptiveToolbar: const AdaptiveToolbar(),
       body: Center(
         child: SingleChildScrollView(
           controller: ScrollController(),
@@ -129,9 +129,12 @@ class ForgotPasswordScreen extends StatelessWidget with AutoRouteWrapper {
                           child: SizedBox(
                             height: App.longest * 0.045,
                             width: double.infinity,
-                            child: const Icon(
+                            child: Icon(
                               Icons.check,
-                              color: Colors.white,
+                              color: Theme.of(context).platform.fold(
+                                    material: () => Colors.white,
+                                    cupertino: () => AppColors.accentColor,
+                                  ),
                               size: 30.0,
                             ),
                           ),

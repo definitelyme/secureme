@@ -16,7 +16,7 @@ class SettingsScreen extends StatelessWidget with AutoRouteWrapper {
     return Scaffold(
       body: Center(
         child: Container(
-          child: const Text('Settings screen starts here'),
+          child: const Text('Settings screen starts'),
         ),
       ),
     );

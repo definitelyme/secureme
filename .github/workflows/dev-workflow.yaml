@@ -224,7 +224,6 @@ jobs:
 
       - name: Update Environment variables
         run: |
-          echo "${{ steps.semantic.outputs.major }}.${{ steps.semantic.outputs.minor }}.${{ steps.semantic.outputs.patch }}-patch-${increment}"
           if ${{ github.event.inputs.version == '' }}; then
             echo "BUMP_TAG=${{ steps.semantic.outputs.version }}" >> $GITHUB_ENV
             echo "BUMP_VERSION=${{ steps.semantic.outputs.version_tag }}" >> $GITHUB_ENV

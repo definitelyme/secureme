@@ -229,11 +229,11 @@ jobs:
         run: |
           echo "Version tag = ${{ steps.semantic.outputs.version_tag }}"
           echo "Version = ${{ steps.semantic.outputs.version }}"
-          echo "whether there was a change since the last version = ${{ steps.semantic.outputs.changed }}"
+          echo "whether there was a change since the last version = ${{ steps.semantic.outputs.changed == 'false' }}"
           echo "an additional value indicating the number of commits = ${{ steps.semantic.outputs.increment }}"
           if ${{ github.event.inputs.version == '' }}; then
-            echo "BUMP_TAG=${{ steps.semantic.outputs.version_tag }}" >> $GITHUB_ENV
-            echo "BUMP_VERSION=${{ steps.semantic.outputs.version }}" >> $GITHUB_ENV
+            echo "BUMP_TAG=${{ steps.semantic.outputs.version }}" >> $GITHUB_ENV
+            echo "BUMP_VERSION=${{ steps.semantic.outputs.version_tag }}" >> $GITHUB_ENV
             echo "CHANGE_LOG=This is a patch" >> $GITHUB_ENV
           else
             echo "BUMP_TAG=v${{ github.event.inputs.version}}" >> $GITHUB_ENV
@@ -242,6 +242,7 @@ jobs:
           fi
 
       - name: Push new version to Release Tags
+        if: ${{ steps.semantic.outputs.changed == 'true' }}
         uses: ncipollo/release-action@v1
         with:
           artifacts: "*.apk"

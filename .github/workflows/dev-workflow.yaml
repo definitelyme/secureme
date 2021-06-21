@@ -217,15 +217,14 @@ jobs:
           # Same as above except indicating a minor change, supports regular expressions wrapped with '/'
           minor_pattern: "/^[Minor]+$|^[MINOR]+$|^[minor]+$/"
           # A string to determine the format of the version output
-          format: "${major}.${minor}.${patch}-prerelease${increment}"
-          # Named version, will be used as suffix for name version tag
-          namespace: patch-
+          format: "${major}.${minor}.${patch}-patch-${increment}"
           # Indicate whether short tags like 'v1' should be supported. If false only full
           # tags like 'v1.0.0' will be recognized.
           short_tags: false
 
       - name: Update Environment variables
         run: |
+          echo "${{ steps.semantic.outputs.major }}.${{ steps.semantic.outputs.minor }}.${{ steps.semantic.outputs.patch }}-patch-${increment}"
           if ${{ github.event.inputs.version == '' }}; then
             echo "BUMP_TAG=${{ steps.semantic.outputs.version }}" >> $GITHUB_ENV
             echo "BUMP_VERSION=${{ steps.semantic.outputs.version_tag }}" >> $GITHUB_ENV

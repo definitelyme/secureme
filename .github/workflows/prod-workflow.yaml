@@ -176,7 +176,6 @@ jobs:
 
   bump-version:
     name: Bump build version
-    # if: ${{ github.event.inputs.release == 'true' }}
     needs: build
     runs-on: ${{ matrix.os }}
     continue-on-error: true
@@ -208,8 +207,8 @@ jobs:
           mv build/app/outputs/flutter-apk/*.apk .
           rm -rf build/
 
-      - name: Git Semantic Version
-        id: semantic
+      - name: Get Semantic Version
+        id: semver
         uses: PaulHatch/semantic-version@v4.0.2
         with:
           # A string which, if present in a git commit, indicates that a change represents a
@@ -225,17 +224,16 @@ jobs:
 
       - name: Update Environment variables
         run: |
-          echo "${{ steps.semantic.outputs.major }}.${{ steps.semantic.outputs.minor }}.${{ steps.semantic.outputs.patch }}-patch-${increment}"
           if ${{ github.event.inputs.version == '' }}; then
-            echo "BUMP_TAG=${{ steps.semantic.outputs.version }}" >> $GITHUB_ENV
-            echo "BUMP_VERSION=${{ steps.semantic.outputs.version_tag }}" >> $GITHUB_ENV
+            echo "BUMP_TAG=${{ steps.semver.outputs.version }}" >> $GITHUB_ENV
+            echo "BUMP_VERSION=${{ steps.semver.outputs.version_tag }}" >> $GITHUB_ENV
           else
             echo "BUMP_TAG=v${{ github.event.inputs.version}}" >> $GITHUB_ENV
             echo "BUMP_VERSION=${{ github.event.inputs.version}}" >> $GITHUB_ENV
           fi
 
       - name: Push new version to Release Tags
-        if: ${{ steps.semantic.outputs.changed == 'true' }}
+        if: ${{ steps.semver.outputs.changed == 'true' }}
         uses: ncipollo/release-action@v1
         with:
           artifacts: "*.apk"

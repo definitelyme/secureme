@@ -214,9 +214,9 @@ jobs:
         with:
           # A string which, if present in a git commit, indicates that a change represents a
           # major (breaking) change, supports regular expressions wrapped with '/'
-          major_pattern: "/^[Major]+$|^[MAJOR]+$|^[major]+$/"
+          major_pattern: "/(Major)|(major)|(MAJOR)/"
           # Same as above except indicating a minor change, supports regular expressions wrapped with '/'
-          minor_pattern: "/^[Minor]+$|^[MINOR]+$|^[minor]+$/"
+          minor_pattern: "/(Minor)|(minor)|(MINOR)/"
           # A string to determine the format of the version output
           format: "${major}.${minor}.${patch}-patch-${increment}"
           # Indicate whether short tags like 'v1' should be supported. If false only full

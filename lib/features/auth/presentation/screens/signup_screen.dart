@@ -22,8 +22,8 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: Toolbar(backgroundColor: Colors.transparent),
+    return AdaptiveScaffold(
+      adaptiveToolbar: const AdaptiveToolbar(),
       body: Center(
         child: SingleChildScrollView(
           controller: ScrollController(),
@@ -33,13 +33,15 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12.0),
-                child: SecuremeLogo.horizontal(
-                  logoHeight: App.shortest * 0.16,
-                  logoWidth: App.shortest * 0.135,
-                  maxWidth: App.shortest * 0.51,
-                  fit: BoxFit.cover,
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 12.0),
+                  child: SecuremeLogo.horizontal(
+                    logoHeight: App.shortest * 0.16,
+                    logoWidth: App.shortest * 0.135,
+                    maxWidth: App.shortest * 0.51,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               //
@@ -51,12 +53,15 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
                     bottomLeft: Radius.circular(50),
                   ),
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Helpers.foldTheme(
-                        light: () => Colors.grey.shade300,
-                        dark: () => Colors.grey.shade800,
-                      ),
-                    ),
+                    decoration: Theme.of(context).platform.fold(
+                          ignoreCupertino: true,
+                          material: () => BoxDecoration(
+                            color: Helpers.foldTheme(
+                              light: () => Colors.grey.shade300,
+                              dark: () => Colors.grey.shade800,
+                            ),
+                          ),
+                        ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -205,30 +210,28 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
                                         AutofillHints.newPassword,
                                         AutofillHints.password,
                                       ],
-                                      decoration: InputDecoration(
-                                        hintText: 'sec****t',
-                                        hintStyle: Helpers.foldTheme(
-                                          light: () => const TextStyle(
-                                              color: Colors.black54),
-                                          dark: () => const TextStyle(
-                                              color: Colors.white60),
-                                        ),
-                                        suffixIcon: Material(
-                                          color: Colors.transparent,
-                                          shape: const CircleBorder(),
-                                          clipBehavior: Clip.hardEdge,
-                                          child: IconButton(
-                                            icon: Icon(
-                                              AppIcons.eyelash_open,
-                                              color: Helpers.computeLuminance(
-                                                Theme.of(context)
-                                                    .scaffoldBackgroundColor,
-                                              ),
+                                      hintText: 'se***t',
+                                      hintStyle: Helpers.foldTheme(
+                                        light: () => const TextStyle(
+                                            color: Colors.black54),
+                                        dark: () => const TextStyle(
+                                            color: Colors.white60),
+                                      ),
+                                      suffix: Material(
+                                        color: Colors.transparent,
+                                        shape: const CircleBorder(),
+                                        clipBehavior: Clip.hardEdge,
+                                        child: IconButton(
+                                          icon: Icon(
+                                            AppIcons.eyelash_open,
+                                            color: Helpers.computeLuminance(
+                                              Theme.of(context)
+                                                  .scaffoldBackgroundColor,
                                             ),
-                                            onPressed: () {
-                                              log.wtf('hello clicked');
-                                            },
                                           ),
+                                          onPressed: () {
+                                            log.wtf('hello clicked');
+                                          },
                                         ),
                                       ),
                                     ),
@@ -241,7 +244,10 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
                         //
                         Flexible(
                           child: VerticalSpace(
-                            height: App.longest * 0.04,
+                            height: Theme.of(context).platform.fold(
+                                  material: () => App.shortest * 0.15,
+                                  cupertino: () => App.shortest * 0.05,
+                                )!,
                           ),
                         ),
                         //
@@ -259,9 +265,12 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
                             child: SizedBox(
                               height: App.longest * 0.045,
                               width: double.infinity,
-                              child: const Icon(
+                              child: Icon(
                                 Icons.check,
-                                color: Colors.white,
+                                color: Theme.of(context).platform.fold(
+                                      material: () => Colors.white,
+                                      cupertino: () => AppColors.accentColor,
+                                    ),
                                 size: 30.0,
                               ),
                             ),
@@ -275,7 +284,10 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
               //
               Flexible(
                 child: VerticalSpace(
-                  height: App.longest * 0.07,
+                  height: Theme.of(context).platform.fold(
+                        material: () => App.longest * 0.06,
+                        cupertino: () => App.longest * 0.04,
+                      )!,
                 ),
               ),
               //

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,9 +39,11 @@ class Helpers {
   static const Duration autoRetrievalTimeout = Duration(seconds: 40);
   static const String currency = '₦';
 
-  static double buttonRadius = 10.0;
+  static const double buttonRadius = 10.0;
   static double appPadding = App.shortest * 0.05;
-  static double inputBorderRadius = 10.0;
+  static const double inputBorderRadius = 10.0;
+  static const double inputVerticalPadding = 14.0;
+  static const double inputHorizontalPadding = 12.0;
   static Future<Directory?> get rootDir async =>
       await getExternalStorageDirectory();
   static Future<Directory> get cacheDir async => kIsWeb
@@ -48,8 +51,8 @@ class Helpers {
       : await getTemporaryDirectory();
   static Future<Directory> get documentsDir async =>
       await getApplicationDocumentsDirectory();
-  static ScrollPhysics physics = const BouncingScrollPhysics();
-  static Duration willPopTimeout = const Duration(seconds: 3);
+  static const ScrollPhysics physics = BouncingScrollPhysics();
+  static const Duration willPopTimeout = Duration(seconds: 3);
   static Logger logger = Logger(
     filter: env.flavor == BuildFlavor.dev
         ? DevelopmentFilter()
@@ -64,7 +67,7 @@ class Helpers {
     )),
   );
 
-  static Helpers setup(BuildContext current, AppRouter router) {
+  static Widget setup(BuildContext current, AppRouter router, Widget child) {
     var _context = router.navigatorKey.currentContext ?? current;
     // Precache dependencies & images
     precache(_context);
@@ -75,7 +78,11 @@ class Helpers {
         ..isInitialized = true;
     }
 
-    return instance..router = router;
+    // Initialize router
+    instance.router = router;
+
+    // Return child
+    return child;
   }
 
   static String writeNotNull(String other) {
@@ -110,6 +117,7 @@ class Helpers {
   static Color computeLuminance(Color color) =>
       color.computeLuminance() > 0.5 ? Colors.black : Colors.white;
 
+  /// Precache Application Images..ensures faster image rendering.
   static Future<void> precache(BuildContext context) async {
     AppAssets.images.forEach(
       (img) async => await precacheImage(AssetImage(img), context),
@@ -219,10 +227,14 @@ class Helpers {
   ThemeData get theme => Theme.of(context);
 
   /// give access to TextTheme.of(context)
-  TextTheme? get textTheme => theme.textTheme;
+  TextTheme get textTheme => theme.textTheme;
 
   /// give access to MediaQuery.of(context)
-  MediaQueryData? get mediaQuery => MediaQuery.of(context);
+  MediaQueryData get mediaQuery => MediaQuery.of(context);
+
+  /// The dimensions of the rectangle into which the scene
+  /// rendered in this view will be drawn on the screen, in physical pixels.
+  Size get physicalSize => window.physicalSize;
 
   /// The current [WidgetsBinding], if one has been created.
   WidgetsBinding? get engine => WidgetsBinding.instance;
@@ -234,20 +246,36 @@ class Helpers {
   FocusNode? get focusScope => FocusManager.instance.primaryFocus;
 
   /// give access to Immutable MediaQuery.of(context).size.height
-  double get height => MediaQuery.of(context).size.height;
+  double get height => mediaQuery.size.height;
 
   /// give access to Immutable MediaQuery.of(context).size.width
-  double get width => MediaQuery.of(context).size.width;
+  double get width => mediaQuery.size.width;
+
+  /// give access to Vertical extent of the device
+  /// with respect to Physical Size of device
+  double get heightPx => physicalSize.height;
+
+  /// give access to Horizontal extent of the device
+  /// with respect to Physical Size of device
+  double get widthPx => physicalSize.width;
 
   /// give access to Immutable MediaQuery.of(context).size.shortestSide
-  double get shortest => MediaQuery.of(context).size.shortestSide;
+  double get shortest => mediaQuery.size.shortestSide;
 
   /// give access to Immutable MediaQuery.of(context).size.shortestSide
-  double get longest => MediaQuery.of(context).size.longestSide;
+  double get longest => mediaQuery.size.longestSide;
+
+  /// The lesser of the magnitudes of the [width] and the [height]
+  /// with respect to Physical Size of device
+  double get shortestPx => physicalSize.shortestSide;
+
+  /// The greated of the magnitudes of the [width] and the [height]
+  /// with respect to Physical Size of device
+  double get longestPx => physicalSize.longestSide;
 
   /// Check if dark mode theme is enable on platform on android Q+
   bool get isPlatformDarkMode =>
-      (mediaQuery!.platformBrightness == Brightness.dark);
+      (mediaQuery.platformBrightness == Brightness.dark);
 
   /// As a rule, Flutter knows which widget to update,
   /// so this command is rarely needed. We can mention situations

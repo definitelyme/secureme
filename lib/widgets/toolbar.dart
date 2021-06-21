@@ -8,10 +8,10 @@ class Toolbar extends AppBar {
   Toolbar({
     Key? key,
     String title = '',
-    Widget headline = const SizedBox(),
+    Widget headline = const SizedBox.shrink(),
     Widget? leadingIcon,
     TextStyle? titleStyle,
-    bool centerTitle = true,
+    bool? centerTitle = true,
     bool implyLeading = true,
     bool? leadingCondition,
     VoidCallback? leadingAction,
@@ -23,6 +23,7 @@ class Toolbar extends AppBar {
     List<Widget> actions = const [],
   })  : height = height ?? kToolbarHeight,
         super(
+          toolbarHeight: height,
           title: Visibility(
             visible: !title.isBlank,
             replacement: headline,
@@ -42,6 +43,7 @@ class Toolbar extends AppBar {
               overflow: TextOverflow.ellipsis,
             ),
           ),
+          titleTextStyle: titleStyle,
           automaticallyImplyLeading: implyLeading,
           centerTitle: centerTitle,
           elevation: elevation,

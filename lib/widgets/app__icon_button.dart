@@ -100,9 +100,9 @@ class AppIconButton extends StatelessWidget {
         ),
         material: (_) => Material(
           color: backgroundColor,
-          elevation: elevation,
+          elevation: backgroundColor == Colors.transparent ? 0.0 : elevation,
           clipBehavior: clipBehavior,
-          borderRadius: borderRadius,
+          borderRadius: type == MaterialType.circle ? null : borderRadius,
           type: type,
           child: InkWell(
             onTap: onPressed,

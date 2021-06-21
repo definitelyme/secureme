@@ -17,18 +17,20 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: Toolbar(
+    return AdaptiveScaffold(
+      adaptiveToolbar: AdaptiveToolbar(
         title: 'Profile',
         actions: [
-          AppButton(
+          AppIconButton(
             backgroundColor: Colors.transparent,
+            tooltip: 'Edit Information',
             borderRadius: BorderRadius.circular(100.0),
-            width: kToolbarHeight * 0.5,
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            padding: EdgeInsets.zero,
-            onPressed: () {},
-            child: LineIcon.pen(),
+            padding: Theme.of(context).platform.fold(
+                  material: () => null,
+                  cupertino: () => EdgeInsets.zero,
+                ),
+            onPressed: () => navigator.push(const EditProfileRoute()),
+            child: LineIcon.userEdit(color: AppColors.accentColor),
           ),
         ],
       ),
@@ -37,49 +39,53 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Align(
-              alignment: Alignment.topCenter,
-              child: Hero(
-                tag: HeroTag.kHomeUserPhoto,
-                child: Stack(
-                  fit: StackFit.passthrough,
-                  children: [
-                    Material(
-                      elevation: 4.0,
-                      borderRadius: BorderRadius.circular(100.0),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: CircleAvatar(
-                          maxRadius: App.shortest * 0.16,
-                          minRadius: App.shortest * 0.1,
-                          backgroundImage: const AssetImage(AppAssets.unnamed),
-                          backgroundColor: Colors.transparent,
+            VerticalSpace(height: App.shortest * 0.05),
+
+            SafeArea(
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Hero(
+                  tag: HeroTag.kHomeUserPhoto,
+                  child: Stack(
+                    fit: StackFit.passthrough,
+                    children: [
+                      Material(
+                        elevation: 4.0,
+                        borderRadius: BorderRadius.circular(100.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: CircleAvatar(
+                            maxRadius: App.shortest * 0.15,
+                            minRadius: App.shortest * 0.1,
+                            backgroundImage: const AssetImage(AppAssets.female),
+                            backgroundColor: Colors.transparent,
+                          ),
                         ),
                       ),
-                    ),
-                    //
-                    Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: AppIconButton(
-                        onPressed: () {},
-                        elevation: 3.0,
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Theme.of(context).platform.fold(
-                                cupertino: () =>
-                                    CupertinoIcons.camera_on_rectangle,
-                                material: () => LineIcons.camera,
-                              ),
-                          size: 28.0,
-                          color: Theme.of(context).platform.fold(
-                                material: () => Colors.white,
-                                cupertino: () => AppColors.accentColor,
-                              ),
+                      //
+                      Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: AppIconButton(
+                          onPressed: () {},
+                          elevation: 3.0,
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Theme.of(context).platform.fold(
+                                  cupertino: () =>
+                                      CupertinoIcons.camera_on_rectangle,
+                                  material: () => LineIcons.camera,
+                                ),
+                            size: 25.0,
+                            color: Theme.of(context).platform.fold(
+                                  material: () => Colors.white,
+                                  cupertino: () => AppColors.accentColor,
+                                ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -97,7 +103,7 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
                         Text(
                           'Full Name',
                           style: TextStyle(
-                            fontSize: 16.5,
+                            fontSize: 17.sp,
                             color: Helpers.foldTheme(
                               light: () => Colors.grey.shade600,
                               dark: () => Colors.grey.shade400,
@@ -107,11 +113,13 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
                         //
                         Text(
                           'John Doe',
-                          style:
-                              Theme.of(context).textTheme.headline6!.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
+                        //
+                        // const Divider(height: 0.0, thickness: 1.5),
                       ],
                     ),
                   ),
@@ -126,7 +134,7 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
                         Text(
                           'Username',
                           style: TextStyle(
-                            fontSize: 16.5,
+                            fontSize: 17.sp,
                             color: Helpers.foldTheme(
                               light: () => Colors.grey.shade600,
                               dark: () => Colors.grey.shade400,
@@ -136,7 +144,14 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
                         //
                         Text(
                           'riddick.user',
-                          style: Theme.of(context).textTheme.headline6,
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Helpers.foldTheme(
+                              light: () => Colors.grey.shade600,
+                              dark: () => Colors.grey.shade400,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -145,7 +160,11 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
               ),
             ),
             //
-            VerticalSpace(height: App.shortest * 0.07),
+            Divider(
+              height: App.shortest * 0.07,
+              indent: 10.0,
+              endIndent: 10.0,
+            ),
             //
             Flexible(
               child: Column(
@@ -155,7 +174,7 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
                   Text(
                     'E-mail Address',
                     style: TextStyle(
-                      fontSize: 16.5,
+                      fontSize: 17.sp,
                       color: Helpers.foldTheme(
                         light: () => Colors.grey.shade600,
                         dark: () => Colors.grey.shade400,
@@ -165,15 +184,20 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
                   //
                   Text(
                     'ejike.br@gmail.com',
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),
             ),
             //
-            VerticalSpace(height: App.shortest * 0.07),
+            Divider(
+              height: App.shortest * 0.07,
+              indent: 10.0,
+              endIndent: 10.0,
+            ),
             //
             Flexible(
               child: Column(
@@ -183,7 +207,7 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
                   Text(
                     'Phone',
                     style: TextStyle(
-                      fontSize: 16.5,
+                      fontSize: 17.sp,
                       color: Helpers.foldTheme(
                         light: () => Colors.grey.shade600,
                         dark: () => Colors.grey.shade400,
@@ -193,9 +217,10 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
                   //
                   Text(
                     '+234810 000 0000',
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),

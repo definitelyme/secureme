@@ -52,6 +52,7 @@ import 'package:secureme/features/onborading/presentation/screens/user_option_sc
       fullMatch: true,
       page: ForgotPasswordScreen,
       maintainState: true,
+      fullscreenDialog: true,
       cupertinoPageTitle: 'Forgot Password',
     ),
 
@@ -77,6 +78,22 @@ import 'package:secureme/features/onborading/presentation/screens/user_option_sc
       page: EditProfileScreen,
       maintainState: true,
       cupertinoPageTitle: 'Profile',
+      fullscreenDialog: true,
+    ),
+    //
+    AdaptiveRoute(
+      fullMatch: true,
+      page: NotificationScreen,
+      maintainState: true,
+      cupertinoPageTitle: 'Notifications',
+    ),
+    //
+    AdaptiveRoute(
+      fullMatch: true,
+      page: SettingsScreen,
+      maintainState: true,
+      cupertinoPageTitle: 'Settings',
+      fullscreenDialog: true,
     ),
     //
     AdaptiveRoute(

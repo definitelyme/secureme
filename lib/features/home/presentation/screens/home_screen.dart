@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen>
               horizontal: Helpers.appPadding,
             ),
             child: Stack(
-              // mainAxisSize: MainAxisSize.min,
+              clipBehavior: Clip.antiAlias,
               children: [
                 Positioned.fill(
                   child: Center(
@@ -104,55 +104,73 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                       child: SizedBox(
                         height: 1.sw,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              bottom: 0,
-                              child: Text('Hello'),
-                            ),
-                            const Positioned.fill(
-                              child: Icon(
-                                Icons.speaker_phone,
-                                size: 44,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 0.7.sw,
-                              height: 0.7.sw,
-                              child: Center(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100.0),
-                                  child: DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      gradient: RadialGradient(
-                                        colors: [
-                                          kAlertColor,
-                                          Color.lerp(
-                                            kAlertColor,
-                                            Colors.black,
-                                            .05,
-                                          )!
-                                        ],
-                                      ),
+                        child: SizedBox(
+                          width: 0.7.sw,
+                          height: 0.7.sw,
+                          child: Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100.0),
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  gradient: RadialGradient(
+                                    colors: [
+                                      kAlertColor,
+                                      Color.lerp(
+                                        kAlertColor,
+                                        Colors.black,
+                                        .05,
+                                      )!
+                                    ],
+                                  ),
+                                ),
+                                child: ScaleTransition(
+                                  scale: Tween(begin: 0.99, end: 1.0).animate(
+                                    CurvedAnimation(
+                                      parent: _controller,
+                                      curve: const CurveWave(),
                                     ),
-                                    child: ScaleTransition(
-                                      scale:
-                                          Tween(begin: 0.99, end: 1.0).animate(
-                                        CurvedAnimation(
-                                          parent: _controller,
-                                          curve: const CurveWave(),
-                                        ),
-                                      ),
-                                      // child:
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Icon(
+                                      Icons.speaker_phone,
+                                      size: 44,
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
+                  ),
+                ),
+                //
+                Positioned.directional(
+                  top: 0.55.sh,
+                  bottom: 0,
+                  start: 0,
+                  end: 0,
+                  textDirection: TextDirection.ltr,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Text('Som text'),
+                      ClipPath(
+                        clipper: const ContainerClipper(),
+                        child: Container(
+                          height: 0.45.sw,
+                          width: 0.5.sw,
+                          decoration: BoxDecoration(
+                            color: Colors.teal,
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: const Text('Hello world'),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 //

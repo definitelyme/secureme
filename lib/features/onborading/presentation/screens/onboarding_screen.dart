@@ -179,7 +179,7 @@ class OnBoardingItemBuilder extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: Helpers.appPadding),
+      padding: EdgeInsets.symmetric(horizontal: App.appPadding),
       child: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

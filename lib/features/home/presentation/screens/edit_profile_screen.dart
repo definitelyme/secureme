@@ -39,7 +39,7 @@ class EditProfileScreen extends StatelessWidget with AutoRouteWrapper {
       body: SingleChildScrollView(
         controller: ScrollController(),
         clipBehavior: Clip.antiAlias,
-        padding: EdgeInsets.symmetric(horizontal: Helpers.appPadding),
+        padding: EdgeInsets.symmetric(horizontal: App.appPadding),
         physics: const BouncingScrollPhysics(),
         child: Column(
           mainAxisSize: MainAxisSize.min,

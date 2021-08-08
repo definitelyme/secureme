@@ -55,6 +55,7 @@ class AppColors {
   static const _primary2Private = 0xffF5F5F5;
   static const _secondaryPrivate = 0xff333333;
   static const _accentPrivate = 0xff10b2d8;
+  static const _accent2Private = 0xffffde8f;
 
   static const MaterialColor primaryColor = MaterialColor(
     _primaryPrivate,
@@ -96,11 +97,27 @@ class AppColors {
       200: Color(0xFF71dcf4),
       300: Color(0xFF41d1f1),
       400: Color(0xFF12c5ed),
-      500: Color(_secondaryPrivate),
+      500: Color(_accentPrivate),
       600: Color(0xFF0e9ebe),
       700: Color(0xFF0c8aa6),
       800: Color(0xFF0b768e),
       900: Color(0xFF096277),
+    },
+  );
+
+  static const MaterialColor accent2Color = MaterialColor(
+    _accent2Private,
+    <int, Color>{
+      50: Color(0xFFfffdfa),
+      100: Color(0xFFfffaf0),
+      200: Color(0xFFfff6e0),
+      300: Color(0xFFffedc2),
+      400: Color(0xFFffe099),
+      500: Color(_accent2Private),
+      600: Color(0xFFffd980),
+      700: Color(0xFFffd166),
+      800: Color(0xFFffc94d),
+      900: Color(0xFFffc233),
     },
   );
 
@@ -124,6 +141,7 @@ class AppColors {
   static const Color errorRed = Color(0xFFED4337);
   static const Color deepRed = Color(0xFFb3000e);
   static const Color cardColor = Color(0xFFfe4d55);
+  static const Color sosRed = Color(0xFFf73648);
 
   static const Color green = Color(0xFF00C853);
   static const Color successGreen = Color(0xFF4bb543);

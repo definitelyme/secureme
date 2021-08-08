@@ -40,7 +40,6 @@ class Helpers {
   static const String currency = '₦';
 
   static const double buttonRadius = 10.0;
-  static double appPadding = App.shortest * 0.05;
   static const double inputBorderRadius = 10.0;
   static const double inputVerticalPadding = 14.0;
   static const double inputHorizontalPadding = 12.0;
@@ -102,7 +101,7 @@ class Helpers {
   }
 
   static T? foldTheme<T>({
-    required T Function() light,
+    required T? Function() light,
     T? Function()? dark,
     BuildContext? context,
   }) {
@@ -139,6 +138,13 @@ class Helpers {
   }
 
   final DateTime today = DateTime.now();
+  double get appPadding {
+    try {
+      return 0.05.sw;
+    } catch (_) {
+      return App.shortest * 0.05;
+    }
+  }
 
   bool isInitialized = false;
 

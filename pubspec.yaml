@@ -69,6 +69,8 @@ dependencies:
   uuid: ^3.0.4
   # Flutter widget that automatically resizes text to fit perfectly within its bounds
   auto_size_text: ^3.0.0-nullsafety.0
+  # A flutter package which contains a collection of some cool and awesome text animations.
+  animated_text_kit: ^4.2.1
   # A flutter plugin for adapting screen and font size.Let your UI
   # display a reasonable layout on different screen sizes!
   flutter_screenutil: ^5.0.0+2
@@ -151,3 +153,6 @@ flutter:
     - family: AppIcons
       fonts:
         - asset: assets/fonts/AppIcons.ttf
+    - family: SecuremeApp
+      fonts:
+        - asset: assets/fonts/SecuremeApp.ttf

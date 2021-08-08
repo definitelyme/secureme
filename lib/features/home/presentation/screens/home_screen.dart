@@ -1,11 +1,17 @@
 import 'dart:math' as math show sin, pi, sqrt;
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:line_icons/line_icon.dart';
 import 'package:secureme/utils/utils.dart';
 import 'package:secureme/widgets/widgets.dart';
+
+part '../widgets/home_widgets.part.dart';
 
 /// A stateless widget to render HomeScreen.
 class HomeScreen extends StatefulWidget with AutoRouteWrapper {
@@ -24,8 +30,21 @@ class _HomeScreenState extends State<HomeScreen>
     with
         TickerProviderStateMixin<HomeScreen>,
         AutomaticKeepAliveClientMixin<HomeScreen> {
+  static const double _btnElevation = 2.0;
+  // static final Color _panicButtonColor =
+  //     AppColors.material(AppColors.sosRed).shade800;
+
+  static final BorderRadius _radius = BorderRadius.circular(10.0);
+
+  static const Color kAlertColor = AppColors.sosRed;
+
   late AnimationController _controller;
-  static const Color kAlertColor = AppColors.lightRed;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -51,6 +70,16 @@ class _HomeScreenState extends State<HomeScreen>
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
+              onPressed: () => navigator.push(const NotificationRoute()),
+              splashRadius: 28,
+              color: AppColors.accentColor,
+              icon: LineIcon.bellAlt(),
+            ),
+          ),
+          //
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(
               onPressed: () => navigator.push(const ProfileRoute()),
               splashRadius: 28,
               iconSize: 40,
@@ -69,12 +98,12 @@ class _HomeScreenState extends State<HomeScreen>
                       child: Material(
                         shape: CircleBorder(),
                         clipBehavior: Clip.hardEdge,
-                        color: Colors.teal,
+                        color: AppColors.accentColor,
                         child: SizedBox(
                           width: double.infinity,
                           height: double.infinity,
                           child: Center(
-                            child: Text('BE', style: TextStyle()),
+                            child: Text('BE'),
                           ),
                         ),
                       ),
@@ -87,56 +116,51 @@ class _HomeScreenState extends State<HomeScreen>
         ],
       ),
       body: Center(
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: Helpers.appPadding,
-            ),
-            child: Stack(
-              clipBehavior: Clip.antiAlias,
-              children: [
-                Positioned.fill(
+        child: SingleChildScrollView(
+          physics: Helpers.physics,
+          scrollDirection: Axis.vertical,
+          controller: ScrollController(),
+          padding: EdgeInsets.symmetric(horizontal: App.appPadding),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SafeArea(
+                child: GestureDetector(
+                  onTap: () {
+                    print('I need help');
+                  },
                   child: Center(
                     child: CustomPaint(
-                      painter: CirclePainter(
-                        _controller,
-                        color: kAlertColor,
-                      ),
+                      painter: CirclePainter(_controller, color: kAlertColor),
                       child: SizedBox(
-                        height: 1.sw,
-                        child: SizedBox(
-                          width: 0.7.sw,
-                          height: 0.7.sw,
-                          child: Center(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(100.0),
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  gradient: RadialGradient(
-                                    colors: [
+                        width: 0.7.sw,
+                        height: 0.6.sw,
+                        child: Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100.0),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                gradient: RadialGradient(
+                                  colors: [
+                                    kAlertColor,
+                                    Color.lerp(
                                       kAlertColor,
-                                      Color.lerp(
-                                        kAlertColor,
-                                        Colors.black,
-                                        .05,
-                                      )!
-                                    ],
+                                      Colors.black,
+                                      .05,
+                                    )!
+                                  ],
+                                ),
+                              ),
+                              child: ScaleTransition(
+                                scale: Tween(begin: 0.99, end: 1.0).animate(
+                                  CurvedAnimation(
+                                    parent: _controller,
+                                    curve: const CurveWave(),
                                   ),
                                 ),
-                                child: ScaleTransition(
-                                  scale: Tween(begin: 0.99, end: 1.0).animate(
-                                    CurvedAnimation(
-                                      parent: _controller,
-                                      curve: const CurveWave(),
-                                    ),
-                                  ),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(10.0),
-                                    child: Icon(
-                                      Icons.speaker_phone,
-                                      size: 44,
-                                    ),
-                                  ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(40.0),
+                                  child: AppAssets.siren,
                                 ),
                               ),
                             ),
@@ -146,184 +170,146 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                   ),
                 ),
-                //
-                Positioned.directional(
-                  top: 0.55.sh,
-                  bottom: 0,
-                  start: 0,
-                  end: 0,
-                  textDirection: TextDirection.ltr,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Text('Som text'),
-                      ClipPath(
-                        clipper: const ContainerClipper(),
-                        child: Container(
-                          height: 0.45.sw,
-                          width: 0.5.sw,
-                          decoration: BoxDecoration(
-                            color: Colors.teal,
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: const Text('Hello world'),
-                        ),
+              ),
+              //
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: _ShapedButton(
+                      text: 'Get emergency tips',
+                      svg: AppAssets.badgeFilled,
+                      onPressed: () {},
+                      textColor: Helpers.foldTheme(
+                        light: () => null,
+                        dark: () => Colors.black,
                       ),
-                    ],
+                      position: _ShapedButtonPosition.left,
+                      radius: _radius,
+                      backgroundColor: Helpers.foldTheme(
+                        light: () => AppColors.accent2Color.shade300,
+                        dark: () => Colors.white,
+                      )!,
+                      iconColor: AppColors.accentColor,
+                    ),
+                  ),
+                  //
+                  Flexible(
+                    child: _ShapedButton(
+                      text: 'Send an SOS message',
+                      animateText: true,
+                      svg: AppAssets.paperPlane,
+                      onPressed: () {},
+                      position: _ShapedButtonPosition.right,
+                      backgroundColor: AppColors.accentColor,
+                      textColor: Colors.white,
+                      radius: _radius,
+                      iconColor: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+              //
+              VerticalSpace(height: 0.03.sw),
+              //
+              Card(
+                color: AppColors.accentColor,
+                elevation: _btnElevation,
+                shape: RoundedRectangleBorder(borderRadius: _radius),
+                child: InkWell(
+                  onTap: () {},
+                  splashColor: Colors.black12,
+                  highlightColor: Colors.white10,
+                  child: SizedBox(
+                    height: 0.2.sw,
+                    width: double.infinity,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          bottom: 0,
+                          right: 0.14.sw,
+                          child: SvgPicture.asset(
+                            '${AppAssets.policemanSitting}',
+                            width: 0.15.sw,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        //
+                        Positioned.fill(
+                          child: Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(0.03.sw),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 3,
+                                    child: DefaultTextStyle(
+                                      softWrap: true,
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                        fontSize: 18.sp,
+                                        color: Colors.white,
+                                      ),
+                                      child: AnimatedTextKit(
+                                        animatedTexts: [
+                                          TyperAnimatedText(
+                                            'Got any issues? ',
+                                            textStyle: TextStyle(
+                                              fontSize: 21.sp,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                          TyperAnimatedText(
+                                            'You can chat with a '
+                                            'security professional!',
+                                          ),
+                                        ],
+                                        repeatForever: true,
+                                        stopPauseOnTap: true,
+                                        displayFullTextOnTap: true,
+                                        onTap: () {
+                                          print('Tap Event');
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  //
+                                  Flexible(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Material(
+                                        borderRadius:
+                                            BorderRadius.circular(100.0),
+                                        elevation: 2.0,
+                                        color: Colors.white,
+                                        child: Icon(
+                                          Theme.of(context).platform.fold(
+                                                material: () => Icons
+                                                    .arrow_right_alt_rounded,
+                                                cupertino: () => CupertinoIcons
+                                                    .right_chevron,
+                                              ),
+                                          size: 30.0.sp,
+                                          color: AppColors.accentColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                //
-                // Positioned.fromRect(
-                //   rect: Rect.fromLTWH(0.0, 150, 0.5.sw, 0.45.sw),
-                //   child: Column(
-                //     children: [
-                //       Align(
-                //         alignment: Alignment.topLeft,
-                //         child: SizedBox(
-                //           // height: App.shortest * 0.43,
-                //           // width: App.shortest * 0.45,
-                //           child: ClipPath(
-                //             clipper: const ContainerClipper(),
-                //             child: Container(
-                //               height: 0.45.sw,
-                //               width: 0.5.sw,
-                //               decoration: BoxDecoration(
-                //                 color: Colors.teal,
-                //                 borderRadius: BorderRadius.circular(12.0),
-                //               ),
-                //               child: const Text('Hello world'),
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-}
-
-class CirclePainter extends CustomPainter {
-  final Animation<double> _animation;
-
-  final Color color;
-
-  const CirclePainter(
-    this._animation, {
-    required this.color,
-  }) : super(repaint: _animation);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final rect = Rect.fromLTRB(0.0, 0.0, size.width, size.height);
-    for (var wave = 3; wave >= 0; wave--) {
-      circle(canvas, rect, wave + _animation.value);
-    }
-  }
-
-  @override
-  bool shouldRepaint(CirclePainter oldDelegate) => true;
-
-  void circle(Canvas canvas, Rect rect, double value) {
-    final opacity = (1.0 - (value / 4.0)).clamp(0.0, 1.0);
-    final _color = color.withOpacity(opacity);
-    final size = rect.width / 2;
-    final area = size * size;
-    final radius = math.sqrt(area * value / 4);
-    final paint = Paint()..color = _color;
-    canvas.drawCircle(rect.center, radius, paint);
-  }
-}
-
-class CurveWave extends Curve {
-  const CurveWave();
-
-  @override
-  double transform(double t) {
-    if (t == 0 || t == 1) {
-      return 0.01;
-    }
-    return math.sin(t * math.pi);
-  }
-}
-
-class ContainerClipper extends CustomClipper<Path> {
-  const ContainerClipper();
-
-  @override
-  Path getClip(Size size) {
-    var path_0 = Path();
-    path_0.moveTo(0, 0);
-    path_0.lineTo(0, size.height);
-    path_0.lineTo(size.width, size.height);
-    path_0.quadraticBezierTo(size.width * 1.0018500, size.height * 0.6492000,
-        size.width * 0.9971500, size.height * 0.4510000);
-    path_0.cubicTo(
-        size.width * 0.9879000,
-        size.height * 0.4188000,
-        size.width * 0.9643000,
-        size.height * 0.3956500,
-        size.width * 0.9199000,
-        size.height * 0.3876500);
-    path_0.cubicTo(
-        size.width * 0.8466500,
-        size.height * 0.3623500,
-        size.width * 0.7558000,
-        size.height * 0.3454000,
-        size.width * 0.6470500,
-        size.height * 0.2659000);
-    path_0.cubicTo(
-        size.width * 0.5475500,
-        size.height * 0.1937500,
-        size.width * 0.5265000,
-        size.height * 0.1588000,
-        size.width * 0.4697500,
-        size.height * 0.0822000);
-    path_0.cubicTo(
-        size.width * 0.4202500,
-        size.height * 0.0231500,
-        size.width * 0.4094000,
-        size.height * 0.0011500,
-        size.width * 0.3339500,
-        size.height * 0.0032500);
-    path_0.quadraticBezierTo(
-        size.width * 0.2339500, size.height * 0.0032500, 0, 0);
-    path_0.close();
-
-    return path_0;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => true;
-}
-
-class RPSCustomPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint_0 = new Paint()
-      ..color = Color.fromARGB(255, 33, 150, 243)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
-
-    Path path_0 = Path();
-
-    canvas.drawPath(path_0, paint_0);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
   }
 }

@@ -160,13 +160,13 @@ class Helpers {
   Helpers._();
   // End ////
 
-  Color? get backgroundOverlayColor => App.theme.primaryColor.withOpacity(0.91);
+  Color? get backgroundOverlayColor => theme.primaryColor.withOpacity(0.91);
 
   Widget get waveLoadingBar => Container(
-        color: App.theme.primaryColor.withOpacity(0.65),
+        color: theme.primaryColor.withOpacity(0.65),
         child: Center(
           child: SpinKitWave(
-            color: theme.accentColor,
+            color: theme.colorScheme.secondary,
             size: 30.0,
             duration: const Duration(milliseconds: 1200),
             type: SpinKitWaveType.center,
@@ -176,7 +176,7 @@ class Helpers {
       );
 
   Widget get circularLoadingOverlay => Container(
-        color: App.theme.primaryColor.withOpacity(0.65),
+        color: theme.primaryColor.withOpacity(0.65),
         child: Center(
           child: CircularProgressBar.adaptive(
             width: width * 0.08,

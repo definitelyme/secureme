@@ -62,7 +62,7 @@ class SettingsScreen extends StatelessWidget with AutoRouteWrapper {
               'On',
               style: TextStyle(
                 color: Helpers.foldTheme(
-                  light: () => AppColors.accentColor,
+                  light: () => Palette.accentColor,
                   dark: () => null,
                 ),
               ),
@@ -97,7 +97,7 @@ class SettingsScreen extends StatelessWidget with AutoRouteWrapper {
               )!,
               style: TextStyle(
                 color: Helpers.foldTheme(
-                  light: () => AppColors.accentColor,
+                  light: () => Palette.accentColor,
                   dark: () => null,
                 ),
               ),

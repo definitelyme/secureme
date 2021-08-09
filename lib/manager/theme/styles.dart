@@ -7,8 +7,8 @@ import 'package:wiredash/wiredash.dart';
 
 part 'styles-adapter.dart';
 
-const String LIGHT_THEME_ID = 'Light';
-const String DARK_THEME_ID = 'Dark';
+const String LIGHT_THEME_ID = 'Light-THEME-ID';
+const String DARK_THEME_ID = 'Dark-THEME-ID';
 
 class AppTheme extends HiveObject {
   final String id;
@@ -24,12 +24,15 @@ class AppTheme extends HiveObject {
   final Color? _toggleableActiveColor;
   final Color? _accentColor;
   final Color? _splashColor;
+  final ColorScheme? _colorScheme;
   final InteractiveInkFeatureFactory? _splashFactory;
   final VisualDensity? _visualDensity;
   final TextTheme? _textTheme;
   final BottomSheetThemeData? _bottomSheetThemeData;
   final BottomNavigationBarThemeData? _bottomNavigationBarTheme;
   final ButtonThemeData? _buttonThemeData;
+  final RadioThemeData? _radioThemeData;
+  final SwitchThemeData? _switchThemeData;
 
   AppTheme._({
     required this.id,
@@ -45,12 +48,15 @@ class AppTheme extends HiveObject {
     Color? toggleableActiveColor,
     Color? accentColor,
     Color? splashColor,
+    ColorScheme? colorScheme,
     InteractiveInkFeatureFactory? splashFactory,
     VisualDensity? visualDensity,
     TextTheme? textTheme,
     BottomSheetThemeData? bottomSheetThemeData,
     BottomNavigationBarThemeData? bottomNavigationBarTheme,
     ButtonThemeData? buttonThemeData,
+    RadioThemeData? radioThemeData,
+    SwitchThemeData? switchThemeData,
   })  : _brightness = brightness,
         _accentColorBrightness = accentColorBrightness,
         _primaryColor = primaryColor,
@@ -63,11 +69,14 @@ class AppTheme extends HiveObject {
         _scaffoldBackgroundColor = scaffoldBackgroundColor,
         _accentColor = accentColor,
         _splashColor = splashColor,
+        _colorScheme = colorScheme,
         _splashFactory = splashFactory,
         _visualDensity = visualDensity,
         _bottomSheetThemeData = bottomSheetThemeData,
         _bottomNavigationBarTheme = bottomNavigationBarTheme,
         _buttonThemeData = buttonThemeData,
+        _radioThemeData = radioThemeData,
+        _switchThemeData = switchThemeData,
         _textTheme = textTheme;
 
   /// Light Theme Configurations
@@ -75,17 +84,17 @@ class AppTheme extends HiveObject {
     return AppTheme._(
       id: LIGHT_THEME_ID,
       brightness: Brightness.light,
-      accentColorBrightness: Brightness.dark,
-      primaryColor: AppColors.primaryColor,
-      primaryColorDark: AppColors.secondaryColor.shade200,
-      buttonColor: AppColors.primaryColor,
+      accentColorBrightness: Brightness.light,
       indicatorColor: Colors.white,
-      toggleableActiveColor: AppColors.secondaryColor,
-      accentColor: AppColors.accentColor,
-      splashColor: Colors.white24,
+      toggleableActiveColor: Palette.secondaryColor,
       splashFactory: InkRipple.splashFactory,
+      colorScheme: ColorScheme.fromSwatch(
+        accentColor: Palette.accentColor,
+        brightness: Brightness.light,
+        primarySwatch: Palette.primaryColor,
+        primaryColorDark: Palette.primaryColor.shade800,
+      ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      scaffoldBackgroundColor: AppColors.primaryColor.shade300,
       inputTheme: InputDecorationTheme(
         alignLabelWithHint: true,
         floatingLabelBehavior: FloatingLabelBehavior.auto,
@@ -93,8 +102,8 @@ class AppTheme extends HiveObject {
         filled: true,
         hintStyle: const TextStyle(color: Colors.grey),
         labelStyle: const TextStyle(color: Colors.grey),
-        errorStyle: const TextStyle(color: AppColors.errorRed),
-        fillColor: AppColors.accentColor.shade200.withOpacity(0.8),
+        errorStyle: const TextStyle(color: Palette.errorRed),
+        fillColor: Palette.accentColor.shade200.withOpacity(0.8),
         contentPadding: const EdgeInsets.symmetric(
           vertical: Helpers.inputVerticalPadding,
           horizontal: Helpers.inputHorizontalPadding,
@@ -104,7 +113,7 @@ class AppTheme extends HiveObject {
           borderRadius: BorderRadius.circular(Helpers.inputBorderRadius),
         ),
         focusedErrorBorder: UnderlineInputBorder(
-          borderSide: const BorderSide(color: AppColors.errorRed, width: 2.0),
+          borderSide: const BorderSide(color: Palette.errorRed, width: 2.0),
           borderRadius: BorderRadius.circular(Helpers.inputBorderRadius),
         ),
         border: OutlineInputBorder(
@@ -112,7 +121,7 @@ class AppTheme extends HiveObject {
           borderRadius: BorderRadius.circular(Helpers.inputBorderRadius),
         ),
         errorBorder: UnderlineInputBorder(
-          borderSide: const BorderSide(color: AppColors.errorRed, width: 1.3),
+          borderSide: const BorderSide(color: Palette.errorRed, width: 1.3),
           borderRadius: BorderRadius.circular(Helpers.inputBorderRadius),
         ),
       ),
@@ -129,16 +138,23 @@ class AppTheme extends HiveObject {
     return AppTheme._(
       id: DARK_THEME_ID,
       brightness: Brightness.dark,
-      accentColorBrightness: Brightness.dark,
-      primaryColor: AppColors.secondaryColor,
-      primaryColorDark: AppColors.secondaryColor.shade800,
-      toggleableActiveColor: AppColors.secondaryColor,
-      primaryColorLight: AppColors.secondaryColor,
-      buttonColor: AppColors.primaryColor,
+      toggleableActiveColor: Palette.secondaryColor,
       indicatorColor: Colors.white,
-      accentColor: AppColors.accentColor,
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      // scaffoldBackgroundColor: AppColors.primaryColor.shade600,
+      splashFactory: InkRipple.splashFactory,
+      colorScheme: ColorScheme.fromSwatch(
+        accentColor: Palette.accentColor,
+        brightness: Brightness.dark,
+        primarySwatch: Palette.secondaryColor,
+        primaryColorDark: Palette.secondaryColor.shade800,
+      ),
+      // radioThemeData: RadioThemeData(
+      //   fillColor: MaterialStateProperty.all(Colors.white70),
+      // ),
+      // switchThemeData: SwitchThemeData(
+      //   thumbColor: MaterialStateProperty.all(AppColors.accentColor),
+      //   trackColor: MaterialStateProperty.all(Colors.white70),
+      // ),
       inputTheme: InputDecorationTheme(
         alignLabelWithHint: true,
         floatingLabelBehavior: FloatingLabelBehavior.auto,
@@ -146,8 +162,8 @@ class AppTheme extends HiveObject {
         filled: true,
         hintStyle: const TextStyle(color: Colors.grey),
         labelStyle: const TextStyle(color: Colors.grey),
-        errorStyle: const TextStyle(color: AppColors.errorRed),
-        fillColor: AppColors.secondaryColor.shade500,
+        errorStyle: const TextStyle(color: Palette.errorRed),
+        fillColor: Palette.secondaryColor.shade500,
         contentPadding: const EdgeInsets.symmetric(
           vertical: Helpers.inputVerticalPadding,
           horizontal: Helpers.inputHorizontalPadding,
@@ -157,7 +173,7 @@ class AppTheme extends HiveObject {
           borderRadius: BorderRadius.circular(Helpers.inputBorderRadius),
         ),
         focusedErrorBorder: UnderlineInputBorder(
-          borderSide: const BorderSide(color: AppColors.errorRed, width: 2.0),
+          borderSide: const BorderSide(color: Palette.errorRed, width: 2.0),
           borderRadius: BorderRadius.circular(Helpers.inputBorderRadius),
         ),
         border: OutlineInputBorder(
@@ -165,7 +181,7 @@ class AppTheme extends HiveObject {
           borderRadius: BorderRadius.circular(Helpers.inputBorderRadius),
         ),
         errorBorder: UnderlineInputBorder(
-          borderSide: const BorderSide(color: AppColors.errorRed, width: 1.3),
+          borderSide: const BorderSide(color: Palette.errorRed, width: 1.3),
           borderRadius: BorderRadius.circular(Helpers.inputBorderRadius),
         ),
       ),
@@ -180,15 +196,16 @@ class AppTheme extends HiveObject {
   ThemeData themeData() {
     return ThemeData(
       brightness: _brightness,
-      accentColorBrightness: _accentColorBrightness,
+      // accentColorBrightness: _accentColorBrightness,
       primaryColor: _primaryColor,
-      buttonColor: _buttonColor,
+      // buttonColor: _buttonColor,
       indicatorColor: _indicatorColor,
       primaryColorDark: _primaryColorDark,
       primaryColorLight: _primaryColorLight,
       toggleableActiveColor: _toggleableActiveColor,
       inputDecorationTheme: _textFieldTheme,
-      accentColor: _accentColor,
+      colorScheme: _colorScheme,
+      // accentColor: _accentColor,
       splashColor: _splashColor,
       splashFactory: _splashFactory,
       scaffoldBackgroundColor: _scaffoldBackgroundColor,
@@ -215,7 +232,7 @@ class AppTheme extends HiveObject {
       backgroundColor: _scaffoldBackgroundColor,
       brightness: _brightness!,
       primaryBackgroundColor: _primaryColor,
-      secondaryColor: AppColors.secondaryColor,
+      secondaryColor: Palette.secondaryColor,
     );
   }
 
@@ -231,6 +248,7 @@ class AppTheme extends HiveObject {
     Color? scaffoldBackgroundColor,
     Color? accentColor,
     Color? splashColor,
+    ColorScheme? colorScheme,
     InputDecorationTheme? textFieldTheme,
     InteractiveInkFeatureFactory? splashFactory,
     VisualDensity? visualDensity,
@@ -238,6 +256,8 @@ class AppTheme extends HiveObject {
     BottomSheetThemeData? bottomSheetThemeData,
     BottomNavigationBarThemeData? bottomNavigationBarTheme,
     ButtonThemeData? buttonThemeData,
+    RadioThemeData? radioThemeData,
+    SwitchThemeData? switchThemeData,
   }) {
     return AppTheme._(
       id: id,
@@ -255,12 +275,15 @@ class AppTheme extends HiveObject {
       accentColor: accentColor ?? _accentColor,
       splashColor: splashColor ?? _splashColor,
       splashFactory: splashFactory ?? _splashFactory,
+      colorScheme: colorScheme ?? _colorScheme,
       visualDensity: visualDensity ?? _visualDensity,
       textTheme: textTheme ?? _textTheme,
       bottomSheetThemeData: bottomSheetThemeData ?? _bottomSheetThemeData,
       bottomNavigationBarTheme:
           bottomNavigationBarTheme ?? _bottomNavigationBarTheme,
       buttonThemeData: buttonThemeData ?? _buttonThemeData,
+      radioThemeData: radioThemeData ?? _radioThemeData,
+      switchThemeData: switchThemeData ?? _switchThemeData,
     );
   }
 }

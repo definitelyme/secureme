@@ -39,7 +39,7 @@ class OtpVerificationScreen extends StatelessWidget with AutoRouteWrapper {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.accentColor,
+                  color: Palette.accentColor,
                   borderRadius: BorderRadius.circular(100.0),
                 ),
                 padding: const EdgeInsets.all(17.0),
@@ -116,7 +116,7 @@ class OtpVerificationScreen extends StatelessWidget with AutoRouteWrapper {
                           onPressed: () => navigator.pop(),
                           textColor: Colors.white,
                           elevation: 0.0,
-                          backgroundColor: AppColors.accentColor,
+                          backgroundColor: Palette.accentColor,
                           splashColor: Colors.white30,
                           child: SizedBox(
                             height: App.longest * 0.045,

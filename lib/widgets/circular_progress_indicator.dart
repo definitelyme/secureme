@@ -28,7 +28,7 @@ class CircularProgressBar extends StatelessWidget {
   const CircularProgressBar({
     this.width,
     this.height,
-    this.color = AppColors.accentColor,
+    this.color = Palette.accentColor,
     this.value,
     this.strokeWidth = 4.0,
     this.background,
@@ -40,7 +40,7 @@ class CircularProgressBar extends StatelessWidget {
   const CircularProgressBar.adaptive({
     this.width,
     this.height,
-    this.color = AppColors.accentColor,
+    this.color = Palette.accentColor,
     this.value,
     this.strokeWidth = 4.0,
     this.background,

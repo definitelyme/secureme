@@ -56,7 +56,7 @@ class SplashScreen extends StatelessWidget with AutoRouteWrapper {
               builder: (context, state) => Visibility(
                 visible: state.isLoading,
                 child: SpinKitWave(
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                   size: 30.0,
                   duration: const Duration(milliseconds: 1200),
                   type: SpinKitWaveType.center,

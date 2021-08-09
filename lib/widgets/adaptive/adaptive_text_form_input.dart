@@ -128,7 +128,7 @@ class _AdaptiveTextFormInputState extends State<AdaptiveTextFormInput>
     offsetAnimation = Tween(begin: 0.0, end: widget.cupertinoInputMargin)
         .chain(CurveTween(curve: Curves.elasticIn))
         .animate(controller)
-          ..addStatusListener(listener);
+      ..addStatusListener(listener);
 
     super.initState();
   }
@@ -175,7 +175,7 @@ class _AdaptiveTextFormInputState extends State<AdaptiveTextFormInput>
                 : widget.action ?? TextInputAction.next,
             cursorColor: widget.cursorColor ??
                 Helpers.foldTheme(
-                  light: () => AppColors.accentColor.shade800,
+                  light: () => Palette.accentColor.shade800,
                   dark: () => Helpers.computeLuminance(
                     Theme.of(context).scaffoldBackgroundColor,
                   ),
@@ -233,7 +233,7 @@ class _AdaptiveTextFormInputState extends State<AdaptiveTextFormInput>
         showCursor: widget.showCursor,
         cursorColor: widget.cursorColor ??
             Helpers.foldTheme(
-              light: () => AppColors.accentColor.shade800,
+              light: () => Palette.accentColor.shade800,
               dark: () => Helpers.computeLuminance(
                 Theme.of(context).scaffoldBackgroundColor,
               ),

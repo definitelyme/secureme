@@ -53,7 +53,7 @@ class UserOptionScreen extends StatelessWidget with AutoRouteWrapper {
                             ),
                         color: Theme.of(context).platform.fold(
                               material: () => Colors.white,
-                              cupertino: () => AppColors.accentColor,
+                              cupertino: () => Palette.accentColor,
                             ),
                       ),
                     ),
@@ -82,7 +82,7 @@ class UserOptionScreen extends StatelessWidget with AutoRouteWrapper {
                             ),
                         color: Theme.of(context).platform.fold(
                               material: () => Colors.white,
-                              cupertino: () => AppColors.accentColor,
+                              cupertino: () => Palette.accentColor,
                             ),
                       ),
                     ),

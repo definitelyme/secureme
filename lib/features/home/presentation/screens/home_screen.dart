@@ -32,11 +32,11 @@ class _HomeScreenState extends State<HomeScreen>
         AutomaticKeepAliveClientMixin<HomeScreen> {
   static const double _btnElevation = 2.0;
   // static final Color _panicButtonColor =
-  //     AppColors.material(AppColors.sosRed).shade800;
+  //     Palette.material(Palette.sosRed).shade800;
 
   static final BorderRadius _radius = BorderRadius.circular(10.0);
 
-  static const Color kAlertColor = AppColors.sosRed;
+  static const Color kAlertColor = Palette.sosRed;
 
   late AnimationController _controller;
 
@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen>
             child: IconButton(
               onPressed: () => navigator.push(const NotificationRoute()),
               splashRadius: 28,
-              color: AppColors.accentColor,
+              color: Palette.accentColor,
               icon: LineIcon.bellAlt(),
             ),
           ),
@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen>
                       child: Material(
                         shape: CircleBorder(),
                         clipBehavior: Clip.hardEdge,
-                        color: AppColors.accentColor,
+                        color: Palette.accentColor,
                         child: SizedBox(
                           width: double.infinity,
                           height: double.infinity,
@@ -187,10 +187,10 @@ class _HomeScreenState extends State<HomeScreen>
                       position: _ShapedButtonPosition.left,
                       radius: _radius,
                       backgroundColor: Helpers.foldTheme(
-                        light: () => AppColors.accent2Color.shade300,
+                        light: () => Palette.accent2Color.shade300,
                         dark: () => Colors.white,
                       )!,
-                      iconColor: AppColors.accentColor,
+                      iconColor: Palette.accentColor,
                     ),
                   ),
                   //
@@ -201,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen>
                       svg: AppAssets.paperPlane,
                       onPressed: () {},
                       position: _ShapedButtonPosition.right,
-                      backgroundColor: AppColors.accentColor,
+                      backgroundColor: Palette.accentColor,
                       textColor: Colors.white,
                       radius: _radius,
                       iconColor: Colors.white,
@@ -213,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen>
               VerticalSpace(height: 0.03.sw),
               //
               Card(
-                color: AppColors.accentColor,
+                color: Palette.accentColor,
                 elevation: _btnElevation,
                 shape: RoundedRectangleBorder(borderRadius: _radius),
                 child: InkWell(
@@ -291,7 +291,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                     .right_chevron,
                                               ),
                                           size: 30.0.sp,
-                                          color: AppColors.accentColor,
+                                          color: Palette.accentColor,
                                         ),
                                       ),
                                     ),

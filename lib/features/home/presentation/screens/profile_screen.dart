@@ -30,7 +30,7 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
                   cupertino: () => EdgeInsets.zero,
                 ),
             onPressed: () => navigator.push(const EditProfileRoute()),
-            child: LineIcon.userEdit(color: AppColors.accentColor),
+            child: LineIcon.userEdit(color: Palette.accentColor),
           ),
           //
           AppIconButton(
@@ -42,7 +42,7 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
                   cupertino: () => EdgeInsets.zero,
                 ),
             onPressed: () => navigator.push(const SettingsRoute()),
-            child: LineIcon.cog(color: AppColors.accentColor),
+            child: LineIcon.cog(color: Palette.accentColor),
           ),
         ],
       ),
@@ -92,7 +92,7 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
                             size: 25.0,
                             color: Theme.of(context).platform.fold(
                                   material: () => Colors.white,
-                                  cupertino: () => AppColors.accentColor,
+                                  cupertino: () => Palette.accentColor,
                                 ),
                           ),
                         ),

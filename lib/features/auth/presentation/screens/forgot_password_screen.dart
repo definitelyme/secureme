@@ -33,7 +33,7 @@ class ForgotPasswordScreen extends StatelessWidget with AutoRouteWrapper {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.accentColor,
+                  color: Palette.accentColor,
                   borderRadius: BorderRadius.circular(100.0),
                 ),
                 child: Padding(
@@ -124,7 +124,7 @@ class ForgotPasswordScreen extends StatelessWidget with AutoRouteWrapper {
                           onPressed: () {},
                           textColor: Colors.white,
                           elevation: 0.0,
-                          backgroundColor: AppColors.accentColor,
+                          backgroundColor: Palette.accentColor,
                           splashColor: Colors.white30,
                           child: SizedBox(
                             height: App.longest * 0.045,
@@ -133,7 +133,7 @@ class ForgotPasswordScreen extends StatelessWidget with AutoRouteWrapper {
                               Icons.check,
                               color: Theme.of(context).platform.fold(
                                     material: () => Colors.white,
-                                    cupertino: () => AppColors.accentColor,
+                                    cupertino: () => Palette.accentColor,
                                   ),
                               size: 30.0,
                             ),

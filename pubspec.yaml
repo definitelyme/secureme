@@ -111,7 +111,7 @@ dependencies:
   # Capture in-app user feedback, wishes, ratings and much more.
   wiredash: ^0.6.2
   # Approximate how your app looks and performs on another device.
-  device_preview: ^0.7.3
+  device_preview: ^0.7.4
   # Just another bunch of beautiful icons to use
   line_icons: ^2.0.1
 

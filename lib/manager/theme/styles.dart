@@ -86,7 +86,7 @@ class AppTheme extends HiveObject {
       brightness: Brightness.light,
       accentColorBrightness: Brightness.light,
       indicatorColor: Colors.white,
-      toggleableActiveColor: Palette.secondaryColor,
+      toggleableActiveColor: Palette.primaryColor.shade800,
       splashFactory: InkRipple.splashFactory,
       colorScheme: ColorScheme.fromSwatch(
         accentColor: Palette.accentColor,
@@ -138,7 +138,7 @@ class AppTheme extends HiveObject {
     return AppTheme._(
       id: DARK_THEME_ID,
       brightness: Brightness.dark,
-      toggleableActiveColor: Palette.secondaryColor,
+      toggleableActiveColor: Palette.secondaryColor.shade800,
       indicatorColor: Colors.white,
       visualDensity: VisualDensity.adaptivePlatformDensity,
       splashFactory: InkRipple.splashFactory,

@@ -1,4 +1,4 @@
-name: Build Debug APK
+name: Build Dev-Debug APK
 on:
   workflow_dispatch:
     inputs:
@@ -28,8 +28,8 @@ jobs:
     continue-on-error: true
     env:
       FLUTTER_CHANNEL: "beta"
-      FLUTTER_VERSION: "2.2.0"
-      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key-v1
+      FLUTTER_VERSION: "2.4.0-4.2.pre"
+      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key
     strategy:
       fail-fast: false
       matrix:
@@ -50,7 +50,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: "flutter/flutter"
-          ref: ${{ env.FLUTTER_CHANNEL }}
+          ref: ${{ env.FLUTTER_VERSION }}
           path: "flutter"
           fetch-depth: 0
 
@@ -65,11 +65,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       APP_NAME: "Secureme"
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       FLUTTER_CHANNEL: "beta"
-      FLUTTER_VERSION: "2.2.0"
-      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key-v1
-      NDK_RESTORE_KEY: ${{ matrix.os }}-android-ndk-21.0.6113669-v3
+      FLUTTER_VERSION: "2.4.0-4.2.pre"
+      FLUTTER_RESTORE_KEY: ${{ matrix.os }}-flutter-install-cache-key
+      NDK_RESTORE_KEY: ${{ matrix.os }}-android-ndk-21.0.6113669
     outputs:
       armeabi_v7a: ${{ env.ARMEABI_V7A_ARTIFACT }}
       arm64_v8a: ${{ env.ARM64_V8A_ARTIFACT }}
@@ -120,7 +120,7 @@ jobs:
           restore-keys: ${{ env.FLUTTER_RESTORE_KEY }}
 
       - name: Add Flutter to the PATH for Unix
-        if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')
+        if: startsWith(matrix.os, 'macOS') || startsWith(matrix.os, 'ubuntu')
         run: |
           echo "${{ matrix.flutter_path }}" >> $GITHUB_PATH
           echo "${{ matrix.flutter_path }}/bin" >> $GITHUB_PATH
@@ -136,19 +136,16 @@ jobs:
           flutter pub get
           # flutter test
 
-        # working-directory: ${{ env.WORKING_DIRECTORY }}
       - name: Build Android APK
         run: |
           flutter build apk -t lib/main.dart --release --target-platform android-arm,android-arm64 --split-per-abi  --flavor prod --obfuscate --split-debug-info=./build/app/outputs/apk/obfuscation
 
-        # working-directory: ${{ env.WORKING_DIRECTORY }}
       - name: Post build Android APK
         id: post_build_apk
         run: |
           echo "ARMEABI_V7A_ARTIFACT=Android-armeabi-v7a-apk-$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_ENV
           echo "ARM64_V8A_ARTIFACT=Android-arm64-v8a-apk-$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_ENV
 
-        # working-directory: ${{ env.WORKING_DIRECTORY }}
       - name: Upload APK (armeabi-v7a arch)
         uses: actions/upload-artifact@master
         with:
@@ -173,7 +170,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 5
 
-  bump-version:
+  bump_version:
     name: Bump build version
     if: ${{ github.event.inputs.release == 'true' }}
     needs: build
@@ -217,7 +214,7 @@ jobs:
           # Same as above except indicating a minor change, supports regular expressions wrapped with '/'
           minor_pattern: "/(Minor)|(minor)|(MINOR)/"
           # A string to determine the format of the version output
-          format: "${major}.${minor}.${patch}-patch-${increment}"
+          format: "${major}.${minor}.${patch}-patch+${increment}"
           # Indicate whether short tags like 'v1' should be supported. If false only full
           # tags like 'v1.0.0' will be recognized.
           short_tags: false

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:secureme/utils/utils.dart';
 
 mixin AppAssets {
   static const ASSETS_DIR = 'assets';
@@ -24,9 +25,17 @@ mixin AppAssets {
   static const String unnamed = '$IMAGES_DIR/unnamed.png';
   static const String female = '$IMAGES_DIR/female.png';
 
+  ///// Svgs
+
   static const String civilian = '$ONBOARDING_SVG_DIR/civilian.svg';
   static const String officer = '$ONBOARDING_SVG_DIR/officer.svg';
   static const String getHelp = '$ONBOARDING_SVG_DIR/get_help.svg';
+  static const String sirenOutlined = '$HOME_SVG_DIR/siren_outlined.svg';
+  static const String sirenFilled = '$HOME_SVG_DIR/siren_filled.svg';
+  static const String badgeFilled = '$HOME_SVG_DIR/badge_filled.svg';
+  static const String paperPlane = '$HOME_SVG_DIR/paper-plane.svg';
+  static const String policemanSitting = '$HOME_SVG_DIR/policeman.svg';
+  static const String trainees = '$HOME_SVG_DIR/trainee.svg';
 
   /////////////////////////////////////////////////////
   ///
@@ -39,6 +48,13 @@ mixin AppAssets {
 
   ///
   /////////////////////////////////////////////////////
+  static SvgPicture siren = SvgPicture.asset(
+    '${AppAssets.sirenFilled}',
+    width: 0.15.sw,
+    color: Colors.white,
+    fit: BoxFit.contain,
+  );
+
   static SvgPicture key = SvgPicture.asset(
     '$AUTH_SVG_DIR/key_icon.svg',
     height: 22,

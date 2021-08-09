@@ -58,7 +58,7 @@ class AdaptiveToolbar {
     this.transitionBetweenRoutes = true,
   });
 
-  Toolbar get toolbar => Toolbar(
+  Toolbar get materialAppBar => Toolbar(
         key: key,
         title: title,
         headline: headline,

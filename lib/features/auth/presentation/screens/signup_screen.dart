@@ -28,7 +28,7 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
         child: SingleChildScrollView(
           controller: ScrollController(),
           clipBehavior: Clip.antiAlias,
-          padding: EdgeInsets.symmetric(horizontal: Helpers.appPadding),
+          padding: EdgeInsets.symmetric(horizontal: App.appPadding),
           physics: const BouncingScrollPhysics(),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -253,14 +253,14 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
                         //
                         Flexible(
                           child: AppButton(
-                            onPressed: () => navigator.pushAndPopUntil(
+                            onPressed: () => navigator.push(
                               OtpVerificationRoute(),
-                              predicate: (_) => false,
+                              // predicate: (_) => false,
                             ),
                             textColor: Colors.white,
                             elevation: 0.0,
                             borderRadius: BorderRadius.zero,
-                            backgroundColor: AppColors.accentColor,
+                            backgroundColor: Palette.accentColor,
                             splashColor: Colors.white30,
                             child: SizedBox(
                               height: App.longest * 0.045,
@@ -269,7 +269,7 @@ class SignupScreen extends StatelessWidget with AutoRouteWrapper {
                                 Icons.check,
                                 color: Theme.of(context).platform.fold(
                                       material: () => Colors.white,
-                                      cupertino: () => AppColors.accentColor,
+                                      cupertino: () => Palette.accentColor,
                                     ),
                                 size: 30.0,
                               ),

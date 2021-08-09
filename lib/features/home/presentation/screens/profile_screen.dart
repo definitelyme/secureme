@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:secureme/utils/utils.dart';
@@ -30,12 +30,24 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
                   cupertino: () => EdgeInsets.zero,
                 ),
             onPressed: () => navigator.push(const EditProfileRoute()),
-            child: LineIcon.userEdit(color: AppColors.accentColor),
+            child: LineIcon.userEdit(color: Palette.accentColor),
+          ),
+          //
+          AppIconButton(
+            backgroundColor: Colors.transparent,
+            tooltip: 'Settings',
+            borderRadius: BorderRadius.circular(100.0),
+            padding: Theme.of(context).platform.fold(
+                  material: () => null,
+                  cupertino: () => EdgeInsets.zero,
+                ),
+            onPressed: () => navigator.push(const SettingsRoute()),
+            child: LineIcon.cog(color: Palette.accentColor),
           ),
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: Helpers.appPadding),
+        padding: EdgeInsets.symmetric(horizontal: App.appPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -68,6 +80,7 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
                         bottom: 0,
                         child: AppIconButton(
                           onPressed: () {},
+                          tooltip: 'Change photo',
                           elevation: 3.0,
                           padding: const EdgeInsets.all(8.0),
                           child: Icon(
@@ -79,7 +92,7 @@ class ProfileScreen extends StatelessWidget with AutoRouteWrapper {
                             size: 25.0,
                             color: Theme.of(context).platform.fold(
                                   material: () => Colors.white,
-                                  cupertino: () => AppColors.accentColor,
+                                  cupertino: () => Palette.accentColor,
                                 ),
                           ),
                         ),

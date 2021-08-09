@@ -28,7 +28,7 @@ class AppIconButton extends StatelessWidget {
 
   AppIconButton({
     Key? key,
-    this.backgroundColor = AppColors.accentColor,
+    this.backgroundColor = Palette.accentColor,
     this.elevation = 2.0,
     this.clipBehavior = Clip.antiAlias,
     this.type = MaterialType.circle,
@@ -50,7 +50,7 @@ class AppIconButton extends StatelessWidget {
 
   const AppIconButton.filled({
     Key? key,
-    this.backgroundColor = AppColors.accentColor,
+    this.backgroundColor = Palette.accentColor,
     this.elevation = 2.0,
     this.clipBehavior = Clip.antiAlias,
     this.type = MaterialType.circle,

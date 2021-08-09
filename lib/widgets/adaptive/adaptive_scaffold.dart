@@ -5,9 +5,9 @@ import 'package:secureme/widgets/widgets.dart';
 class AdaptiveScaffold extends StatelessWidget {
   @override
   final Key? key;
-  final PreferredSizeWidget? appBar;
+  final PreferredSizeWidget? materialAppBar;
   final AdaptiveToolbar? adaptiveToolbar;
-  final ObstructingPreferredSizeWidget? navigationBar;
+  final ObstructingPreferredSizeWidget? cupertinoNavigationBar;
   final Widget? body;
   final FloatingActionButton? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
@@ -30,9 +30,9 @@ class AdaptiveScaffold extends StatelessWidget {
 
   const AdaptiveScaffold({
     this.key,
-    this.appBar,
+    this.materialAppBar,
     this.adaptiveToolbar,
-    this.navigationBar,
+    this.cupertinoNavigationBar,
     this.body,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
@@ -59,7 +59,7 @@ class AdaptiveScaffold extends StatelessWidget {
     return PlatformBuilder(
       material: (_) => Scaffold(
         key: key,
-        appBar: appBar ?? adaptiveToolbar?.toolbar,
+        appBar: materialAppBar ?? adaptiveToolbar?.materialAppBar,
         backgroundColor: backgroundColor,
         body: body,
         bottomNavigationBar: bottomNavigationBar,
@@ -82,10 +82,11 @@ class AdaptiveScaffold extends StatelessWidget {
       ),
       cupertino: (_) => CupertinoPageScaffold(
         key: key,
-        navigationBar: navigationBar ?? adaptiveToolbar?.cupertinoNavigationBar,
+        navigationBar:
+            cupertinoNavigationBar ?? adaptiveToolbar?.cupertinoNavigationBar,
         backgroundColor: backgroundColor,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-        child: body!,
+        child: body ?? const SizedBox.shrink(),
       ),
     );
   }

@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:secureme/features/auth/presentation/managers/index.dart';
 import 'package:secureme/manager/locator/locator.dart';
 import 'package:secureme/utils/utils.dart';
 import 'package:secureme/widgets/widgets.dart';
-import 'package:secureme/features/auth/presentation/managers/index.dart';
 
 /// A stateless widget to render OtpVerificationScreen.
 class OtpVerificationScreen extends StatelessWidget with AutoRouteWrapper {
@@ -32,14 +32,14 @@ class OtpVerificationScreen extends StatelessWidget with AutoRouteWrapper {
         child: SingleChildScrollView(
           controller: ScrollController(),
           clipBehavior: Clip.antiAlias,
-          padding: EdgeInsets.symmetric(horizontal: Helpers.appPadding),
+          padding: EdgeInsets.symmetric(horizontal: App.appPadding),
           physics: const BouncingScrollPhysics(),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.accentColor,
+                  color: Palette.accentColor,
                   borderRadius: BorderRadius.circular(100.0),
                 ),
                 padding: const EdgeInsets.all(17.0),
@@ -113,10 +113,10 @@ class OtpVerificationScreen extends StatelessWidget with AutoRouteWrapper {
                       //
                       Flexible(
                         child: AppButton(
-                          onPressed: () {},
+                          onPressed: () => navigator.pop(),
                           textColor: Colors.white,
                           elevation: 0.0,
-                          backgroundColor: AppColors.accentColor,
+                          backgroundColor: Palette.accentColor,
                           splashColor: Colors.white30,
                           child: SizedBox(
                             height: App.longest * 0.045,

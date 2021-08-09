@@ -97,7 +97,7 @@ class PinInputWidget<Reactive extends Cubit<State>, State>
           enabled: !disabled,
           autoFocus: autoFocus,
           blinkWhenObscuring: blinkWhenObscuring,
-          cursorColor: cursorColor ?? AppColors.accentColor,
+          cursorColor: cursorColor ?? Palette.accentColor,
           textCapitalization: capitalization,
           backgroundColor: Colors.transparent,
           animationType: AnimationType.scale,
